@@ -27,16 +27,16 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
-            </ul>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
             </ul>
+
+            {{-- <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">                
+            </ul> --}}
         </nav>
         <!-- /.navbar -->
 
@@ -55,7 +55,7 @@
                         <img src="img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -77,8 +77,8 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <!--<i class="fas fa-cogs"></i>-->
+                            <a href="" class="nav-link">
+                                <i class="fas fa-cogs"></i>
                                 <p>
                                     1. Hệ thống
                                     <i class="right fas fa-angle-left"></i>
@@ -86,7 +86,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="donvi" class="nav-link">
                                         <p>1.1. Danh mục đơn vị</p>
                                     </a>
                                 </li>
@@ -113,8 +113,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <!-- <i class="fas fa-chart-bar"></i> -->
+                            <a href="" class="nav-link">
+                                <i class="fas fa-chart-bar"></i>
                                 <p>
                                     2. Đánh giá, xếp loại công chức hàng tháng
                                     <i class="right fas fa-angle-left"></i>
@@ -149,8 +149,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <!-- <i class="fas fa-chart-bar"></i> -->
+                            <a href="" class="nav-link">
+                                <i class="fas fa-chart-bar"></i>
                                 <p>
                                     3. Đánh giá, xếp loại cá nhân hàng quý
                                     <i class="right fas fa-angle-left"></i>
@@ -185,8 +185,8 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <!-- <i class="fas fa-chart-bar"></i> -->
+                            <a href="" class="nav-link">
+                                <i class="fas fa-chart-bar"></i>
                                 <p>
                                     4. Đánh giá, xếp loại cá nhân theo năm
                                     <i class="right fas fa-angle-left"></i>
@@ -235,7 +235,18 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            @yield('content')
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>@yield('heading')</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+            <section class="content">
+                @yield('content')
+            </section>
         </div>
         <!-- /.content-wrapper -->
 
@@ -248,22 +259,19 @@
         </footer>
     </div>
     <!-- ./wrapper -->
+    
+    <!-- CSS -->
+    @yield('css')
 
     <!-- REQUIRED SCRIPTS -->
-
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
     <script src="js/adminlte.js"></script>
-
-    <!-- OPTIONAL SCRIPTS -->
-    <script src="plugins/chart.js/Chart.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="js/demo.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="js/pages/dashboard3.js"></script>
+    @yield('js')
+    
 </body>
 
 </html>
