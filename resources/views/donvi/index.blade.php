@@ -19,16 +19,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card card-default">
-                    <div class="card-body">    
+                    <div class="card-body">
                         <table id="donvi-table" class="table table-bordered table-striped">
                             <colgroup>
                                 <col style="width:5%;">
-                                <col style="width:20%;">
-                                <col style="width:30%;">
-                                <col style="width:30%;">
-                                <col style="width:15%;">
+                                <col style="width:10%;">
+                                <col style="width:35%;">
+                                <col style="width:40%;">
+                                <col style="width:10%;">
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
@@ -42,11 +40,12 @@
                             <tbody>
                                 @foreach ($don_vi as $don_vi)
                                     <tr>
-                                        <td style="text-align: center">{{ $don_vi->id }}</td>
-                                        <td><a href="{{ route('donvi.show', $don_vi->ma_don_vi) }}">{{ $don_vi->ma_don_vi }}</a>
+                                        <td class="text-center">{{ $don_vi->id }}</td>
+                                        <td class="text-center">{{ $don_vi->ma_don_vi }}</td>
+                                        <td><a
+                                                href="{{ route('donvi.show', $don_vi->ma_don_vi) }}">{{ $don_vi->ten_don_vi }}</a>
                                         </td>
-                                        <td>{{ $don_vi->ten_don_vi }}</td>                                        
-                                        <td>{{ $don_vi->ma_don_vi_cap_tren }}</td>                                                                          
+                                        <td>{{ $don_vi->ten_don_vi }}</td>
                                         <td>
                                             @if ($don_vi->id_trang_thai == 1)
                                                 <a class="btn bg-danger text-white w-100 text-nowrap"
@@ -109,7 +108,7 @@
                 "searching": true,
                 "autoWidth": false,
                 "ordering": false,
-                "buttons": ["copy", "excel", "pdf", "print"],                
+                "buttons": ["copy", "excel", "pdf", "print"],
             }).buttons().container().appendTo('#donvi-table_wrapper .col-md-6:eq(0)');
         });
     </script>

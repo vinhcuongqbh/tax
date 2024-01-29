@@ -116,7 +116,7 @@
                             <a href="" class="nav-link">
                                 <i class="fas fa-chart-bar"></i>
                                 <p>
-                                    2. Đánh giá, xếp loại công chức hàng tháng
+                                    2. Đánh giá, xếp loại cá nhân hàng tháng
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
