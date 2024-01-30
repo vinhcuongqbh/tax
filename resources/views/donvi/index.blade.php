@@ -94,12 +94,14 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         text: 'Tạo mới',
+                        className: 'btn bg-olive',
                         action: function(e, dt, node, config) {
                             window.location = '{{ route('donvi.create') }}';
                         },
                     }, 
                     {
                         text: 'Xuất Excel',
+                        className: 'btn',
                         extend: 'excelHtml5',
                     }
                 ],
