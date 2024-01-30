@@ -16,4 +16,25 @@ class DonViController extends Controller
 
         return view('donvi.index', ['don_vi' => $don_vi]);
     }
+
+    //Khóa Đơn vị
+    public function destroy($id)
+    {
+        $don_vi = DonVi::where('ma_don_vi', $id)->first();
+        $don_vi->id_trang_thai = 0;
+        $don_vi->save();
+
+        return back()->with('message', 'Đã khóa Đơn vị');
+    }
+
+
+    //Khóa Đơn vị
+    public function restore($id)
+    {
+        $don_vi = DonVi::where('ma_don_vi', $id)->first();
+        $don_vi->id_trang_thai = 1;
+        $don_vi->save();
+
+        return back()->with('message', 'Đã mở Đơn vị');
+    }
 }
