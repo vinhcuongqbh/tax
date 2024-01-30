@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
         Route::get('{id}/edit', [DonViController::class, 'edit'])->name('usdonvier.edit');
         Route::post('{id}/update', [DonViController::class, 'update'])->name('donvi.update');
         Route::get('{id}/delete', [DonViController::class, 'destroy'])->name('donvi.delete');
-        Route::get('{id}/restore', [DonViController::class, 'restore'])->name('user.restore');
+        Route::get('{id}/restore', [DonViController::class, 'restore'])->name('donvi.restore');
     });
 });
 
