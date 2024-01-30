@@ -94,16 +94,26 @@
                 dom: 'Bfrtip',
                 buttons: [{
                         text: 'Tạo mới',
-                        className: 'btn bg-olive',
+                        className: 'bg-olive',
                         action: function(e, dt, node, config) {
                             window.location = '{{ route('donvi.create') }}';
                         },
-                    }, 
+                    },
                     {
-                        text: 'Xuất Excel',
-                        className: 'btn',
-                        extend: 'excelHtml5',
-                    }
+                        extend: 'spacer',
+                        style: 'bar',
+                        text: 'Xuất:'
+                    },
+                    'csv',
+                    'excel',
+                    'pdf'
+
+
+                    // {
+                    //     text: 'Xuất Excel',
+                    //     className: 'btn',
+                    //     extend: 'excelHtml5',
+                    // }
                 ],
                 language: {
                     url: '/plugins/datatables/vi.json'
