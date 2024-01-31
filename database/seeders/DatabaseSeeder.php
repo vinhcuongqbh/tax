@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             UserSeeder::class,
-            DonViSeeder::class,
+            //DonViSeeder::class,
         ]);
     }
 }

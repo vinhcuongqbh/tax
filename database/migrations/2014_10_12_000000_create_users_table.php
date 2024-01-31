@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->date('ngay_sinh');
             $table->boolean('gioi_tinh');
-            $table->string('ma_so_ngach');
-            $table->tinyInteger('id_chuc_vu');
-            $table->tinyInteger('id_phong');
-            $table->tinyInteger('id_don_vi');
+            $table->string('ma_so_ngach')->nullable();
+            $table->string('ma_chuc_vu')->nullable();
+            $table->string('ma_phong');
+            $table->string('ma_don_vi');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

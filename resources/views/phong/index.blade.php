@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Danh mục Đơn vị')
+@section('title', 'Danh mục Phòng/Đội')
 
 @section('heading')
-    Danh mục Đơn vị
+    Danh mục Phòng/Đội
 @stop
 
 @section('content')
@@ -24,7 +24,7 @@
                     {{-- <div class="card-header">
                         <div class="row">
                             <div class="col-auto">
-                                <a href="{{ route('donvi.create') }}"><button type="button"
+                                <a href="{{ route('phong.create') }}"><button type="button"
                                         class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
                             </div>
                         </div>
@@ -41,31 +41,31 @@
                             <thead style="text-align: center">
                                 <tr>
                                     <th class="text-center">STT</th>
-                                    <th class="text-center">Mã đơn vị</th>
-                                    <th class="text-center">Tên đơn vị</th>
+                                    <th class="text-center">Mã Phòng/Đội</th>
+                                    <th class="text-center">Tên Phòng/Đội</th>
                                     <th class="text-center">Đơn vị cấp trên</th>
                                     <th class="text-center">Mở/Khóa</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i=1 ?>
-                                @foreach ($don_vi as $don_vi)
+                                @foreach ($phong as $phong)
                                     <tr>
                                         <td class="text-center" data-title="STT">{{ $i++ }}</td>
-                                        <td class="text-center" data-title="Mã đơn vị">{{ $don_vi->ma_don_vi }}</td>
-                                        <td data-title="Tên đơn vị"><a
-                                                href="{{ route('donvi.edit', $don_vi->ma_don_vi) }}">{{ $don_vi->ten_don_vi }}</a>
+                                        <td class="text-center" data-title="Mã Phòng/Đội">{{ $phong->ma_phong }}</td>
+                                        <td data-title="Tên Phòng/Đội"><a
+                                                href="{{ route('phong.edit', $phong->ma_phong) }}">{{ $phong->ten_phong }}</a>
                                         </td>
-                                        <td data-title="Đơn vị cấp trên">{{ $don_vi->ten_don_vi_cap_tren }}</td>
+                                        <td data-title="Phòng/Đội cấp trên">{{ $phong->ten_don_vi }}</td>
                                         <td class="text-center" data-title="Mở/Khóa">
-                                            @if ($don_vi->id_trang_thai == 1)
+                                            @if ($phong->id_trang_thai == 1)
                                                 <a class="btn bg-danger text-nowrap w-100"
-                                                    href="{{ route('donvi.delete', $don_vi->ma_don_vi) }}">
+                                                    href="{{ route('phong.delete', $phong->ma_phong) }}">
                                                     Khóa
                                                 </a>
                                             @else
                                                 <a class="btn bg-olive text-nowrap w-100"
-                                                    href="{{ route('donvi.restore', $don_vi->ma_don_vi) }}">
+                                                    href="{{ route('phong.restore', $phong->ma_phong) }}">
                                                     Mở
                                                 </a>
                                             @endif
@@ -119,7 +119,7 @@
                         text: 'Tạo mới',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('donvi.create') }}';
+                            window.location = '{{ route('phong.create') }}';
                         },
                     },
                     {

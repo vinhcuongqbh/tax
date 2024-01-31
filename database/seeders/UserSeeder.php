@@ -20,9 +20,9 @@ class UserSeeder extends Seeder
             'ngay_sinh' => '1989/03/19',
             'gioi_tinh' => '0',
             'ma_so_ngach' => '01.003',
-            'id_chuc_vu' => '0',
-            'id_phong' => '0',
-            'id_don_vi' => '0',
+            'ma_chuc_vu' => '0',
+            'ma_phong' => '0',
+            'ma_don_vi' => '0',
             'email' => 'vtcuong.qbi@gdt.gov.vn',
             'password' => Hash::make('123456'),
         ];

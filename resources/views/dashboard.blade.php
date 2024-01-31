@@ -11,40 +11,40 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/adminlte.min.css">
     <!-- SweetAlert2 -->
-    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="/plugins/sweetalert2/sweetalert2.all.min.js"></script>
 
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
-    <script src="js/adminlte.js"></script>
+    <script src="/js/adminlte.js"></script>
 
     {{-- <!-- DataTables  & Plugins -->
-    <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <script src="/plugins/jszip/jszip.min.js"></script>
-    <script src="/plugins/pdfmake/pdfmake.min.js"></script>
-    <script src="/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="//plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="//plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="//plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="//plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="//plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="//plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="//plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="//plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="//plugins/jszip/jszip.min.js"></script>
+    <script src="//plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="//plugins/pdfmake/vfs_fonts.js"></script>
 
     <!-- DataTables -->
-    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"> --}}
+    <link rel="stylesheet" href="//plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="//plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="//plugins/datatables-buttons/css/buttons.bootstrap4.min.css"> --}}
 
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -98,7 +98,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="" class="d-block">{{ Auth::user()->name }}</a>
@@ -132,12 +132,12 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="donvi" class="nav-link">
+                                    <a href="/donvi" class="nav-link">
                                         <p>1.1. Danh mục đơn vị</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/phong" class="nav-link">
                                         <p>1.2. Danh mục phòng/đội</p>
                                     </a>
                                 </li>
@@ -307,7 +307,6 @@
     <!-- ./wrapper -->
 
     @yield('css')
-
     @yield('js')
 </body>
 </html>
