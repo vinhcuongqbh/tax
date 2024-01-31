@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('ma_phong')->unique();
             $table->string('ten_phong');
             $table->string('ma_don_vi_cap_tren')->nullable();
-            $table->boolean('id_trang_thai');
+            $table->string('ma_trang_thai');
             $table->timestamps();
         });
     }

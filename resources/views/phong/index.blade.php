@@ -51,14 +51,14 @@
                                 <?php $i=1 ?>
                                 @foreach ($phong as $phong)
                                     <tr>
-                                        <td class="text-center" data-title="STT">{{ $i++ }}</td>
-                                        <td class="text-center" data-title="Mã Phòng/Đội">{{ $phong->ma_phong }}</td>
-                                        <td data-title="Tên Phòng/Đội"><a
+                                        <td class="text-center">{{ $i++ }}</td>
+                                        <td class="text-center">{{ $phong->ma_phong }}</td>
+                                        <td><a
                                                 href="{{ route('phong.edit', $phong->ma_phong) }}">{{ $phong->ten_phong }}</a>
                                         </td>
-                                        <td data-title="Phòng/Đội cấp trên">{{ $phong->ten_don_vi }}</td>
-                                        <td class="text-center" data-title="Mở/Khóa">
-                                            @if ($phong->id_trang_thai == 1)
+                                        <td>{{ $phong->ten_don_vi }}</td>
+                                        <td class="text-center">
+                                            @if ($phong->ma_trang_thai == 1)
                                                 <a class="btn bg-danger text-nowrap w-100"
                                                     href="{{ route('phong.delete', $phong->ma_phong) }}">
                                                     Khóa

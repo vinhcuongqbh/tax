@@ -142,7 +142,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/congchuc" class="nav-link">
                                         <p>1.3. Danh sách công chức</p>
                                     </a>
                                 </li>

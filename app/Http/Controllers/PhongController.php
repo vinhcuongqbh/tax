@@ -10,9 +10,9 @@ class PhongController extends Controller
 {
     public function index()
     {
-        //Hiển thị danh sách Phòng/Đội đang sử dụng
+        //Hiển thị danh sách Phòng/Đội
         $phong = Phong::leftjoin('don_vi', 'don_vi.ma_don_vi', 'phong.ma_don_vi_cap_tren')
-            ->select('phong.id', 'phong.ma_phong', 'phong.ten_phong', 'don_vi.ten_don_vi','phong.id_trang_thai')
+            ->select('phong.id', 'phong.ma_phong', 'phong.ten_phong', 'don_vi.ten_don_vi','phong.ma_trang_thai')
             ->get();
 
         return view('phong.index', ['phong' => $phong]);
@@ -22,7 +22,7 @@ class PhongController extends Controller
     //Tạo mới Phòng/Đội
     public function create()
     {
-        $don_vi = DonVi::where('id_trang_thai', 1)->get();
+        $don_vi = DonVi::where('ma_trang_thai', 1)->get();
 
         return view('phong.create', ['don_vi' => $don_vi]);
     }
@@ -41,7 +41,7 @@ class PhongController extends Controller
         $phong->ma_phong = $request->ma_phong;
         $phong->ten_phong = $request->ten_phong;
         $phong->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
-        $phong->id_trang_thai = 1;
+        $phong->ma_trang_thai = 1;
         $phong->save();
         
         return redirect()->route('phong.edit', ['id' => $request->ma_phong])->with('message', 'Đã tạo mới Phòng/Đội thành công');
@@ -83,7 +83,7 @@ class PhongController extends Controller
     public function destroy($id)
     {
         $phong = Phong::where('ma_phong', $id)->first();
-        $phong->id_trang_thai = 0;
+        $phong->ma_trang_thai = 0;
         $phong->save();
 
         return back()->with('message', 'Đã khóa Phòng/Đội');
@@ -94,7 +94,7 @@ class PhongController extends Controller
     public function restore($id)
     {
         $phong = Phong::where('ma_phong', $id)->first();
-        $phong->id_trang_thai = 1;
+        $phong->ma_trang_thai = 1;
         $phong->save();
 
         return back()->with('message', 'Đã mở khóa Phòng/Đội');

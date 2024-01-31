@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Danh mục Đơn vị')
+@section('title', 'Danh sách Công chức')
 
 @section('heading')
-    Danh mục Đơn vị
+    Danh sách Công chức
 @stop
 
 @section('content')
@@ -24,7 +24,7 @@
                     {{-- <div class="card-header">
                         <div class="row">
                             <div class="col-auto">
-                                <a href="{{ route('donvi.create') }}"><button type="button"
+                                <a href="{{ route('congchuc.create') }}"><button type="button"
                                         class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
                             </div>
                         </div>
@@ -33,39 +33,48 @@
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>
                                 <col style="width:5%;">
-                                <col style="width:15%;">
-                                <col style="width:35%;">
-                                <col style="width:40%;">
+                                <col style="width:10%;">
+                                <col style="width:20%;">
+                                <col style="width:10%;">
+                                <col style="width:10%;">
+                                <col style="width:20%;">
+                                <col style="width:20%;">
                                 <col style="width:5%;">
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
                                     <th class="text-center">STT</th>
-                                    <th class="text-center">Mã đơn vị</th>
-                                    <th class="text-center">Tên đơn vị</th>
-                                    <th class="text-center">Đơn vị cấp trên</th>
+                                    <th class="text-center">Số hiệu</th>
+                                    <th class="text-center">Họ và tên</th>
+                                    <th class="text-center">Ngày sinh</th>
+                                    <th class="text-center">Chức vụ</th>
+                                    <th class="text-center">Phòng/Đội</th>
+                                    <th class="text-center">Đơn vị</th>
                                     <th class="text-center">Mở/Khóa</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i=1 ?>
-                                @foreach ($don_vi as $don_vi)
+                                @foreach ($cong_chuc as $cong_chuc)
                                     <tr>
                                         <td class="text-center">{{ $i++ }}</td>
-                                        <td class="text-center">{{ $don_vi->ma_don_vi }}</td>
+                                        <td class="text-center">{{ $cong_chuc->so_hieu_cong_chuc }}</td>
                                         <td><a
-                                                href="{{ route('donvi.edit', $don_vi->ma_don_vi) }}">{{ $don_vi->ten_don_vi }}</a>
+                                                href="{{ route('congchuc.edit', $cong_chuc->so_hieu_cong_chuc) }}">{{ $cong_chuc->name }}</a>
                                         </td>
-                                        <td>{{ $don_vi->ten_don_vi_cap_tren }}</td>
-                                        <td class="text-center">
-                                            @if ($don_vi->ma_trang_thai == 1)
+                                        <td class="text-center">{{ $cong_chuc->ngay_sinh }}</td>
+                                        <td class="text-center">{{ $cong_chuc->ten_chuc_vu }}</td>
+                                        <td class="text-center">{{ $cong_chuc->ten_phong}}</td>
+                                        <td class="text-center">{{ $cong_chuc->ten_don_vi}}</td>
+                                        <td class="text-center" data-title="Mở/Khóa">
+                                            @if ($cong_chuc->ma_trang_thai == 1)
                                                 <a class="btn bg-danger text-nowrap w-100"
-                                                    href="{{ route('donvi.delete', $don_vi->ma_don_vi) }}">
+                                                    href="{{ route('congchuc.delete', $cong_chuc->so_hieu_cong_chuc) }}">
                                                     Khóa
                                                 </a>
                                             @else
                                                 <a class="btn bg-olive text-nowrap w-100"
-                                                    href="{{ route('donvi.restore', $don_vi->ma_don_vi) }}">
+                                                    href="{{ route('congchuc.restore', $cong_chuc->so_hieu_cong_chuc) }}">
                                                     Mở
                                                 </a>
                                             @endif
@@ -119,7 +128,7 @@
                         text: 'Tạo mới',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('donvi.create') }}';
+                            window.location = '{{ route('congchuc.create') }}';
                         },
                     },
                     {

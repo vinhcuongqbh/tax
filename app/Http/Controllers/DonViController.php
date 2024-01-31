@@ -9,9 +9,9 @@ class DonViController extends Controller
 {
     public function index()
     {
-        //Hiển thị danh sách Đơn vị đang sử dụng
+        //Hiển thị danh sách Đơn vị
         $don_vi = DonVi::leftjoin('don_vi as dv2', 'dv2.ma_don_vi', 'don_vi.ma_don_vi_cap_tren')
-            ->select('don_vi.id', 'don_vi.ma_don_vi', 'don_vi.ten_don_vi', 'dv2.ten_don_vi as ten_don_vi_cap_tren', 'don_vi.id_trang_thai')
+            ->select('don_vi.id', 'don_vi.ma_don_vi', 'don_vi.ten_don_vi', 'dv2.ten_don_vi as ten_don_vi_cap_tren', 'don_vi.ma_trang_thai')
             ->get();
 
         return view('donvi.index', ['don_vi' => $don_vi]);
@@ -21,7 +21,7 @@ class DonViController extends Controller
     //Tạo mới Đơn vị
     public function create()
     {
-        $don_vi = DonVi::where('id_trang_thai', 1)->get();
+        $don_vi = DonVi::where('ma_trang_thai', 1)->get();
 
         return view('donvi.create', ['don_vi' => $don_vi]);
     }
@@ -40,7 +40,7 @@ class DonViController extends Controller
         $don_vi->ma_don_vi = $request->ma_don_vi;
         $don_vi->ten_don_vi = $request->ten_don_vi;
         $don_vi->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
-        $don_vi->id_trang_thai = 1;
+        $don_vi->ma_trang_thai = 1;
         $don_vi->save();
         
         return redirect()->route('donvi.edit', ['id' => $request->ma_don_vi])->with('message', 'Đã tạo mới Đơn vị thành công');
@@ -82,7 +82,7 @@ class DonViController extends Controller
     public function destroy($id)
     {
         $don_vi = DonVi::where('ma_don_vi', $id)->first();
-        $don_vi->id_trang_thai = 0;
+        $don_vi->ma_trang_thai = 0;
         $don_vi->save();
 
         return back()->with('message', 'Đã khóa Đơn vị');
@@ -93,7 +93,7 @@ class DonViController extends Controller
     public function restore($id)
     {
         $don_vi = DonVi::where('ma_don_vi', $id)->first();
-        $don_vi->id_trang_thai = 1;
+        $don_vi->ma_trang_thai = 1;
         $don_vi->save();
 
         return back()->with('message', 'Đã mở khóa Đơn vị');
