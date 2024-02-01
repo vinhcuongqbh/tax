@@ -3,7 +3,7 @@
 @section('title', 'Sửa thông tin Đơn vị')
 
 @section('heading')
-    Sửa thông tin Đơn vị
+    Thông tin Đơn vị
 @stop
 
 @section('content')

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gioi_tinh', function (Blueprint $table) {
             $table->id();
-            $table->boolean('ma_gioi_tinh');
+            $table->boolean('ma_gioi_tinh')->unique();
             $table->string('ten_gioi_tinh');
             $table->timestamps();
         });

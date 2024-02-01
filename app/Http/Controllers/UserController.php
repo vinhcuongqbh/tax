@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ChucVu;
+use App\Models\DonVi;
+use App\Models\GioiTinh;
+use App\Models\Ngach;
+use App\Models\Phong;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -32,9 +38,17 @@ class UserController extends Controller
     //Tạo mới User
     public function create()
     {
-        $users = User::where('ma_trang_thai', 1)->get();
+        $gioi_tinh = GioiTinh::all();
+        $ngach = Ngach::where('ma_trang_thai', 1)->get();
+        $chuc_vu = ChucVu::where('ma_trang_thai', 1)->get();
+        $don_vi = DonVi::where('ma_trang_thai', 1)->get();
 
-        return view('user.create', ['users' => $users]);
+        return view('congchuc.create', [
+            'gioi_tinh' => $gioi_tinh,
+            'ngach' => $ngach,
+            'chuc_vu' => $chuc_vu,
+            'don_vi' => $don_vi,
+        ]);
     }
 
 
@@ -43,31 +57,50 @@ class UserController extends Controller
     {
         //Kiểm tra thông tin đầu vào
         $validated = $request->validate([
-            'ma_user' => 'required|unique:App\Models\User,ma_user',
-            'ten_user' => 'required',
+            'so_hieu_cong_chuc' => 'required|unique:App\Models\User,so_hieu_cong_chuc',
+            'name' => 'required',
+            'ngay_sinh' => 'required',
+            'gioi_tinh' => 'required',
+            'don_vi' => 'required',
+            'phong' => 'required'
         ]);
 
         $user = new User();
-        $user->ma_user = $request->ma_user;
-        $user->ten_user = $request->ten_user;
-        $user->ma_users_cap_tren = $request->ma_users_cap_tren;
+        $user->so_hieu_cong_chuc = $request->so_hieu_cong_chuc;
+        $user->name = $request->name;
+        $user->ngay_sinh = $request->ngay_sinh;
+        $user->ma_gioi_tinh = $request->gioi_tinh;
+        $user->ma_ngach = $request->ngach;
+        $user->ma_don_vi = $request->don_vi;
+        $user->ma_phong = $request->phong;
+        $user->email = $request->email;
+        $user->password = Hash::make('123456');
         $user->ma_trang_thai = 1;
         $user->save();
 
-        return redirect()->route('user.edit', ['id' => $request->ma_user])->with('message', 'Đã tạo mới User thành công');
+        return redirect()->route('congchuc.edit', ['id' => $request->so_hieu_cong_chuc])->with('message', 'Đã tạo mới Người dùng thành công');
     }
 
 
     //Sửa thông tin User
     public function edit($id)
     {
-        $user = User::where('ma_user', $id)->first();
-        $users = User::all();
+        $user = User::where('so_hieu_cong_chuc', $id)->first();
+        $gioi_tinh = GioiTinh::all();
+        $ngach = Ngach::where('ma_trang_thai', 1)->get();
+        $chuc_vu = ChucVu::where('ma_trang_thai', 1)->get();
+        $don_vi = DonVi::where('ma_trang_thai', 1)->get();
+        $phong = Phong::where('ma_trang_thai', 1)
+            ->where('ma_don_vi_cap_tren', $user->ma_don_vi)
+            ->get();
 
-
-        return view('user.edit', [
-            'user' => $user,
-            'users' => $users
+        return view('congchuc.edit', [
+            'cong_chuc' => $user,
+            'gioi_tinh' => $gioi_tinh,
+            'ngach' => $ngach,
+            'chuc_vu' => $chuc_vu,
+            'don_vi' => $don_vi,
+            'phong' => $phong
         ]);
     }
 
@@ -78,14 +111,25 @@ class UserController extends Controller
         //Kiểm tra thông tin đầu vào
         $validated = $request->validate([
             //'ma_user' => 'required|unique:App\Models\User,ma_user',
-            'ten_user' => 'required',
+            'name' => 'required',
+            'ngay_sinh' => 'required',
+            'gioi_tinh' => 'required',
+            'don_vi' => 'required',
+            'phong' => 'required',
+            'email' => 'required',
         ]);
 
-        $user = User::where('ma_user', $request->ma_user)->first();
-        $user->ten_user = $request->ten_user;
-        $user->ma_users_cap_tren = $request->ma_users_cap_tren;
+        $user = User::where('so_hieu_cong_chuc', $request->so_hieu_cong_chuc)->first();
+        $user->name = $request->name;
+        $user->ngay_sinh = $request->ngay_sinh;
+        $user->ma_gioi_tinh = $request->gioi_tinh;
+        $user->ma_ngach = $request->ngach;
+        $user->ma_chuc_vu = $request->chuc_vu;
+        $user->ma_don_vi = $request->don_vi;
+        $user->ma_phong = $request->phong;
+        $user->email = $request->email;
         $user->save();
-        return redirect()->route('user.edit', ['id' => $user->ma_user])->with('message', 'Đã cập nhật User thành công');
+        return redirect()->route('congchuc.edit', ['id' => $user->so_hieu_cong_chuc])->with('message', 'Đã cập nhật Người dùng thành công');
     }
 
 
@@ -103,7 +147,7 @@ class UserController extends Controller
     //Mở khóa User
     public function restore($id)
     {
-        $user = User::where('so_hieu_cong_chuc', $id)->first();        
+        $user = User::where('so_hieu_cong_chuc', $id)->first();
         $user->ma_trang_thai = 1;
         $user->save();
 

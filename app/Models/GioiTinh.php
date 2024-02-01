@@ -10,4 +10,5 @@ class GioiTinh extends Model
     use HasFactory;
     protected $table = 'gioi_tinh';
     protected $primaryKey = 'ma_gioi_tinh';
+    public $incrementing = false;
 }

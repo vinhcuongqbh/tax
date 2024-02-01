@@ -10,4 +10,5 @@ class Phong extends Model
     use HasFactory;
     protected $table = 'phong';
     protected $primaryKey = 'ma_phong';
+    public $incrementing = false;
 }

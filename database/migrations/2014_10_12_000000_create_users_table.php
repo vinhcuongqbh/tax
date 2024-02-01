@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('so_hieu_cong_chuc')->unique();
             $table->string('name');
             $table->date('ngay_sinh');
-            $table->boolean('gioi_tinh');
-            $table->string('ma_so_ngach')->nullable();
+            $table->boolean('ma_gioi_tinh');
+            $table->string('ma_ngach')->nullable();
             $table->string('ma_chuc_vu')->nullable();
             $table->string('ma_phong');
             $table->string('ma_don_vi');

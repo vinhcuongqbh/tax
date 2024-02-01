@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::post('{id}/update', [PhongController::class, 'update'])->name('phong.update');
         Route::get('{id}/delete', [PhongController::class, 'destroy'])->name('phong.delete');
         Route::get('{id}/restore', [PhongController::class, 'restore'])->name('phong.restore');
+        Route::post('dm-phong', [PhongController::class, 'dmPhong'])->name('phong.dmphong');
     });
 
     Route::group(['prefix' => 'congchuc'], function () {

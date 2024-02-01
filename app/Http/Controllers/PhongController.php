@@ -99,4 +99,13 @@ class PhongController extends Controller
 
         return back()->with('message', 'Đã mở khóa Phòng/Đội');
     }
+
+
+    public function dmPhong(Request $request)
+    {
+        $data['phong'] = Phong::where('ma_don_vi_cap_tren', $request->ma_don_vi)
+                                ->get(['ma_phong', 'ten_phong']);
+  
+        return response()->json($data);
+    }
 }

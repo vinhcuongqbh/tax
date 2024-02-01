@@ -44,4 +44,5 @@ class User extends Authenticatable
     ];
 
     protected $primaryKey = 'so_hieu_cong_chuc';
+    public $incrementing = false;
 }
