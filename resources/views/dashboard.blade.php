@@ -147,12 +147,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/xeploai" class="nav-link">
                                         <p>1.4. Danh mục xếp loại</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/" class="nav-link">
                                         <p>1.5. Phân quyền sử dụng</p>
                                     </a>
                                 </li>

@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Sửa thông tin Đơn vị')
+@section('title', 'Sửa thông tin Xếp loại')
 
 @section('heading')
-    Thông tin Đơn vị
+    Thông tin Xếp loại
 @stop
 
 @section('content')
@@ -17,57 +17,45 @@
         </div>
     @endif
     @if (session()->has('message'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            text: `{{ session()->get('message') }}`,
-            showConfirmButton: false,
-            timer: 2000
-        })
-    </script>
-@endif
+        <script>
+            Swal.fire({
+                icon: 'success',
+                text: `{{ session()->get('message') }}`,
+                showConfirmButton: false,
+                timer: 2000
+            })
+        </script>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-6">
                 <div class="card card-default">
                     {{-- <div class="card-header">
-                        <h3 class="card-title text-bold">Sửa thông tin đơn vị</h3>
+                        <h3 class="card-title text-bold">Sửa thông tin xếp loại</h3>
                     </div> --}}
-                    <form action="{{ route('donvi.update', $don_vi->ma_don_vi) }}" method="post" id="donvi-edit">
+                    <form action="{{ route('xeploai.update', $xep_loai->ma_xep_loai) }}" method="post" id="xeploai-edit">
                         @csrf
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label" for="ma_don_vi">Mã đơn vị</label>
+                                <label class="col-sm-3 col-form-label" for="ma_xep_loai">Xếp loại</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="ma_don_vi" name="ma_don_vi" value="{{ $don_vi->ma_don_vi }}"
-                                        class="form-control" readonly>
+                                    <input type="text" id="ma_xep_loai" name="ma_xep_loai"
+                                        value="{{ $xep_loai->ma_xep_loai }}" class="form-control" readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label" for="ten_don_vi">Tên đơn vị</label>
+                                <label class="col-sm-3 col-form-label" for="diem_toi_thieu">Điểm tối thiểu</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="ten_don_vi" name="ten_don_vi" value="{{ $don_vi->ten_don_vi }}"
+                                    <input type="number" id="diem_toi_thieu" name="diem_toi_thieu"
+                                        value="{{ $xep_loai->diem_toi_thieu }}" min="0" max="100"
                                         class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label" for="ma_don_vi_cap_tren">Đơn vị cấp trên</label>
-                                <div class="col-sm-9">
-                                    <select id="ma_don_vi_cap_tren" name="ma_don_vi_cap_tren" class="form-control custom-select">
-                                        <option value=""></option>
-                                        @foreach ($dm_don_vi as $dm_don_vi)
-                                            <option value="{{ $dm_don_vi->ma_don_vi }}"
-                                                @if ($don_vi->ma_don_vi_cap_tren == $dm_don_vi->ma_don_vi) {{ 'selected' }} @endif>
-                                                {{ $dm_don_vi->ten_don_vi }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer d-flex justify-content-center">
                             <button type="submit" class="btn bg-olive text-nowrap col-3 mx-2">Cập nhật</button>
-                            <a class="btn bg-warning text-nowrap col-3 mx-2" href="{{ route('donvi') }}">Quay
+                            <a class="btn bg-warning text-white text-nowrap col-3 mx-2" href="{{ route('xeploai') }}">Quay
                                 lại</a>
                         </div>
                     </form>
@@ -86,21 +74,23 @@
     <!-- Page specific script -->
     <script>
         $(function() {
-            $('#donvi-edit').validate({
+            $('#xeploai-edit').validate({
                 rules: {
-                    ma_don_vi: {
+                    ma_xep_loai: {
                         required: true,
                     },
-                    ten_don_vi: {
+                    diem_toi_thieu: {
                         required: true,
+                        digits: true,
                     },
                 },
                 messages: {
-                    ma_don_vi: {
+                    ma_xep_loai: {
                         required: "Vui lòng nhập thông tin",
                     },
-                    ten_don_vi: {
+                    diem_toi_thieu: {
                         required: "Vui lòng nhập thông tin",
+                        digits: "Vui lòng nhập dạng số"
                     },
                 },
                 errorElement: 'span',

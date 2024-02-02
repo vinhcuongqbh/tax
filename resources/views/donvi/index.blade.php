@@ -94,22 +94,22 @@
     <script>
         $(function() {
             $("#table").DataTable({
-                responsive: {
-                    details: {
-                        display: DataTable.Responsive.display.modal({
-                            header: function(row) {
-                                var data = row.data();
-                                return data[2];
-                            }
-                        }),
-                        renderer: DataTable.Responsive.renderer.tableAll({
-                            tableClass: 'table'
-                        })
-                    }
-                },
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
-                },
+                // responsive: {
+                //     details: {
+                //         display: DataTable.Responsive.display.modal({
+                //             header: function(row) {
+                //                 var data = row.data();
+                //                 return data[2];
+                //             }
+                //         }),
+                //         renderer: DataTable.Responsive.renderer.tableAll({
+                //             tableClass: 'table'
+                //         })
+                //     }
+                // },
+                // rowReorder: {
+                //     selector: 'td:nth-child(2)'
+                // },
                 lengthChange: false,
                 pageLength: 20,
                 searching: true,

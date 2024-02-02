@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class PhongController extends Controller
 {
+    //Hiển thị danh sách Phòng/Đội
     public function index()
-    {
-        //Hiển thị danh sách Phòng/Đội
+    {        
         $phong = Phong::leftjoin('don_vi', 'don_vi.ma_don_vi', 'phong.ma_don_vi_cap_tren')
             ->select('phong.id', 'phong.ma_phong', 'phong.ten_phong', 'don_vi.ten_don_vi','phong.ma_trang_thai')
             ->get();
@@ -99,8 +99,9 @@ class PhongController extends Controller
 
         return back()->with('message', 'Đã mở khóa Phòng/Đội');
     }
+    
 
-
+    //Lấy danh sách Phòng/Đội dựa trên Đơn vị
     public function dmPhong(Request $request)
     {
         $data['phong'] = Phong::where('ma_don_vi_cap_tren', $request->ma_don_vi)

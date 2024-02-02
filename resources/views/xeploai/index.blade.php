@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Danh mục Phòng/Đội')
+@section('title', 'Danh mục Xếp loại')
 
 @section('heading')
-    Danh mục Phòng/Đội
+    Danh mục Xếp loại
 @stop
 
 @section('content')
@@ -19,12 +19,12 @@
     @endif
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-6">
                 <div class="card card-default">
                     {{-- <div class="card-header">
                         <div class="row">
                             <div class="col-auto">
-                                <a href="{{ route('phong.create') }}"><button type="button"
+                                <a href="{{ route('xeploai.create') }}"><button type="button"
                                         class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
                             </div>
                         </div>
@@ -33,43 +33,25 @@
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>
                                 <col style="width:5%;">
-                                <col style="width:15%;">
-                                <col style="width:35%;">
-                                <col style="width:40%;">
-                                <col style="width:5%;">
+                                <col style="width:45%;">
+                                <col style="width:50%;">
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
                                     <th class="text-center">STT</th>
-                                    <th class="text-center">Mã Phòng/Đội</th>
-                                    <th class="text-center">Tên Phòng/Đội</th>
-                                    <th class="text-center">Đơn vị cấp trên</th>
-                                    <th class="text-center">Mở/Khóa</th>
+                                    <th class="text-center">Xếp loại</th>
+                                    <th class="text-center">Điểm tối thiểu</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i=1 ?>
-                                @foreach ($phong as $phong)
+                                <?php $i = 1; ?>
+                                @foreach ($xep_loai as $xep_loai)
                                     <tr>
                                         <td class="text-center">{{ $i++ }}</td>
-                                        <td class="text-center">{{ $phong->ma_phong }}</td>
-                                        <td><a
-                                                href="{{ route('phong.edit', $phong->ma_phong) }}">{{ $phong->ten_phong }}</a>
+                                        <td class="text-center"><a
+                                                href="{{ route('xeploai.edit', $xep_loai->ma_xep_loai) }}">{{ $xep_loai->ma_xep_loai }}</a>
                                         </td>
-                                        <td>{{ $phong->ten_don_vi }}</td>
-                                        <td class="text-center">
-                                            @if ($phong->ma_trang_thai == 1)
-                                                <a class="btn bg-danger text-nowrap w-100"
-                                                    href="{{ route('phong.delete', $phong->ma_phong) }}">
-                                                    Khóa
-                                                </a>
-                                            @else
-                                                <a class="btn bg-olive text-nowrap w-100"
-                                                    href="{{ route('phong.restore', $phong->ma_phong) }}">
-                                                    Mở
-                                                </a>
-                                            @endif
-                                        </td>
+                                        <td class="text-center">{{ $xep_loai->diem_toi_thieu }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -112,14 +94,14 @@
                 // },
                 lengthChange: false,
                 pageLength: 20,
-                searching: true,
+                searching: false,
                 autoWidth: false,
                 dom: 'Bfrtip',
                 buttons: [{
                         text: 'Tạo mới',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('phong.create') }}';
+                            window.location = '{{ route('xeploai.create') }}';
                         },
                     },
                     {

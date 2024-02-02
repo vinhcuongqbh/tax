@@ -3,6 +3,7 @@
 use App\Http\Controllers\DonViController;
 use App\Http\Controllers\PhongController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\XepLoaiController;
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\ProfileController;
 // use Illuminate\Foundation\Application;
@@ -55,11 +56,22 @@ Route::middleware('auth')->group(function () {
         Route::get('', [UserController::class, 'index'])->name('congchuc');
         Route::get('create', [UserController::class, 'create'])->name('congchuc.create');
         Route::post('store', [UserController::class, 'store'])->name('congchuc.store');
-        //Route::get('{id}/', [UserController::class, 'show'])->name('congchuc.show');
+        //Route::get('{id}/', [UserControldon_viler::class, 'show'])->name('congchuc.show');
         Route::get('{id}/edit', [UserController::class, 'edit'])->name('congchuc.edit');
         Route::post('{id}/update', [UserController::class, 'update'])->name('congchuc.update');
         Route::get('{id}/delete', [UserController::class, 'destroy'])->name('congchuc.delete');
         Route::get('{id}/restore', [UserController::class, 'restore'])->name('congchuc.restore');
+    });
+
+    Route::group(['prefix' => 'xeploai'], function () {
+        Route::get('', [XepLoaiController::class, 'index'])->name('xeploai');
+        Route::get('create', [XeploaiController::class, 'create'])->name('xeploai.create');
+        Route::post('store', [XeploaiController::class, 'store'])->name('xeploai.store');
+        //Route::get('{id}/', [XeploaiController::class, 'show'])->name('xeploai.show');
+        Route::get('{id}/edit', [XeploaiController::class, 'edit'])->name('xeploai.edit');
+        Route::post('{id}/update', [XeploaiController::class, 'update'])->name('xeploai.update');
+        Route::get('{id}/delete', [XeploaiController::class, 'destroy'])->name('xeploai.delete');
+        Route::get('{id}/restore', [XeploaiController::class, 'restore'])->name('xeploai.restore');
     });
 });
 

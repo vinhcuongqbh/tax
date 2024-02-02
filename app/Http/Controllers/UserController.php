@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    //Hiển thị danh sách User
     public function index()
-    {
-        //Hiển thị danh sách User
+    {        
         $users = User::leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
             ->leftjoin('phong', 'phong.ma_phong', 'users.ma_phong')
             ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')

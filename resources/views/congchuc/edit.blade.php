@@ -136,8 +136,8 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer d-flex justify-content-center">
-                            <button type="submit" class="btn btn-warning text-nowrap col-3 mx-2">Cập nhật</button>
-                            <a class="btn bg-olive text-white text-nowrap col-3 mx-2" href="{{ route('congchuc') }}">Quay
+                            <button type="submit" class="btn bg-olive text-nowrap col-3 mx-2">Cập nhật</button>
+                            <a class="btn bg-warning text-white text-nowrap col-3 mx-2" href="{{ route('congchuc') }}">Quay
                                 lại</a>
                         </div>
                     </form>
