@@ -63,37 +63,38 @@
     <!-- Page specific script -->
     <script>
         $(function() {
-                    $('#xeploai-create').validate({
-                        rules: {
-                            ma_xep_loai: {
-                                required: true,
-                            },
-                            diem_toi_thieu: {
-                                required: true,
-                                digits: true,
-                            },
-                        },
-                        messages: {
-                            ma_xep_loai: {
-                                required: "Vui lòng nhập thông tin",
-                            },
-                            diem_toi_thieu: {
-                                required: "Vui lòng nhập thông tin",
-                                digits: "Vui lòng nhập dạng số"
+            $('#xeploai-create').validate({
+                rules: {
+                    ma_xep_loai: {
+                        required: true,
+                    },
+                    diem_toi_thieu: {
+                        required: true,
+                        digits: true,
+                    },
+                },
+                messages: {
+                    ma_xep_loai: {
+                        required: "Vui lòng nhập thông tin",
+                    },
+                    diem_toi_thieu: {
+                        required: "Vui lòng nhập thông tin",
+                        digits: "Vui lòng nhập dạng số"
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.col-sm-9').append(error);
 
-                                errorElement: 'span',
-                                errorPlacement: function(error, element) {
-                                    error.addClass('invalid-feedback');
-                                    element.closest('.col-sm-9').append(error);
-
-                                },
-                                highlight: function(element, errorClass, validClass) {
-                                    $(element).addClass('is-invalid');
-                                },
-                                unhighlight: function(element, errorClass, validClass) {
-                                    $(element).removeClass('is-invalid');
-                                }
-                            });
-                    });
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
     </script>
 @stop
