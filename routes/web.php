@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\DonViController;
 use App\Http\Controllers\PhongController;
 use App\Http\Controllers\UserController;
@@ -73,6 +74,11 @@ Route::middleware('auth')->group(function () {
         Route::get('{id}/delete', [XeploaiController::class, 'destroy'])->name('xeploai.delete');
         Route::get('{id}/restore', [XeploaiController::class, 'restore'])->name('xeploai.restore');
     });
+
+
+    Route::group(['prefix' => 'danhgia'], function () {
+        Route::get('mau01A', [DanhGiaController::class, 'mau01A'])->name('danhgia.mau01A');
+    });
 });
 
 // Route::get('/', function () {
@@ -94,4 +100,4 @@ Route::middleware('auth')->group(function () {
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

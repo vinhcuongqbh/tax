@@ -48,33 +48,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; ?>
-                                @for ($n = 0; $n < 10; $i++)
-                                    The current value is {{ $i }}
-                                @endfor
-
-                                ($mau_danh_gia as $mau_danh_gia)
-                                <tr>
-                                    <td class="text-center">{{ $i++ }}</td>
-                                    <td class="text-center">{{ $don_vi->ma_don_vi }}</td>
-                                    <td><a
-                                            href="{{ route('donvi.edit', $don_vi->ma_don_vi) }}">{{ $don_vi->ten_don_vi }}</a>
-                                    </td>
-                                    <td>{{ $don_vi->ten_don_vi_cap_tren }}</td>
-                                    <td class="text-center">
-                                        @if ($don_vi->ma_trang_thai == 1)
-                                            <a class="btn bg-danger text-nowrap w-100"
-                                                href="{{ route('donvi.delete', $don_vi->ma_don_vi) }}">
-                                                Khóa
-                                            </a>
-                                        @else
-                                            <a class="btn bg-olive text-nowrap w-100"
-                                                href="{{ route('donvi.restore', $don_vi->ma_don_vi) }}">
-                                                Mở
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
+                                @foreach ($mau_danh_gia as $mau_danh_gia)
+                                    <tr>
+                                        <td
+                                            class="text-center
+                                        @if ($mau_danh_gia->loai_tieu_chi != 'cham_diem' && $mau_danh_gia->loai_tieu_chi != 'phuong_an') text-bold @endif">
+                                            {{ $mau_danh_gia->tt }}</td>
+                                        <td
+                                            class="text-justify 
+                                            @if ($mau_danh_gia->loai_tieu_chi != 'cham_diem' && $mau_danh_gia->loai_tieu_chi != 'phuong_an') text-bold @endif">
+                                            {{ $mau_danh_gia->noi_dung }}</td>
+                                        <td class="text-center pt-3 @if ($mau_danh_gia->loai_tieu_chi != 'cham_diem' && $mau_danh_gia->loai_tieu_chi != 'phuong_an') text-bold @endif">
+                                            {{ $mau_danh_gia->diem_toi_da }}</td>
+                                        <td class="text-center">
+                                            <input type="number" id="{{ $mau_danh_gia->ma_tieu_chi }}"
+                                                name="{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
+                                                max="{{ $mau_danh_gia->diem_toi_da }}"
+                                                value="{{ $mau_danh_gia->diem_toi_da }}"
+                                                @if ($mau_danh_gia->loai_tieu_chi != 'cham_diem' && $mau_danh_gia->loai_tieu_chi != 'phuong_an') disabled @endif class="form-control">
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

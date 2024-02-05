@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('mau01A', function (Blueprint $table) {
             $table->id();           
             $table->string('ma_tieu_chi')->unique();
+            $table->string('tieu_chi_me')->nullable();
+            $table->string('loai_tieu_chi')->nullable();
             $table->string('tt')->nullable();
             $table->string('noi_dung');            
-            $table->tinyInteger('diem_toi_da');
-            $table->string('loai_tieu_chi');
+            $table->tinyInteger('diem_toi_da');            
             $table->timestamps();
         });
     }
