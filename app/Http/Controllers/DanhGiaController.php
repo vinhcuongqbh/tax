@@ -23,7 +23,7 @@ class DanhGiaController extends Controller
 
         return view('danhgia.mau01A',
         [
-            'mau_danh_gias' => $mau_danh_gia,
+            'mau_danh_gia' => $mau_danh_gia,
             'thoi_diem_danh_gia' => $thoi_diem_danh_gia,
             'user' => $user
         ]);
