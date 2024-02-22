@@ -50,9 +50,10 @@
                             <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức giữ chức vụ lãnh đạo, quản
                                 lý)
                             </h6>
-                            <?php $now = new DateTime(); ?>
-                            <h6 class="text-center my-0">Tháng:
-                                {{ $thoi_diem_danh_gia->month }}/{{ $thoi_diem_danh_gia->year }}</h6>
+                            <h6 class="text-center my-0">Tháng
+                                <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
+                                    min="1" max="12" value="{{ $thoi_diem_danh_gia->month }}"> / {{ $thoi_diem_danh_gia->year }}
+                            </h6>
                             <br>
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
                             <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
@@ -139,7 +140,8 @@
                             <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh: <i>(Thống kê
                                     các
                                     nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i></h6>
-                            <button class="btn bg-olive text-nowrap mb-2" id="addRow">Thêm dòng</button>
+                            <button type="button" class="btn bg-olive text-nowrap mb-2" id="addRow">Thêm dòng</button>
+                            <button type="button" class="btn btn-danger text-nowrap mb-2" id="removeRow">Xóa dòng</button>
                             <table id="nhiem-vu" class="table table-bordered">
                                 <colgroup>
                                     <col style="width:5%;">
@@ -152,13 +154,13 @@
                                 </colgroup>
                                 <thead>
                                     <tr class="text-center">
-                                        <th class="align-middle text-bold">TT</td>
-                                        <th class="align-middle text-bold">Nhiệm vụ</td>
-                                        <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</td>
-                                        <th class="align-middle text-bold">Trước hạn</td>
-                                        <th class="align-middle text-bold">Đúng hạn</td>
-                                        <th class="align-middle text-bold">Quá hạn</td>
-                                        <th class="align-middle text-bold">Lùi, chưa triển khai</td>
+                                        <th class="align-middle text-bold">TT</th>
+                                        <th class="align-middle text-bold">Nhiệm vụ</th>
+                                        <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</th>
+                                        <th class="align-middle text-bold">Trước hạn</th>
+                                        <th class="align-middle text-bold">Đúng hạn</th>
+                                        <th class="align-middle text-bold">Quá hạn</th>
+                                        <th class="align-middle text-bold">Lùi, chưa triển khai</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,25 +171,25 @@
                                 dụng
                                 điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
                             <div class="form-group">
-                                <textarea class="form-control" id="ly_do_diem_thuong" name="ly_do_diem_thuong" rows="3"></textarea>
+                                <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7"></textarea>
                             </div>
                             <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
                             <div class="form-group">
-                                <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="3"></textarea>
+                                <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7"></textarea>
                             </div>
                             <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
                                     ô tương ứng dưới đây)</i></h6>
                             <table class="table table-borderless">
+                                <colgroup>
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                </colgroup>
                                 <tbody>
-                                    <colgroup>
-                                        <col style="width:20%;">
-                                        <col style="width:5%;">
-                                        <col style="width:20%;">
-                                        <col style="width:5%;">
-                                        <col style="width:20%;">
-                                        <col style="width:5%;">
-                                        <col style="width:20%;">
-                                    </colgroup>
                                     <tr>
                                         <td class="text-center">
                                             <input type="radio" name="hoan_thanh_nhiem_vu" value="hoan_thanh_xuat_sac"
@@ -256,6 +258,11 @@
 @stop
 
 @section('css')
+    <style>
+        table.dataTable tbody tr.selected>* {
+            box-shadow: inset 0 0 0 9999px rgb(184, 184, 184) !important;
+        }
+    </style>
 @stop
 
 @section('js')
@@ -413,23 +420,41 @@
                     }
                 ],
             })
-            let counter = 1;
-            let ma_tieu_chi = 601;
+            let ma_tieu_chi = 1;
 
+            //Xóa Dòng
+            table.on('click', 'tbody tr', (e) => {
+                let classList = e.currentTarget.classList;
+
+                table.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+                classList.add('selected');
+            });
+
+            document.querySelector('#removeRow').addEventListener('click', function() {
+                table.row('.selected').remove().draw(false);
+            });
+
+            //Thêm Dòng
             function addNewRow() {
-                table.row
-                    .add([
-                        counter,
-                        '<textarea class="form-control" id="' + ma_tieu_chi + '" name="' + ma_tieu_chi +
-                        '" rows="2"></textarea>',
-                        '<input type="radio" name="hoan_thanh_nhiem_vu" value="hoan_thanh" id="hoan_thanh">',
-                        '',
-                        '',
-                        '',
-                        '',
-                    ])
-                    .draw(false);
-                counter++;
+                if (ma_tieu_chi <= 50) {
+                    table.row
+                        .add([
+                            '+',
+                            '<textarea class="form-control" id="' + ma_tieu_chi + '" name="' + ma_tieu_chi +
+                            '" rows="2"></textarea>',
+                            '<input type="checkbox" name="' + ma_tieu_chi +
+                            '_nhiem_vu_phat_sinh" value="nhiem_vu_phat_sinh">',
+                            '<input type="radio" name="' + ma_tieu_chi +
+                            '_hoan_thanh_nhiem_vu" value="truoc_han">',
+                            '<input type="radio" name="' + ma_tieu_chi +
+                            '_hoan_thanh_nhiem_vu" value="dung_han" checked>',
+                            '<input type="radio" name="' + ma_tieu_chi +
+                            '_hoan_thanh_nhiem_vu" value="qua_han">',
+                            '<input type="radio" name="' + ma_tieu_chi +
+                            '_hoan_thanh_nhiem_vu" value="lui_han">',
+                        ])
+                        .draw(false);
+                }
                 ma_tieu_chi++;
             };
 
