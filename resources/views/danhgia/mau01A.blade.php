@@ -50,9 +50,11 @@
                             <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức giữ chức vụ lãnh đạo, quản
                                 lý)
                             </h6>
-                            <h6 class="text-center my-0">Tháng
+                            <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
-                                    min="1" max="12" value="{{ $thoi_diem_danh_gia->month }}"> / {{ $thoi_diem_danh_gia->year }}
+                                    min="1" max="{{ $thoi_diem_danh_gia->month }}"
+                                    value="{{ $thoi_diem_danh_gia->month }}"> / <label id="nam_danh_gia"
+                                    name="nam_danh_gia">{{ $thoi_diem_danh_gia->year }}</label>
                             </h6>
                             <br>
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
@@ -84,7 +86,12 @@
                                 <tbody>
                                     @foreach ($mau_danh_gia as $mau_danh_gia)
                                         @php
-                                            if ($mau_danh_gia->loai_tieu_chi == 'muc_lon' || $mau_danh_gia->loai_tieu_chi == 'muc_nho' || $mau_danh_gia->loai_tieu_chi == 'lua_chon' || $mau_danh_gia->loai_tieu_chi == 'tong_diem' || $mau_danh_gia->loai_tieu_chi == 'cong') {
+                                            if ($mau_danh_gia->loai_tieu_chi == 'muc_lon' 
+                                            || $mau_danh_gia->loai_tieu_chi == 'muc_nho' 
+                                            || $mau_danh_gia->loai_tieu_chi == 'lua_chon' 
+                                            || $mau_danh_gia->loai_tieu_chi == 'tong_diem' 
+                                            || $mau_danh_gia->loai_tieu_chi == 'cong') 
+                                            {
                                                 $tinh_diem = 0;
                                             } else {
                                                 $tinh_diem = 1;
@@ -192,26 +199,26 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
-                                            <input type="radio" name="hoan_thanh_nhiem_vu" value="hoan_thanh_xuat_sac"
+                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
                                                 id="hoan_thanh_xuat_sac" class="form-control">
                                             <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="hoan_thanh_nhiem_vu" value="hoan_thanh_tot"
+                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
                                                 id="hoan_thanh_tot" class="form-control">
                                             <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
                                             điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="hoan_thanh_nhiem_vu" value="hoan_thanh"
-                                                id="hoan_thanh" class="form-control">
+                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
+                                                class="form-control">
                                             <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="hoan_thanh_nhiem_vu" value="khong_hoan_thanh"
+                                            <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
                                                 id="khong_hoan_thanh" class="form-control">
                                             <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
                                             xuống
@@ -273,6 +280,11 @@
         $(function() {
             $('#maudanhgia-create').validate({
                 rules: {
+                    thang_danh_gia: {
+                        required: true,
+                        min: 1,
+                        max: {{ $thoi_diem_danh_gia->month }},
+                    },
                     111: {
                         required: true,
                         min: 0,
@@ -280,6 +292,11 @@
                     },
                 },
                 messages: {
+                    thang_danh_gia: {
+                        required: "Vui lòng nhập thông tin",
+                        min: "Không nhập số âm",
+                        max: "Chưa đến thời điểm đánh giá",
+                    },
                     111: {
                         required: "Vui lòng nhập thông tin",
                         min: "Không nhập số âm",
