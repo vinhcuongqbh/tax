@@ -42,7 +42,7 @@
                     </div> --}}
                         <div class="card-body">
                             <table class="table table-borderless">
-                                <h6 class="font-italic text-bold text-right">Mẫu số 01A</h6>
+                                <h6 class="font-italic text-bold text-right">Mẫu số 01B</h6>
                                 <tbody>
                                     <tr>
                                         <td class="text-center py-0">TỔNG CỤC THUẾ</td>
@@ -57,7 +57,8 @@
                             <br>
                             <br>
                             <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                            <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức giữ chức vụ lãnh đạo, quản lý)
+                            <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức không giữ chức vụ lãnh đạo,
+                                quản lý)
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
@@ -265,7 +266,9 @@
                         </div>
                     </div>
                     <!-- /.card -->
-                    <button type="submit" class="btn bg-olive text-nowrap mb-2" id="submitForm">Gửi</button>
+                    <div class="text-right"> 
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2" id="submitForm">Gửi</button>
+                    </div>
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -379,12 +382,7 @@
             let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
             let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
             let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
-            let tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
-            let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
-            let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
-            let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
-            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
-                tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
+            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216;
             document.getElementById("tc_210").value = tieu_chi_210;
         }
 

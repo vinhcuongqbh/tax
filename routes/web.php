@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
         Route::get('', [DonViController::class, 'index'])->name('donvi');
         Route::get('create', [DonViController::class, 'create'])->name('donvi.create');
         Route::post('store', [DonViController::class, 'store'])->name('donvi.store');
-        //Route::get('{id}/', [DonViController::class, 'show'])->name('donvi.show');
         Route::get('{id}/edit', [DonViController::class, 'edit'])->name('donvi.edit');
         Route::post('{id}/update', [DonViController::class, 'update'])->name('donvi.update');
         Route::get('{id}/delete', [DonViController::class, 'destroy'])->name('donvi.delete');
@@ -45,7 +44,6 @@ Route::middleware('auth')->group(function () {
         Route::get('', [PhongController::class, 'index'])->name('phong');
         Route::get('create', [PhongController::class, 'create'])->name('phong.create');
         Route::post('store', [PhongController::class, 'store'])->name('phong.store');
-        //Route::get('{id}/', [PhongController::class, 'show'])->name('phong.show');
         Route::get('{id}/edit', [PhongController::class, 'edit'])->name('phong.edit');
         Route::post('{id}/update', [PhongController::class, 'update'])->name('phong.update');
         Route::get('{id}/delete', [PhongController::class, 'destroy'])->name('phong.delete');
@@ -68,7 +66,6 @@ Route::middleware('auth')->group(function () {
         Route::get('', [XepLoaiController::class, 'index'])->name('xeploai');
         Route::get('create', [XeploaiController::class, 'create'])->name('xeploai.create');
         Route::post('store', [XeploaiController::class, 'store'])->name('xeploai.store');
-        //Route::get('{id}/', [XeploaiController::class, 'show'])->name('xeploai.show');
         Route::get('{id}/edit', [XeploaiController::class, 'edit'])->name('xeploai.edit');
         Route::post('{id}/update', [XeploaiController::class, 'update'])->name('xeploai.update');
         Route::get('{id}/delete', [XeploaiController::class, 'destroy'])->name('xeploai.delete');
@@ -76,10 +73,12 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::group(['prefix' => 'danhgia'], function () {
-        Route::get('mau01A', [DanhGiaController::class, 'mau01A'])->name('danhgia.mau01A');
-        Route::get('mautudanhgia', [DanhGiaController::class, 'mautudanhgia'])->name('danhgia.mautudanhgia');
-        Route::post('ketquatudanhgia', [DanhGiaController::class, 'ketquatudanhgia'])->name('danhgia.ketquatudanhgia');
+    Route::group(['prefix' => 'danhgia'], function () {        
+        Route::get('phieudanhgia/create', [DanhGiaController::class, 'taophieudanhgia'])->name('danhgia.phieudanhgia.create');
+        Route::post('phieudanhgia/store', [DanhGiaController::class, 'luuphieudanhgia'])->name('danhgia.phieudanhgia.store');
+        Route::get('phieudanhgia/{id}/show', [DanhGiaController::class, 'xemphieudanhgia'])->name('danhgia.phieudanhgia.show');        
+        Route::get('danhsachtucham', [DanhGiaController::class, 'danhsachtucham'])->name('danhgia.danhsachtucham');
+        Route::post('ketquatucham', [DanhGiaController::class, 'ketquatucham'])->name('danhgia.ketquatucham');
         Route::get('maucaptrendanhgia', [DanhGiaController::class, 'maucaptrendanhgia'])->name('danhgia.maucaptrendanhgia');
         Route::post('ketquacaptrendanhgia', [DanhGiaController::class, 'ketquacaptrendanhgia'])->name('danhgia.ketquacaptrendanhgia');
     });
