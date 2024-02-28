@@ -15,14 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('ma_phieu_danh_gia')->unique();
             $table->string('thoi_diem_danh_gia');
-            $table->string('so_hieu_cong_chuc');
-            $table->string('name');
+            $table->string('so_hieu_cong_chuc');            
             $table->string('ma_chuc_vu')->nullable();
             $table->string('ma_phong');
             $table->string('ma_don_vi');            
-            $table->tinyInteger('tong_diem_tu_cham')->nullable();
+            $table->tinyInteger('tong_diem_tu_cham');
             $table->tinyInteger('tong_diem_dang_gia')->nullable();
-            $table->string('ket_qua_xep_loai');
+            $table->string('ket_qua_xep_loai')->nullable();
             $table->tinyInteger('ma_trang_thai');
             $table->timestamps();
         });

@@ -78,6 +78,10 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['prefix' => 'danhgia'], function () {
         Route::get('mau01A', [DanhGiaController::class, 'mau01A'])->name('danhgia.mau01A');
+        Route::get('mautudanhgia', [DanhGiaController::class, 'mautudanhgia'])->name('danhgia.mautudanhgia');
+        Route::post('ketquatudanhgia', [DanhGiaController::class, 'ketquatudanhgia'])->name('danhgia.ketquatudanhgia');
+        Route::get('maucaptrendanhgia', [DanhGiaController::class, 'maucaptrendanhgia'])->name('danhgia.maucaptrendanhgia');
+        Route::post('ketquacaptrendanhgia', [DanhGiaController::class, 'ketquacaptrendanhgia'])->name('danhgia.ketquacaptrendanhgia');
     });
 });
 

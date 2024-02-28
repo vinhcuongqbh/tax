@@ -20,8 +20,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card card-default">
-                    {{-- <div class="card-header">
+                <form action="/danhgia/ketquatudanhgia" method="post" id="maudanhgia-create">
+                    @csrf
+                    <div class="card card-default">
+                        {{-- <div class="card-header">
                         <div class="row">
                             <div class="col-auto">
                                 <a href="{{ route('donvi.create') }}"><button type="button"
@@ -29,7 +31,6 @@
                             </div>
                         </div>
                     </div> --}}
-                    <form action="" method="post" id="maudanhgia-create">
                         <div class="card-body">
                             <table class="table table-borderless">
                                 <h6 class="font-italic text-bold text-right">Mẫu số 01A</h6>
@@ -53,8 +54,9 @@
                             <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
                                     min="1" max="{{ $thoi_diem_danh_gia->month }}"
-                                    value="{{ $thoi_diem_danh_gia->month }}"> / <label id="nam_danh_gia"
-                                    name="nam_danh_gia">{{ $thoi_diem_danh_gia->year }}</label>
+                                    value="{{ $thoi_diem_danh_gia->month }}"> / <input type="number" class="text-center" id="nam_danh_gia" name="nam_danh_gia"
+                                    min="1" max="{{ $thoi_diem_danh_gia->year }}"
+                                    value="{{ $thoi_diem_danh_gia->year }}" readonly>
                             </h6>
                             <br>
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
@@ -86,12 +88,7 @@
                                 <tbody>
                                     @foreach ($mau_danh_gia as $mau_danh_gia)
                                         @php
-                                            if ($mau_danh_gia->loai_tieu_chi == 'muc_lon' 
-                                            || $mau_danh_gia->loai_tieu_chi == 'muc_nho' 
-                                            || $mau_danh_gia->loai_tieu_chi == 'lua_chon' 
-                                            || $mau_danh_gia->loai_tieu_chi == 'tong_diem' 
-                                            || $mau_danh_gia->loai_tieu_chi == 'cong') 
-                                            {
+                                            if ($mau_danh_gia->loai_tieu_chi == 'muc_lon' || $mau_danh_gia->loai_tieu_chi == 'muc_nho' || $mau_danh_gia->loai_tieu_chi == 'lua_chon' || $mau_danh_gia->loai_tieu_chi == 'tong_diem' || $mau_danh_gia->loai_tieu_chi == 'cong') {
                                                 $tinh_diem = 0;
                                             } else {
                                                 $tinh_diem = 1;
@@ -111,16 +108,16 @@
                                             @if ($mau_danh_gia->loai_tieu_chi == 'phuong_an')
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
-                                                        name="{{ $mau_danh_gia->tieu_chi_me }}"
+                                                        name="tc_{{ $mau_danh_gia->tieu_chi_me }}"
                                                         value="{{ $mau_danh_gia->diem_toi_da }}"
-                                                        id="{{ $mau_danh_gia->ma_tieu_chi }}"
+                                                        id="tc_{{ $mau_danh_gia->ma_tieu_chi }}"
                                                         @if ($mau_danh_gia->diem_toi_da == 50) checked @endif
                                                         onchange="tong_{{ $mau_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();"></label>
                                                 </td>
                                             @else
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                    <input type="number" id="{{ $mau_danh_gia->ma_tieu_chi }}"
-                                                        name="{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
+                                                    <input type="number" id="tc_{{ $mau_danh_gia->ma_tieu_chi }}"
+                                                        name="tc_{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
                                                         max="{{ $mau_danh_gia->diem_toi_da }}"
                                                         value="@php if (($mau_danh_gia->loai_tieu_chi == 'diem_thuong') 
                                                     or ($mau_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
@@ -252,10 +249,11 @@
                             </table>
                             <br>
                         </div>
-                    </form>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+                    </div>
+                    <!-- /.card -->
+                    <button type="submit" class="btn bg-olive text-nowrap mb-2" id="submitForm">Gửi</button>
+                </form>
+                <!-- /.card-body -->
             </div>
             <!-- /.col -->
         </div>
@@ -285,7 +283,7 @@
                         min: 1,
                         max: {{ $thoi_diem_danh_gia->month }},
                     },
-                    111: {
+                    tc_111: {
                         required: true,
                         min: 0,
                         max: 2,
@@ -297,7 +295,7 @@
                         min: "Không nhập số âm",
                         max: "Chưa đến thời điểm đánh giá",
                     },
-                    111: {
+                    tc_111: {
                         required: "Vui lòng nhập thông tin",
                         min: "Không nhập số âm",
                         max: "Lớn hơn Điểm tối đa",
@@ -320,98 +318,98 @@
     </script>
     <script>
         function tong_110() {
-            let tieu_chi_110 = parseInt(document.getElementById("110").value);
-            let tieu_chi_111 = parseInt(document.getElementById("111").value);
-            let tieu_chi_112 = parseInt(document.getElementById("112").value);
-            let tieu_chi_113 = parseInt(document.getElementById("113").value);
-            let tieu_chi_114 = parseInt(document.getElementById("114").value);
+            let tieu_chi_110 = parseInt(document.getElementById("tc_110").value);
+            let tieu_chi_111 = parseInt(document.getElementById("tc_111").value);
+            let tieu_chi_112 = parseInt(document.getElementById("tc_112").value);
+            let tieu_chi_113 = parseInt(document.getElementById("tc_113").value);
+            let tieu_chi_114 = parseInt(document.getElementById("tc_114").value);
             tieu_chi_110 = tieu_chi_111 + tieu_chi_112 + tieu_chi_113 + tieu_chi_114;
-            document.getElementById("110").value = tieu_chi_110;
+            document.getElementById("tc_110").value = tieu_chi_110;
         }
 
         function tong_130() {
-            let tieu_chi_130 = parseInt(document.getElementById("130").value);
-            let tieu_chi_131 = parseInt(document.getElementById("131").value);
-            let tieu_chi_132 = parseInt(document.getElementById("132").value);
-            let tieu_chi_133 = parseInt(document.getElementById("133").value);
-            let tieu_chi_134 = parseInt(document.getElementById("134").value);
+            let tieu_chi_130 = parseInt(document.getElementById("tc_130").value);
+            let tieu_chi_131 = parseInt(document.getElementById("tc_131").value);
+            let tieu_chi_132 = parseInt(document.getElementById("tc_132").value);
+            let tieu_chi_133 = parseInt(document.getElementById("tc_133").value);
+            let tieu_chi_134 = parseInt(document.getElementById("tc_134").value);
             tieu_chi_130 = tieu_chi_131 + tieu_chi_132 + tieu_chi_133 + tieu_chi_134;
-            document.getElementById("130").value = tieu_chi_130;
+            document.getElementById("tc_130").value = tieu_chi_130;
         }
 
         function tong_150() {
-            let tieu_chi_150 = parseInt(document.getElementById("150").value);
-            let tieu_chi_151 = parseInt(document.getElementById("151").value);
-            let tieu_chi_152 = parseInt(document.getElementById("152").value);
-            let tieu_chi_153 = parseInt(document.getElementById("153").value);
-            let tieu_chi_154 = parseInt(document.getElementById("154").value);
+            let tieu_chi_150 = parseInt(document.getElementById("tc_150").value);
+            let tieu_chi_151 = parseInt(document.getElementById("tc_151").value);
+            let tieu_chi_152 = parseInt(document.getElementById("tc_152").value);
+            let tieu_chi_153 = parseInt(document.getElementById("tc_153").value);
+            let tieu_chi_154 = parseInt(document.getElementById("tc_154").value);
             tieu_chi_150 = tieu_chi_151 + tieu_chi_152 + tieu_chi_153 + tieu_chi_154;
-            document.getElementById("150").value = tieu_chi_150;
+            document.getElementById("tc_150").value = tieu_chi_150;
 
         }
 
         function tong_170() {
-            let tieu_chi_170 = parseInt(document.getElementById("170").value);
-            let tieu_chi_171 = parseInt(document.getElementById("171").value);
-            let tieu_chi_172 = parseInt(document.getElementById("172").value);
-            let tieu_chi_173 = parseInt(document.getElementById("173").value);
+            let tieu_chi_170 = parseInt(document.getElementById("tc_170").value);
+            let tieu_chi_171 = parseInt(document.getElementById("tc_171").value);
+            let tieu_chi_172 = parseInt(document.getElementById("tc_172").value);
+            let tieu_chi_173 = parseInt(document.getElementById("tc_173").value);
             tieu_chi_170 = tieu_chi_171 + tieu_chi_172 + tieu_chi_173;
-            document.getElementById("170").value = tieu_chi_170;
+            document.getElementById("tc_170").value = tieu_chi_170;
         }
 
         function tong_210() {
-            let tieu_chi_210 = parseInt(document.getElementById("210").value);
-            let tieu_chi_211 = parseInt(document.getElementById("211").value);
-            let tieu_chi_212 = parseInt(document.getElementById("212").value);
-            let tieu_chi_213 = parseInt(document.getElementById("213").value);
-            let tieu_chi_214 = parseInt(document.getElementById("214").value);
-            let tieu_chi_215 = parseInt(document.getElementById("215").value);
-            let tieu_chi_216 = parseInt(document.getElementById("216").value);
-            let tieu_chi_217 = parseInt(document.getElementById("217").value);
-            let tieu_chi_218 = parseInt(document.getElementById("218").value);
-            let tieu_chi_219 = parseInt(document.getElementById("219").value);
-            let tieu_chi_220 = parseInt(document.getElementById("220").value);
+            let tieu_chi_210 = parseInt(document.getElementById("tc_210").value);
+            let tieu_chi_211 = parseInt(document.getElementById("tc_211").value);
+            let tieu_chi_212 = parseInt(document.getElementById("tc_212").value);
+            let tieu_chi_213 = parseInt(document.getElementById("tc_213").value);
+            let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
+            let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
+            let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
+            let tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
+            let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
+            let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
+            let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
             tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
                 tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
-            document.getElementById("210").value = tieu_chi_210;
+            document.getElementById("tc_210").value = tieu_chi_210;
         }
 
         function tong_230() {
-            var tieu_chi_230 = document.querySelector('input[name="230"]:checked').value;
-            document.getElementById("230").value = tieu_chi_230;
+            var tieu_chi_230 = document.querySelector('input[name="tc_230"]:checked').value;
+            document.getElementById("tc_230").value = tieu_chi_230;
         }
 
         function tong_100() {
-            let tieu_chi_100 = parseInt(document.getElementById("100").value);
-            let tieu_chi_110 = parseInt(document.getElementById("110").value);
-            let tieu_chi_130 = parseInt(document.getElementById("130").value);
-            let tieu_chi_150 = parseInt(document.getElementById("150").value);
-            let tieu_chi_170 = parseInt(document.getElementById("170").value);
+            let tieu_chi_100 = parseInt(document.getElementById("tc_100").value);
+            let tieu_chi_110 = parseInt(document.getElementById("tc_110").value);
+            let tieu_chi_130 = parseInt(document.getElementById("tc_130").value);
+            let tieu_chi_150 = parseInt(document.getElementById("tc_150").value);
+            let tieu_chi_170 = parseInt(document.getElementById("tc_170").value);
             tieu_chi_100 = tieu_chi_110 + tieu_chi_130 + tieu_chi_150 + tieu_chi_170;
-            document.getElementById("100").value = tieu_chi_100;
+            document.getElementById("tc_100").value = tieu_chi_100;
         }
 
         function tong_200() {
-            let tieu_chi_200 = parseInt(document.getElementById("200").value);
-            let tieu_chi_210 = parseInt(document.getElementById("210").value);
-            let tieu_chi_230 = parseInt(document.getElementById("230").value);
+            let tieu_chi_200 = parseInt(document.getElementById("tc_200").value);
+            let tieu_chi_210 = parseInt(document.getElementById("tc_210").value);
+            let tieu_chi_230 = parseInt(document.getElementById("tc_230").value);
             tieu_chi_200 = tieu_chi_210 + tieu_chi_230;
-            document.getElementById("200").value = tieu_chi_200;
+            document.getElementById("tc_200").value = tieu_chi_200;
         }
 
         function tong_300() {
-            let tieu_chi_300 = parseInt(document.getElementById("300").value);
-            let tieu_chi_100 = parseInt(document.getElementById("100").value);
-            let tieu_chi_200 = parseInt(document.getElementById("200").value);
+            let tieu_chi_300 = parseInt(document.getElementById("tc_300").value);
+            let tieu_chi_100 = parseInt(document.getElementById("tc_100").value);
+            let tieu_chi_200 = parseInt(document.getElementById("tc_200").value);
             tieu_chi_300 = tieu_chi_100 + tieu_chi_200;
-            document.getElementById("300").value = tieu_chi_300;
+            document.getElementById("tc_300").value = tieu_chi_300;
         }
 
         function tong_cong() {
             let tong_cong = parseInt(document.getElementById("tong_cong").value);
-            let tieu_chi_300 = parseInt(document.getElementById("300").value);
-            let tieu_chi_400 = parseInt(document.getElementById("400").value);
-            let tieu_chi_500 = parseInt(document.getElementById("500").value);
+            let tieu_chi_300 = parseInt(document.getElementById("tc_300").value);
+            let tieu_chi_400 = parseInt(document.getElementById("tc_400").value);
+            let tieu_chi_500 = parseInt(document.getElementById("tc_500").value);
             tong_cong = tieu_chi_300 + tieu_chi_400 - tieu_chi_500;
             document.getElementById("tong_cong").innerHTML = tong_cong;
         }
