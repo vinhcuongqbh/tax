@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DanhGiaController;
 use App\Http\Controllers\DonViController;
+use App\Http\Controllers\PhieuDanhGiaController;
 use App\Http\Controllers\PhongController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\XepLoaiController;
@@ -73,14 +74,14 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::group(['prefix' => 'danhgia'], function () {        
-        Route::get('phieudanhgia/create', [DanhGiaController::class, 'taophieudanhgia'])->name('danhgia.phieudanhgia.create');
-        Route::post('phieudanhgia/store', [DanhGiaController::class, 'luuphieudanhgia'])->name('danhgia.phieudanhgia.store');
-        Route::get('phieudanhgia/{id}/show', [DanhGiaController::class, 'xemphieudanhgia'])->name('danhgia.phieudanhgia.show');        
-        Route::get('danhsachtucham', [DanhGiaController::class, 'danhsachtucham'])->name('danhgia.danhsachtucham');
-        Route::post('ketquatucham', [DanhGiaController::class, 'ketquatucham'])->name('danhgia.ketquatucham');
-        Route::get('maucaptrendanhgia', [DanhGiaController::class, 'maucaptrendanhgia'])->name('danhgia.maucaptrendanhgia');
-        Route::post('ketquacaptrendanhgia', [DanhGiaController::class, 'ketquacaptrendanhgia'])->name('danhgia.ketquacaptrendanhgia');
+    Route::group(['prefix' => 'phieudanhgia'], function () {        
+        Route::get('create', [PhieuDanhGiaController::class, 'taophieudanhgia'])->name('danhgia.phieudanhgia.create');
+        Route::post('store', [PhieuDanhGiaController::class, 'luuphieudanhgia'])->name('danhgia.phieudanhgia.store');
+        Route::get('{id}/show', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('danhgia.phieudanhgia.show');        
+        Route::get('danhsachtucham', [PhieuDanhGiaController::class, 'danhsachtucham'])->name('danhgia.danhsachtucham');
+        Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('danhgia.ketquatucham');
+        Route::get('maucaptrendanhgia', [PhieuDanhGiaController::class, 'maucaptrendanhgia'])->name('danhgia.maucaptrendanhgia');
+        Route::post('ketquacaptrendanhgia', [PhieuDanhGiaController::class, 'ketquacaptrendanhgia'])->name('danhgia.ketquacaptrendanhgia');
     });
 });
 

@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="/danhgia/phieudanhgia/store" method="post" id="maudanhgia-create">
+                <form action="/phieudanhgia/store" method="post" id="maudanhgia-create">
                     @csrf
                     <div class="card card-default">
                         {{-- <div class="card-header">
@@ -116,22 +116,22 @@
                                             @if ($mau_danh_gia->loai_tieu_chi == 'phuong_an')
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
-                                                        name="tc_{{ $mau_danh_gia->tieu_chi_me }}"
+                                                        name="{{ $mau_danh_gia->tieu_chi_me }}"
                                                         value="{{ $mau_danh_gia->diem_toi_da }}"
-                                                        id="tc_{{ $mau_danh_gia->ma_tieu_chi }}"
+                                                        id="{{ $mau_danh_gia->ma_tieu_chi }}"
                                                         @if ($mau_danh_gia->diem_toi_da == 50) checked @endif
                                                         onchange="tong_{{ $mau_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();"></label>
                                                 </td>
                                             @else
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                    <input type="number" id="tc_{{ $mau_danh_gia->ma_tieu_chi }}"
-                                                        name="tc_{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
+                                                    <input type="number" id="{{ $mau_danh_gia->ma_tieu_chi }}"
+                                                        name="{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
                                                         max="{{ $mau_danh_gia->diem_toi_da }}"
                                                         value="@php if (($mau_danh_gia->loai_tieu_chi == 'diem_thuong') 
                                                     or ($mau_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
                                                     else echo $mau_danh_gia->diem_toi_da; @endphp"
                                                         class="text-center form-control pl-4"
-                                                        @if ($tinh_diem == 0) disabled @endif
+                                                        @if ($tinh_diem == 0) readonly @endif
                                                         onchange="tong_{{ $mau_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();">
                                                 </td>
                                             @endif
@@ -265,7 +265,9 @@
                         </div>
                     </div>
                     <!-- /.card -->
-                    <button type="submit" class="btn bg-olive text-nowrap mb-2" id="submitForm">Gửi</button>
+                    <div class="text-right"> 
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">Gửi</button>
+                    </div>
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -331,7 +333,7 @@
         });
     </script>
     <script>
-        function tong_110() {
+        function tong_tc_110() {
             let tieu_chi_110 = parseInt(document.getElementById("tc_110").value);
             let tieu_chi_111 = parseInt(document.getElementById("tc_111").value);
             let tieu_chi_112 = parseInt(document.getElementById("tc_112").value);
@@ -341,7 +343,7 @@
             document.getElementById("tc_110").value = tieu_chi_110;
         }
 
-        function tong_130() {
+        function tong_tc_130() {
             let tieu_chi_130 = parseInt(document.getElementById("tc_130").value);
             let tieu_chi_131 = parseInt(document.getElementById("tc_131").value);
             let tieu_chi_132 = parseInt(document.getElementById("tc_132").value);
@@ -351,7 +353,7 @@
             document.getElementById("tc_130").value = tieu_chi_130;
         }
 
-        function tong_150() {
+        function tong_tc_150() {
             let tieu_chi_150 = parseInt(document.getElementById("tc_150").value);
             let tieu_chi_151 = parseInt(document.getElementById("tc_151").value);
             let tieu_chi_152 = parseInt(document.getElementById("tc_152").value);
@@ -362,7 +364,7 @@
 
         }
 
-        function tong_170() {
+        function tong_tc_170() {
             let tieu_chi_170 = parseInt(document.getElementById("tc_170").value);
             let tieu_chi_171 = parseInt(document.getElementById("tc_171").value);
             let tieu_chi_172 = parseInt(document.getElementById("tc_172").value);
@@ -371,7 +373,7 @@
             document.getElementById("tc_170").value = tieu_chi_170;
         }
 
-        function tong_210() {
+        function tong_tc_210() {
             let tieu_chi_210 = parseInt(document.getElementById("tc_210").value);
             let tieu_chi_211 = parseInt(document.getElementById("tc_211").value);
             let tieu_chi_212 = parseInt(document.getElementById("tc_212").value);
@@ -388,7 +390,7 @@
             document.getElementById("tc_210").value = tieu_chi_210;
         }
 
-        function tong_230() {
+        function tong_tc_230() {
             var tieu_chi_230 = document.querySelector('input[name="tc_230"]:checked').value;
             document.getElementById("tc_230").value = tieu_chi_230;
         }
