@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('phieu_danh_gia', function (Blueprint $table) {
             $table->id();
+            $table->string('mau_phieu_danh_gia');
             $table->string('ma_phieu_danh_gia')->unique();
             $table->string('thoi_diem_danh_gia');
             $table->string('so_hieu_cong_chuc');            
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('ma_don_vi');            
             $table->tinyInteger('tong_diem_tu_cham');
             $table->tinyInteger('tong_diem_dang_gia')->nullable();
+            $table->string('ca_nhan_tu_xep_loai')->nullable();
             $table->string('ket_qua_xep_loai')->nullable();
             $table->tinyInteger('ma_trang_thai');
             $table->timestamps();

@@ -57,7 +57,8 @@
                             <br>
                             <br>
                             <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                            <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức giữ chức vụ lãnh đạo, quản lý)
+                            <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức giữ chức vụ lãnh đạo, quản
+                                lý)
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
@@ -94,9 +95,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mau_danh_gia as $mau_danh_gia)
+                                    @foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia)
                                         @php
-                                            if ($mau_danh_gia->loai_tieu_chi == 'muc_lon' || $mau_danh_gia->loai_tieu_chi == 'muc_nho' || $mau_danh_gia->loai_tieu_chi == 'lua_chon' || $mau_danh_gia->loai_tieu_chi == 'tong_diem' || $mau_danh_gia->loai_tieu_chi == 'cong') {
+                                            if (
+                                                $mau_phieu_danh_gia->loai_tieu_chi == 'muc_lon' ||
+                                                $mau_phieu_danh_gia->loai_tieu_chi == 'muc_nho' ||
+                                                $mau_phieu_danh_gia->loai_tieu_chi == 'lua_chon' ||
+                                                $mau_phieu_danh_gia->loai_tieu_chi == 'tong_diem' ||
+                                                $mau_phieu_danh_gia->loai_tieu_chi == 'cong'
+                                            ) {
                                                 $tinh_diem = 0;
                                             } else {
                                                 $tinh_diem = 1;
@@ -104,35 +111,35 @@
                                         @endphp
                                         <tr>
                                             <td class="text-center @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_danh_gia->tt }}
+                                                {{ $mau_phieu_danh_gia->tt }}
                                             </td>
                                             <td class="text-justify @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_danh_gia->noi_dung }}
+                                                {{ $mau_phieu_danh_gia->noi_dung }}
                                             </td>
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_danh_gia->diem_toi_da }}
+                                                {{ $mau_phieu_danh_gia->diem_toi_da }}
                                             </td>
-                                            @if ($mau_danh_gia->loai_tieu_chi == 'phuong_an')
+                                            @if ($mau_phieu_danh_gia->loai_tieu_chi == 'phuong_an')
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
-                                                        name="{{ $mau_danh_gia->tieu_chi_me }}"
-                                                        value="{{ $mau_danh_gia->diem_toi_da }}"
-                                                        id="{{ $mau_danh_gia->ma_tieu_chi }}"
-                                                        @if ($mau_danh_gia->diem_toi_da == 50) checked @endif
-                                                        onchange="tong_{{ $mau_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();"></label>
+                                                        name="{{ $mau_phieu_danh_gia->tieu_chi_me }}"
+                                                        value="{{ $mau_phieu_danh_gia->diem_toi_da }}"
+                                                        id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
+                                                        @if ($mau_phieu_danh_gia->diem_toi_da == 50) checked @endif
+                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();"></label>
                                                 </td>
                                             @else
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                    <input type="number" id="{{ $mau_danh_gia->ma_tieu_chi }}"
-                                                        name="{{ $mau_danh_gia->ma_tieu_chi }}" min="0"
-                                                        max="{{ $mau_danh_gia->diem_toi_da }}"
-                                                        value="@php if (($mau_danh_gia->loai_tieu_chi == 'diem_thuong') 
-                                                    or ($mau_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
-                                                    else echo $mau_danh_gia->diem_toi_da; @endphp"
+                                                    <input type="number" id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
+                                                        name="{{ $mau_phieu_danh_gia->ma_tieu_chi }}" min="0"
+                                                        max="{{ $mau_phieu_danh_gia->diem_toi_da }}"
+                                                        value="@php if (($mau_phieu_danh_gia->loai_tieu_chi == 'diem_thuong') 
+                                                    or ($mau_phieu_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
+                                                    else echo $mau_phieu_danh_gia->diem_toi_da; @endphp"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
-                                                        onchange="tong_{{ $mau_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();">
+                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();">
                                                 </td>
                                             @endif
                                             <td>
@@ -265,9 +272,10 @@
                         </div>
                     </div>
                     <!-- /.card -->
-                    <div class="text-right"> 
+                    <div class="text-right">
                         <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">Gửi</button>
                     </div>
+                    <input type="hidden" name="mau_phieu_danh_gia" value="mau01A">
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -471,10 +479,10 @@
                     table.row
                         .add([
                             '+',
-                            '<textarea class="form-control" id="' + ma_tieu_chi + '" name="' + ma_tieu_chi +
-                            '" rows="2"></textarea>',
+                            '<textarea class="form-control" id="' + ma_tieu_chi + '_noi_dung_nhiem_vu" name="' +
+                            ma_tieu_chi + '_noi_dung_nhiem_vu" rows="2"></textarea>',
                             '<input type="checkbox" name="' + ma_tieu_chi +
-                            '_nhiem_vu_phat_sinh" value="nhiem_vu_phat_sinh">',
+                            '_nhiem_vu_phat_sinh" value="1">',
                             '<input type="radio" name="' + ma_tieu_chi +
                             '_hoan_thanh_nhiem_vu" value="truoc_han">',
                             '<input type="radio" name="' + ma_tieu_chi +

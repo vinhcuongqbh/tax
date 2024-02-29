@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('ma_phieu_danh_gia');
             $table->string('ma_tieu_chi');
             $table->tinyInteger('diem_toi_da');
-            $table->tinyInteger('diem_tu_cham');
+            $table->tinyInteger('diem_tu_cham')->nullable();
             $table->tinyInteger('diem_danh_gia')->nullable();
             $table->timestamps();
         });

@@ -49,21 +49,21 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($danh_sach_tu_cham as $danh_sach_tu_cham)
+                                @foreach ($danh_sach_tu_danh_gia as $danh_sach_tu_danh_gia)
                                     <tr>
                                         <td class="text-center">{{ $i++ }}</td>
-                                        <td class="text-center">@php echo substr($danh_sach_tu_cham->thoi_diem_danh_gia, 4, 2) @endphp/@php
-                                        echo substr($danh_sach_tu_cham->thoi_diem_danh_gia, 0, 4); @endphp</td>
+                                        <td class="text-center">@php echo substr($danh_sach_tu_danh_gia->thoi_diem_danh_gia, 4, 2) @endphp/@php
+                                        echo substr($danh_sach_tu_danh_gia->thoi_diem_danh_gia, 0, 4); @endphp</td>
                                         <td class="text-center"><a
-                                                href="{{ route('danhgia.phieudanhgia.show', $danh_sach_tu_cham->ma_phieu_danh_gia) }}">{{ $danh_sach_tu_cham->ma_phieu_danh_gia }}</a>
+                                                href="{{ route('danhgia.phieudanhgia.show', $danh_sach_tu_danh_gia->ma_phieu_danh_gia) }}">{{ $danh_sach_tu_danh_gia->ma_phieu_danh_gia }}</a>
                                         </td>
-                                        <td>{{ $danh_sach_tu_cham->name }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->ten_chuc_vu }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->ten_phong }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->ten_don_vi }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->tong_diem_tu_cham }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->tong_diem_danh_gia }}</td>
-                                        <td class="text-center">{{ $danh_sach_tu_cham->ket_qua_xep_loai }}</td>
+                                        <td>{{ $danh_sach_tu_danh_gia->name }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->ten_chuc_vu }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->ten_phong }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->ten_don_vi }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->tong_diem_tu_cham }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->tong_diem_danh_gia }}</td>
+                                        <td class="text-center">{{ $danh_sach_tu_danh_gia->ket_qua_xep_loai }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

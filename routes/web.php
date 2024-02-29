@@ -78,7 +78,7 @@ Route::middleware('auth')->group(function () {
         Route::get('create', [PhieuDanhGiaController::class, 'taophieudanhgia'])->name('danhgia.phieudanhgia.create');
         Route::post('store', [PhieuDanhGiaController::class, 'luuphieudanhgia'])->name('danhgia.phieudanhgia.store');
         Route::get('{id}/show', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('danhgia.phieudanhgia.show');        
-        Route::get('danhsachtucham', [PhieuDanhGiaController::class, 'danhsachtucham'])->name('danhgia.danhsachtucham');
+        Route::get('danhsachtudanhgia', [PhieuDanhGiaController::class, 'danhsachtudanhgia'])->name('danhgia.danhsachtudanhgia');
         Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('danhgia.ketquatucham');
         Route::get('maucaptrendanhgia', [PhieuDanhGiaController::class, 'maucaptrendanhgia'])->name('danhgia.maucaptrendanhgia');
         Route::post('ketquacaptrendanhgia', [PhieuDanhGiaController::class, 'ketquacaptrendanhgia'])->name('danhgia.ketquacaptrendanhgia');

@@ -168,7 +168,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/phieudanhgia/danhsachtucham" class="nav-link">
+                                    <a href="/phieudanhgia/danhsachtudanhgia" class="nav-link">
                                         <p>2.1. Công chức tự đánh giá</p>
                                     </a>
                                 </li>
