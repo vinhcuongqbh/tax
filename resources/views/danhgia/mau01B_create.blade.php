@@ -307,11 +307,17 @@
                         min: 1,
                         max: {{ $thoi_diem_danh_gia->month }},
                     },
-                    tc_111: {
-                        required: true,
-                        min: 0,
-                        max: 2,
-                    },
+                    @php
+                        foreach ($mau_phieu as $mau_phieu) {
+                            echo '
+                            ' .$mau_phieu->ma_tieu_chi .': 
+                            {
+                                required: true,
+                                min: 1,
+                                max: '.$mau_phieu->diem_toi_da.'
+                            },';
+                        }
+                    @endphp
                 },
                 messages: {
                     thang_danh_gia: {
@@ -319,11 +325,17 @@
                         min: "Không nhập số âm",
                         max: "Chưa đến thời điểm đánh giá",
                     },
-                    tc_111: {
-                        required: "Vui lòng nhập thông tin",
-                        min: "Không nhập số âm",
-                        max: "Lớn hơn Điểm tối đa",
-                    },
+                    @php
+                        foreach ($mau_phieu2 as $mau_phieu2) {
+                            echo '
+                            ' .$mau_phieu2->ma_tieu_chi .': 
+                            {
+                                required: true,
+                                min: "Không nhập số âm",
+                                max: "Lớn hơn điểm tối đa",
+                            },';
+                        }
+                    @endphp
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

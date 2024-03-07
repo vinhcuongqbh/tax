@@ -55,7 +55,7 @@
                                         <td class="text-center">@php echo substr($danh_sach_tu_danh_gia->thoi_diem_danh_gia, 4, 2) @endphp/@php
                                         echo substr($danh_sach_tu_danh_gia->thoi_diem_danh_gia, 0, 4); @endphp</td>
                                         <td class="text-center"><a
-                                                href="{{ route('danhgia.phieudanhgia.show', $danh_sach_tu_danh_gia->ma_phieu_danh_gia) }}">{{ $danh_sach_tu_danh_gia->ma_phieu_danh_gia }}</a>
+                                                href="{{ route('phieudanhgia.show', $danh_sach_tu_danh_gia->ma_phieu_danh_gia) }}">{{ $danh_sach_tu_danh_gia->ma_phieu_danh_gia }}</a>
                                         </td>
                                         <td>{{ $danh_sach_tu_danh_gia->name }}</td>
                                         <td class="text-center">{{ $danh_sach_tu_danh_gia->ten_chuc_vu }}</td>
@@ -113,7 +113,7 @@
                         text: 'Tạo mới',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('danhgia.phieudanhgia.create') }}';
+                            window.location = '{{ route('phieudanhgia.create') }}';
                         },
                     },
                     {

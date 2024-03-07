@@ -21,6 +21,7 @@ class PhieuDanhGiaController extends Controller
     public function taophieudanhgia()
     {
         $thoi_diem_danh_gia = Carbon::now()->subMonth();
+
         $user = User::where('so_hieu_cong_chuc', Auth::user()->so_hieu_cong_chuc)
             ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
             ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')
@@ -29,25 +30,21 @@ class PhieuDanhGiaController extends Controller
 
         if (Auth::user()->ma_chuc_vu != NULL) {
             $mau_phieu_danh_gia = Mau01A::all();
-            return view(
-                'danhgia.mau01A_create',
-                [
-                    'mau_phieu_danh_gia' => $mau_phieu_danh_gia,
-                    'thoi_diem_danh_gia' => $thoi_diem_danh_gia,
-                    'user' => $user
-                ]
-            );
+            $mau = "mau01A";
         } else {
             $mau_phieu_danh_gia = Mau01B::all();
-            return view(
-                'danhgia.mau01B_create',
-                [
-                    'mau_phieu_danh_gia' => $mau_phieu_danh_gia,
-                    'thoi_diem_danh_gia' => $thoi_diem_danh_gia,
-                    'user' => $user
-                ]
-            );
+            $mau = "mau01B";
         }
+        return view(
+            'danhgia.' . $mau . '_create',
+            [
+                'mau_phieu_danh_gia' => $mau_phieu_danh_gia,
+                'mau_phieu' => $mau_phieu_danh_gia,
+                'mau_phieu2' => $mau_phieu_danh_gia,
+                'thoi_diem_danh_gia' => $thoi_diem_danh_gia,
+                'user' => $user
+            ]
+        );
     }
 
 
