@@ -8,8 +8,7 @@
     <link rel="icon" type="image/x-icon" href="/img/logo.png">
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="/css/google_font.css">
+    <link rel="stylesheet" href="/css/google_font.css">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <!-- IonIcons -->

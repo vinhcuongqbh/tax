@@ -1,6 +1,6 @@
 @extends('dashboard')
 
-@section('title', 'Tạo mới Đánh giá, xếp loại')
+@section('title', 'Kết quả Đánh giá, xếp loại')
 
 @section('heading')
     Kết quả Đánh giá, xếp loại
@@ -21,7 +21,7 @@
                     </div> --}}
                     <div class="card-body">
                         <table class="table table-borderless">
-                            <h6 class="font-italic text-bold text-right">Mẫu số 01B</h6>
+                            <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
                             <tbody>
                                 <tr>
                                     <td class="text-center py-0">TỔNG CỤC THUẾ</td>
@@ -36,16 +36,14 @@
                         <br>
                         <br>
                         <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                        <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức không giữ chức vụ lãnh đạo,
-                            quản lý)
+                        <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
                         </h6>
                         <h6 class="text-center align-middle my-0">Tháng
-                            {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }} /
-                            {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
+                            {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                         </h6>
                         <br>
                         <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                        <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
+                        @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == "mau01A") <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6> @endif
                         <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
                         <br>
                         <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>

@@ -31,18 +31,31 @@ class PhieuDanhGiaController extends Controller
         if (Auth::user()->ma_chuc_vu != NULL) {
             $mau_phieu_danh_gia = Mau01A::all();
             $mau = "mau01A";
-        } else {
+            $ten_mau = "Mẫu số 01A";
+            $doi_tuong_ap_dung = "công chức giữ chức vụ lãnh đạo, quản lý";
+        } elseif (Auth::user()->ma_chuc_vu == NULL) {
             $mau_phieu_danh_gia = Mau01B::all();
             $mau = "mau01B";
+            $ten_mau = "Mẫu số 01B";
+            $doi_tuong_ap_dung = "công chức giữ chức vụ lãnh đạo, quản lý";
+        } else {
+            $mau_phieu_danh_gia = Mau01C::all();
+            $mau = "mau01C";
+            $ten_mau = "Mẫu số 01C";
+            $doi_tuong_ap_dung = "người lao động";
         }
+
         return view(
-            'danhgia.' . $mau . '_create',
+            'danhgia.mauphieu_create',
             [
                 'mau_phieu_danh_gia' => $mau_phieu_danh_gia,
-                'mau_phieu' => $mau_phieu_danh_gia,
-                'mau_phieu2' => $mau_phieu_danh_gia,
+                'so_tieu_chi' => $mau_phieu_danh_gia,
+                'so_tieu_chi_2' => $mau_phieu_danh_gia,
                 'thoi_diem_danh_gia' => $thoi_diem_danh_gia,
-                'user' => $user
+                'user' => $user,
+                'mau' => $mau,
+                'ten_mau' => $ten_mau,
+                'doi_tuong_ap_dung' => $doi_tuong_ap_dung,
             ]
         );
     }
@@ -51,7 +64,7 @@ class PhieuDanhGiaController extends Controller
     //Lưu Phiếu đánh giá tự chấm
     public function luuphieudanhgia(Request $request)
     {
-        //Tạo Mã phiếu đánh giá
+        //Tạo Mã phiếu đánh giá        
         if (($request->thang_danh_gia == '11') || ($request->thang_danh_gia == '12')) $request->thang_danh_gia;
         else $thang_danh_gia = '0' . $request->thang_danh_gia;
         $nam_danh_gia = $request->nam_danh_gia;
@@ -75,7 +88,6 @@ class PhieuDanhGiaController extends Controller
             $tc_400 = $request->tc_400;
             $tc_500 = $request->tc_500;
             $tong_diem_tu_cham = $tc_300 + $tc_400 - $tc_500;
-
 
             //Lưu kết quả tự chấm Mục A
             if ($request->mau_phieu_danh_gia == "mau01A") $mau_phieu_danh_gia = Mau01A::all();
@@ -135,7 +147,10 @@ class PhieuDanhGiaController extends Controller
 
     public function xemphieudanhgia($id)
     {
+        //Tìm Phiếu đánh giá
         $phieu_danh_gia = PhieuDanhGia::where('ma_phieu_danh_gia', $id)->first();
+
+        //Lấy dữ liệu mục A
         if ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01A') {
             $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
                 ->leftjoin('mau01A', 'mau01A.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
@@ -146,51 +161,46 @@ class PhieuDanhGiaController extends Controller
                 ->leftjoin('mau01B', 'mau01B.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
                 ->select('ket_qua_muc_A.*', 'mau01B.tieu_chi_me', 'mau01B.loai_tieu_chi', 'mau01B.tt', 'mau01B.noi_dung')
                 ->get();
-        } else {
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01C') {
             $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
                 ->leftjoin('mau01C', 'mau01C.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
                 ->select('ket_qua_muc_A.*', 'mau01C.tieu_chi_me', 'mau01C.loai_tieu_chi', 'mau01C.tt', 'mau01C.noi_dung')
                 ->get();
         }
+
+        //Lấy dữ liệu mục B
         $ket_qua_muc_B = KetQuaMucB::where('ma_phieu_danh_gia', $id)->get();
+        //Lấy dữ liệu Lý do điểm cộng
         $ly_do_diem_cong = LyDoDiemCong::where('ma_phieu_danh_gia', $id)->first();
+        //Lấy dữ liệu Lý do điểm trừ
         $ly_do_diem_tru = LyDoDiemTru::where('ma_phieu_danh_gia', $id)->first();
 
+        //Lấy thông tin người dùng
         $user = User::where('so_hieu_cong_chuc', Auth::user()->so_hieu_cong_chuc)
             ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
             ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')
             ->select('users.*', 'chuc_vu.ten_chuc_vu', 'don_vi.ten_don_vi')
             ->first();
 
-        if ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01A') {
-            return view(
-                'danhgia.mau01A_show',
-                [
-                    'mau_phieu_danh_gia' => $phieu_danh_gia,
-                    'user' => $user,
-                    'ket_qua_muc_A' => $ket_qua_muc_A,
-                    'ket_qua_muc_B' => $ket_qua_muc_B,
-                    'ly_do_diem_cong' => $ly_do_diem_cong,
-                    'ly_do_diem_tru' => $ly_do_diem_tru,
-                ]
-            );
-        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01B') {
-            return view(
-                'danhgia.mau01B_show',
-                [
-                    'mau_phieu_danh_gia' => $phieu_danh_gia,
-                    'user' => $user,
-                    'ket_qua_muc_A' => $ket_qua_muc_A,
-                    'ket_qua_muc_B' => $ket_qua_muc_B,
-                    'ly_do_diem_cong' => $ly_do_diem_cong,
-                    'ly_do_diem_tru' => $ly_do_diem_tru,
-                ]
-            );
-        } else return view(
-            'danhgia.mau01C_show',
+        //Lấy thông tin Mẫu phiếu đánh giá
+        if ($phieu_danh_gia->mau_phieu_danh_gia == "mau01A") {
+            $ten_mau = "Mẫu 01A";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "công chức giữ chức vụ lãnh đạo, quản lý";
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01B") {
+            $ten_mau = "Mẫu 01B";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "công chức không giữ chức vụ lãnh đạo, quản lý";
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01C") {
+            $ten_mau = "Mẫu 01C";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "người lao động";
+        }
+
+        return view(
+            'danhgia.mauphieu_show',
             [
                 'mau_phieu_danh_gia' => $phieu_danh_gia,
                 'user' => $user,
+                'ten_mau' => $ten_mau,
+                'doi_tuong_ap_dung' => $doi_tuong_ap_dung,
                 'ket_qua_muc_A' => $ket_qua_muc_A,
                 'ket_qua_muc_B' => $ket_qua_muc_B,
                 'ly_do_diem_cong' => $ly_do_diem_cong,
@@ -198,6 +208,7 @@ class PhieuDanhGiaController extends Controller
             ]
         );
     }
+
 
 
     public function danhsachtudanhgia()

@@ -42,7 +42,7 @@
                     </div> --}}
                         <div class="card-body">
                             <table class="table table-borderless">
-                                <h6 class="font-italic text-bold text-right">Mẫu số 01B</h6>
+                                <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
                                 <tbody>
                                     <tr>
                                         <td class="text-center py-0">TỔNG CỤC THUẾ</td>
@@ -57,8 +57,7 @@
                             <br>
                             <br>
                             <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                            <h6 class="text-center font-italic my-0">(Áp dụng đối với công chức không giữ chức vụ lãnh đạo,
-                                quản lý)
+                            <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
@@ -69,7 +68,7 @@
                             </h6>
                             <br>
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                            <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
+                            @if ($mau == "mau01A") <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6> @endif
                             <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
                             <br>
                             <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
@@ -275,7 +274,7 @@
                     <div class="text-right">
                         <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">Gửi</button>
                     </div>
-                    <input type="hidden" name="mau_phieu_danh_gia" value="mau01B">
+                    <input type="hidden" name="mau_phieu_danh_gia" value="{{ $mau }}">
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -308,13 +307,13 @@
                         max: {{ $thoi_diem_danh_gia->month }},
                     },
                     @php
-                        foreach ($mau_phieu as $mau_phieu) {
+                        foreach ($so_tieu_chi as $so_tieu_chi) {
                             echo '
-                            ' .$mau_phieu->ma_tieu_chi .': 
+                            ' .$so_tieu_chi->ma_tieu_chi .': 
                             {
                                 required: true,
-                                min: 1,
-                                max: '.$mau_phieu->diem_toi_da.'
+                                min: 0,
+                                max: '.$so_tieu_chi->diem_toi_da.'
                             },';
                         }
                     @endphp
@@ -326,9 +325,9 @@
                         max: "Chưa đến thời điểm đánh giá",
                     },
                     @php
-                        foreach ($mau_phieu2 as $mau_phieu2) {
+                        foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
                             echo '
-                            ' .$mau_phieu2->ma_tieu_chi .': 
+                            ' .$so_tieu_chi_2->ma_tieu_chi .': 
                             {
                                 required: true,
                                 min: "Không nhập số âm",
