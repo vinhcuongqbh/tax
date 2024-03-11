@@ -78,10 +78,11 @@ Route::middleware('auth')->group(function () {
         Route::get('create', [PhieuDanhGiaController::class, 'taophieudanhgia'])->name('phieudanhgia.create');
         Route::post('store', [PhieuDanhGiaController::class, 'luuphieudanhgia'])->name('phieudanhgia.store');
         Route::get('{id}/show', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.show');        
-        Route::get('danhsachtudanhgia', [PhieuDanhGiaController::class, 'danhsachtudanhgia'])->name('danhsachtudanhgia');
-        Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('ketquatucham');
-        Route::get('maucaptrendanhgia', [PhieuDanhGiaController::class, 'maucaptrendanhgia'])->name('maucaptrendanhgia');
-        Route::post('ketquacaptrendanhgia', [PhieuDanhGiaController::class, 'ketquacaptrendanhgia'])->name('ketquacaptrendanhgia');
+        Route::get('danhsachtudanhgia', [PhieuDanhGiaController::class, 'danhsachtudanhgia'])->name('phieudanhgia.danhsachtudanhgia');
+        Route::get('danhsachcaptrendanhgia', [PhieuDanhGiaController::class, 'danhsachcaptrendanhgia'])->name('phieudanhgia.danhsachcaptrendanhgia');
+        // Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('ketquatucham');
+        // Route::get('maucaptrendanhgia', [PhieuDanhGiaController::class, 'maucaptrendanhgia'])->name('maucaptrendanhgia');
+        // Route::post('ketquacaptrendanhgia', [PhieuDanhGiaController::class, 'ketquacaptrendanhgia'])->name('ketquacaptrendanhgia');
     });
 });
 

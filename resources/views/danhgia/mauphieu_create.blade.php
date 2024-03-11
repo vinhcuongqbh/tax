@@ -68,7 +68,9 @@
                             </h6>
                             <br>
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                            @if ($mau == "mau01A") <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6> @endif
+                            @if ($mau == 'mau01A')
+                                <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
+                            @endif
                             <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
                             <br>
                             <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
@@ -126,7 +128,7 @@
                                                         value="{{ $mau_phieu_danh_gia->diem_toi_da }}"
                                                         id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
                                                         @if ($mau_phieu_danh_gia->diem_toi_da == 50) checked @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();"></label>
+                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @else
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
@@ -138,7 +140,7 @@
                                                     else echo $mau_phieu_danh_gia->diem_toi_da; @endphp"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong();">
+                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
                                                 </td>
                                             @endif
                                             <td>
@@ -218,26 +220,26 @@
                                         <td class="text-center">
                                             <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
                                                 id="hoan_thanh_xuat_sac" class="form-control">
-                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
+                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>{{ $xep_loai[0]['diem_toi_thieu'] }} điểm trở lên
                                         </td>
                                         <td></td>
                                         <td class="text-center">
                                             <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
                                                 id="hoan_thanh_tot" class="form-control">
-                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
+                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ {{ $xep_loai[1]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[0]['diem_toi_thieu']-1 }}
                                             điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
                                             <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
                                                 class="form-control">
-                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
+                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[1]['diem_toi_thieu']-1 }} điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
                                             <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
                                                 id="khong_hoan_thanh" class="form-control">
-                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
+                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu']-1 }} điểm trở
                                             xuống
                                         </td>
                                     </tr>
@@ -254,7 +256,7 @@
                                     <tr>
                                         <td class="py-0"></td>
                                         <td class="py-0"></td>
-                                        <td class="text-center font-italic py-0">Ngày ..... tháng ..... năm ....</td>
+                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng {{ $date->month }} năm  {{ $date->year }} </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -309,11 +311,15 @@
                     @php
                         foreach ($so_tieu_chi as $so_tieu_chi) {
                             echo '
-                            ' .$so_tieu_chi->ma_tieu_chi .': 
+                            ' .
+                                $so_tieu_chi->ma_tieu_chi .
+                                ': 
                             {
                                 required: true,
                                 min: 0,
-                                max: '.$so_tieu_chi->diem_toi_da.'
+                                max: ' .
+                                $so_tieu_chi->diem_toi_da .
+                                '
                             },';
                         }
                     @endphp
@@ -327,7 +333,9 @@
                     @php
                         foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
                             echo '
-                            ' .$so_tieu_chi_2->ma_tieu_chi .': 
+                            ' .
+                                $so_tieu_chi_2->ma_tieu_chi .
+                                ': 
                             {
                                 required: true,
                                 min: "Không nhập số âm",
@@ -508,5 +516,38 @@
             // Automatically add a first row of data
             addNewRow();
         });
+    </script>
+    <script>
+        let diem_tu_cham;
+        tu_xep_loai();
+
+        function tu_xep_loai() {
+            diem_tu_cham = document.querySelector('#tong_cong').innerHTML;
+            if (diem_tu_cham >= {{ $xep_loai[0]['diem_toi_thieu'] }}) {
+                document.getElementById("hoan_thanh_xuat_sac").checked = true;
+                document.getElementById("hoan_thanh_xuat_sac").disabled = false;
+                document.getElementById("hoan_thanh_tot").disabled = true;
+                document.getElementById("hoan_thanh").disabled = true;
+                document.getElementById("khong_hoan_thanh").disabled = true;
+            } else if (diem_tu_cham >= {{ $xep_loai[1]['diem_toi_thieu'] }}) {
+                document.getElementById("hoan_thanh_tot").checked = true;
+                document.getElementById("hoan_thanh_tot").disabled = false;
+                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
+                document.getElementById("hoan_thanh").disabled = true;
+                document.getElementById("khong_hoan_thanh").disabled = true;
+            } else if (diem_tu_cham >= {{ $xep_loai[2]['diem_toi_thieu'] }}) {
+                document.getElementById("hoan_thanh").checked = true;
+                document.getElementById("hoan_thanh").disabled = false;
+                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
+                document.getElementById("hoan_thanh_tot").disabled = true;
+                document.getElementById("khong_hoan_thanh").disabled = true;
+            } else {
+                document.getElementById("khong_hoan_thanh").checked = true;
+                document.getElementById("khong_hoan_thanh").disabled = false;
+                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
+                document.getElementById("hoan_thanh_tot").disabled = true;
+                document.getElementById("hoan_thanh").disabled = true;
+            }
+        }
     </script>
 @stop

@@ -49,23 +49,25 @@
                             </thead>
                             <tbody>
                                 <?php $i = 1; ?>
-                                @foreach ($danh_sach as $danh_sach)
-                                    <tr>
-                                        <td class="text-center">{{ $i++ }}</td>
-                                        <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
-                                        echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
-                                        <td class="text-center"><a
-                                                href="{{ route('phieudanhgia.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
-                                        </td>
-                                        <td>{{ $danh_sach->name }}</td>
-                                        <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
-                                        <td class="text-center">{{ $danh_sach->ten_phong }}</td>
-                                        <td class="text-center">{{ $danh_sach->ten_don_vi }}</td>
-                                        <td class="text-center">{{ $danh_sach->tong_diem_tu_cham }}</td>
-                                        <td class="text-center">{{ $danh_sach->tong_diem_danh_gia }}</td>
-                                        <td class="text-center">{{ $danh_sach->ket_qua_xep_loai }}</td>
-                                    </tr>
-                                @endforeach
+                                @if (isset($danh_sach))
+                                    @foreach ($danh_sach as $danh_sach)
+                                        <tr>
+                                            <td class="text-center">{{ $i++ }}</td>
+                                            <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
+                                            echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
+                                            <td class="text-center"><a
+                                                    href="{{ route('phieudanhgia.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
+                                            </td>
+                                            <td>{{ $danh_sach->name }}</td>
+                                            <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
+                                            <td class="text-center">{{ $danh_sach->ten_phong }}</td>
+                                            <td class="text-center">{{ $danh_sach->ten_don_vi }}</td>
+                                            <td class="text-center">{{ $danh_sach->tong_diem_tu_cham }}</td>
+                                            <td class="text-center">{{ $danh_sach->tong_diem_danh_gia }}</td>
+                                            <td class="text-center">{{ $danh_sach->ket_qua_xep_loai }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -108,23 +110,23 @@
                 pageLength: 20,
                 searching: true,
                 autoWidth: false,
-                dom: 'Bfrtip',
-                buttons: [{
-                        text: 'Tạo mới',
-                        className: 'bg-olive',
-                        action: function(e, dt, node, config) {
-                            window.location = '{{ route('phieudanhgia.create') }}';
-                        },
-                    },
-                    {
-                        extend: 'spacer',
-                        style: 'bar',
-                        text: 'Xuất:'
-                    },
-                    //'csv',
-                    'excel',
-                    'pdf',
-                ],
+                // dom: 'Bfrtip',
+                // buttons: [{
+                //         text: 'Tạo mới',
+                //         className: 'bg-olive',
+                //         action: function(e, dt, node, config) {
+                //             window.location = '{{ route('phieudanhgia.create') }}';
+                //         },
+                //     },
+                //     {
+                //         extend: 'spacer',
+                //         style: 'bar',
+                //         text: 'Xuất:'
+                //     },
+                //     //'csv',
+                //     'excel',
+                //     'pdf',
+                // ],
                 language: {
                     url: '/plugins/datatables/vi.json'
                 },

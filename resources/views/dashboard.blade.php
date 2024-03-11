@@ -172,7 +172,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/phieudanhgia/danhsachcaptrendanhgia" class="nav-link">
                                         <p>2.2. Cấp có thẩm quyền đánh giá</p>
                                     </a>
                                 </li>

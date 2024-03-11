@@ -42,9 +42,9 @@
                             {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                         </h6>
                         <br>
-                        <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                        @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == "mau01A") <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6> @endif
-                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
+                        <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $mau_phieu_danh_gia->name }}</h6>
+                        @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == "mau01A") <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $mau_phieu_danh_gia->ten_chuc_vu }}</h6> @endif
+                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $mau_phieu_danh_gia->ten_don_vi }}</h6>
                         <br>
                         <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
 
@@ -242,7 +242,7 @@
                                 <tr>
                                     <td class="py-0"></td>
                                     <td class="py-0"></td>
-                                    <td class="text-center font-italic py-0">Ngày ..... tháng ..... năm ....</td>
+                                    <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng {{ $date->month }} năm  {{ $date->year }} </td>
                                 </tr>
                                 <tr>
                                     <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -250,7 +250,7 @@
                                     <td class="text-center text-bold py-0">
                                         NGƯỜI TỰ ĐÁNH GIÁ
                                         <br><br><br><br><br>
-                                        {{ $user->name }}
+                                        {{ $mau_phieu_danh_gia->name }}
                                     </td>
                                 </tr>
                             </tbody>
