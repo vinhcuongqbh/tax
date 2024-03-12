@@ -79,7 +79,8 @@ Route::middleware('auth')->group(function () {
         Route::post('store', [PhieuDanhGiaController::class, 'luuphieudanhgia'])->name('phieudanhgia.store');
         Route::get('{id}/show', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.show');        
         Route::get('{id}/edit', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.edit');        
-        Route::get('captrendanhgia/{id}', [PhieuDanhGiaController::class, 'captrendanhgia'])->name('phieudanhgia.captrendanhgia');        
+        Route::get('{id}/captrendanhgia', [PhieuDanhGiaController::class, 'captrendanhgia'])->name('phieudanhgia.captrendanhgia');        
+        Route::post('{id}/captrendanhgiaStore', [PhieuDanhGiaController::class, 'captrendanhgiaStore'])->name('phieudanhgia.captrendanhgia.store');
         Route::get('danhsachtudanhgia', [PhieuDanhGiaController::class, 'danhsachtudanhgia'])->name('phieudanhgia.danhsachtudanhgia');
         Route::get('danhsachcaptrendanhgia', [PhieuDanhGiaController::class, 'danhsachcaptrendanhgia'])->name('phieudanhgia.danhsachcaptrendanhgia');
         // Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('ketquatucham');

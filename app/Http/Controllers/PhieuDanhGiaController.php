@@ -97,7 +97,8 @@ class PhieuDanhGiaController extends Controller
             //Lưu kết quả tự chấm Mục A
             if ($request->mau_phieu_danh_gia == "mau01A") $mau_phieu_danh_gia = Mau01A::all();
             elseif ($request->mau_phieu_danh_gia == "mau01B") $mau_phieu_danh_gia = Mau01B::all();
-            else $mau_phieu_danh_gia = Mau01C::all();
+            elseif ($request->mau_phieu_danh_gia == "mau01C") $mau_phieu_danh_gia = Mau01C::all();
+
             foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia) {
                 $ket_qua_muc_A = new KetQuaMucA();
                 $ket_qua_muc_A->ma_phieu_danh_gia = $ma_phieu_danh_gia;
@@ -131,7 +132,7 @@ class PhieuDanhGiaController extends Controller
             $ly_do_diem_tru->noi_dung = $request->ly_do_diem_tru;
             $ly_do_diem_tru->save();
 
-            //Lưu kết quả Phiếu đánh giá
+            //Lưu kết quả Phiếu đánh giá cá nhân tự đánh giá
             $phieu_danh_gia = new PhieuDanhGia();
             $phieu_danh_gia->mau_phieu_danh_gia = $request->mau_phieu_danh_gia;
             $phieu_danh_gia->ma_phieu_danh_gia = $ma_phieu_danh_gia;
@@ -141,12 +142,56 @@ class PhieuDanhGiaController extends Controller
             $phieu_danh_gia->ma_phong = Auth::user()->ma_phong;
             $phieu_danh_gia->ma_don_vi = Auth::user()->ma_don_vi;
             $phieu_danh_gia->tong_diem_tu_cham = $tong_diem_tu_cham;
-            $phieu_danh_gia->ca_nhan_tu_xep_loai = $request->tu_danh_gia;
+            $phieu_danh_gia->ca_nhan_tu_xep_loai = $request->ca_nhan_tu_xep_loai;
             $phieu_danh_gia->ma_trang_thai = 11;
             $phieu_danh_gia->save();
 
             return redirect()->route('phieudanhgia.show', ['id' => $phieu_danh_gia->ma_phieu_danh_gia])->with('msg_success', 'Đã gửi thành công Phiếu đánh giá');
         }
+    }
+
+
+    //Lưu Phiếu đánh giá cấp trên đánh giá
+    public function captrendanhgiaStore($id, Request $request)
+    {
+        //Tính Tổng điểm cấp trên đánh giá
+        $tc_110 = $request->tc_111 + $request->tc_112 + $request->tc_113 + $request->tc_114;
+        $tc_130 = $request->tc_131 + $request->tc_132 + $request->tc_133 + $request->tc_134;
+        $tc_150 = $request->tc_151 + $request->tc_152 + $request->tc_153 + $request->tc_154;
+        $tc_170 = $request->tc_171 + $request->tc_172 + $request->tc_173;
+        $tc_100 = $tc_110 + $tc_130 + $tc_150 + $tc_170;
+        $tc_210 = $request->tc_211 + $request->tc_212 + $request->tc_213 + $request->tc_214 + $request->tc_215
+            + $request->tc_216 + $request->tc_217 + $request->tc_218 + $request->tc_219 + $request->tc_220;
+        $tc_230 =  $request->tc_230;
+        $tc_200 = $tc_210 + $tc_230;
+        $tc_300 = $tc_100 + $tc_200;
+        $tc_400 = $request->tc_400;
+        $tc_500 = $request->tc_500;
+        $tong_diem_danh_gia = $tc_300 + $tc_400 - $tc_500;
+
+        //Tìm Phiếu đánh giá        
+        $phieu_danh_gia = PhieuDanhGia::where('ma_phieu_danh_gia', $id)->first();
+
+        //Cập nhật kết quả cấp trên đánh giá cho Mục A
+        if ($phieu_danh_gia->mau_phieu_danh_gia == "mau01A") $mau_phieu_danh_gia = Mau01A::all();
+        elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01B") $mau_phieu_danh_gia = Mau01B::all();
+        elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01C") $mau_phieu_danh_gia = Mau01C::all();        
+
+        foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia) {
+            $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
+                ->where('ma_tieu_chi', $mau_phieu_danh_gia->ma_tieu_chi)    
+                ->first();
+            $ket_qua_muc_A->diem_danh_gia = $request->input($mau_phieu_danh_gia->ma_tieu_chi);
+            $ket_qua_muc_A->save();
+        }
+
+        //Lưu kết quả Phiếu đánh giá cấp trên đánh giá        
+        $phieu_danh_gia->tong_diem_danh_gia = $tong_diem_danh_gia;
+        $phieu_danh_gia->ket_qua_xep_loai = $request->ket_qua_xep_loai;
+        $phieu_danh_gia->ma_trang_thai = 13;
+        $phieu_danh_gia->save();
+
+        return redirect()->route('phieudanhgia.show', ['id' => $phieu_danh_gia->ma_phieu_danh_gia])->with('msg_success', 'Cấp trên đã thực hiện đánh giá thành công');
     }
 
 

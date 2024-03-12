@@ -119,7 +119,7 @@ class UserController extends Controller
             'email' => 'required',
         ]);
 
-        $user = User::where('so_hieu_cong_chuc', $request->so_hieu_cong_chuc)->first();
+        $user = User::where('so_hieu_cong_chuc', $id)->first();
         $user->name = $request->name;
         $user->ngay_sinh = $request->ngay_sinh;
         $user->ma_gioi_tinh = $request->gioi_tinh;

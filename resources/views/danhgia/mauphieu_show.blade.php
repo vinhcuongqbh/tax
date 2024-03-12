@@ -118,10 +118,8 @@
                                         @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
                                             <td class="align-middle text-center">
                                                 <input class="m-0" type="radio"
-                                                    name="{{ $ket_qua_muc_A->tieu_chi_me }}"
                                                     value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
-                                                    @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->diem_tu_cham) checked @else disabled @endif></label>
+                                                    @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @else disabled @endif></label>
                                             </td>
                                         @else
                                             <td
@@ -129,10 +127,18 @@
                                                 {{ $ket_qua_muc_A->diem_tu_cham }}
                                             </td>
                                         @endif
-                                        <td
-                                            class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                            {{ $ket_qua_muc_A->diem_danh_gia }}
-                                        </td>
+                                        @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                            <td class="align-middle text-center">
+                                                <input class="m-0" type="radio"
+                                                    value="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                    @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_danh_gia) checked @else disabled @endif></label>
+                                            </td>
+                                        @else
+                                            <td
+                                                class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
+                                                {{ $ket_qua_muc_A->diem_danh_gia }}
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 <tr>
@@ -143,7 +149,7 @@
                                         {{ $mau_phieu_danh_gia->tong_diem_tu_cham }}
                                     </td>
                                     <td class="align-middle text-center text-bold display-4 p-0" id="tong_diem_dang_gia">
-                                        {{ $mau_phieu_danh_gia->tong_diem_dang_gia }}
+                                        {{ $mau_phieu_danh_gia->tong_diem_danh_gia }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -184,7 +190,7 @@
                                             <p>{{ $ket_qua_muc_B->noi_dung }}</p>
                                         </td>
                                         <td><input type="checkbox" value="1"
-                                                @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @endif disabled></td>
+                                                @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @else disabled @endif></td>
                                         <td><input type="radio" value="truoc_han"
                                                 @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @else disabled @endif></td>
                                         <td><input type="radio" value="dung_han"
@@ -298,6 +304,14 @@
     <style>
         table.dataTable tbody tr.selected>* {
             box-shadow: inset 0 0 0 9999px rgb(184, 184, 184) !important;
+        }
+
+        input[type="checkbox"] {
+            pointer-events: none;
+        }
+
+        input[type="radio"] {
+            pointer-events: none;
         }
     </style>
 @stop

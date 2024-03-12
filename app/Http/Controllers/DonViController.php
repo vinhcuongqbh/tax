@@ -70,7 +70,7 @@ class DonViController extends Controller
             'ten_don_vi' => 'required',
         ]);
 
-        $don_vi = DonVi::where('ma_don_vi', $request->ma_don_vi)->first();        
+        $don_vi = DonVi::where('ma_don_vi', $id)->first();        
         $don_vi->ten_don_vi = $request->ten_don_vi;
         $don_vi->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
         $don_vi->save();

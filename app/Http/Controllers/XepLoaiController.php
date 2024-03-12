@@ -61,7 +61,7 @@ class XepLoaiController extends Controller
             'diem_toi_thieu' => 'required',
         ]);
 
-        $xep_loai = XepLoai::where('ma_xep_loai', $request->ma_xep_loai)->first();        
+        $xep_loai = XepLoai::where('ma_xep_loai', $id)->first();        
         $xep_loai->diem_toi_thieu = $request->diem_toi_thieu;
         $xep_loai->save();
         return redirect()->route('xeploai.edit', ['id' => $xep_loai->ma_xep_loai])->with('message', 'Đã cập nhật Xếp loại thành công');

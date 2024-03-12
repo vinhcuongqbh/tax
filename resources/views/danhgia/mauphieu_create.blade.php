@@ -218,28 +218,34 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
+                                            <input type="radio" name="ca_nhan_tu_xep_loai" value="hoan_thanh_xuat_sac"
                                                 id="hoan_thanh_xuat_sac" class="form-control">
-                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>{{ $xep_loai[0]['diem_toi_thieu'] }} điểm trở lên
+                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại
+                                                A)</b><br>{{ $xep_loai[0]['diem_toi_thieu'] }} điểm trở lên
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
+                                            <input type="radio" name="ca_nhan_tu_xep_loai" value="hoan_thanh_tot"
                                                 id="hoan_thanh_tot" class="form-control">
-                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ {{ $xep_loai[1]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[0]['diem_toi_thieu']-1 }}
+                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ
+                                            {{ $xep_loai[1]['diem_toi_thieu'] }} điểm đến
+                                            {{ $xep_loai[0]['diem_toi_thieu'] - 1 }}
                                             điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
-                                                class="form-control">
-                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[1]['diem_toi_thieu']-1 }} điểm
+                                            <input type="radio" name="ca_nhan_tu_xep_loai" value="hoan_thanh"
+                                                id="hoan_thanh" class="form-control">
+                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ
+                                            {{ $xep_loai[2]['diem_toi_thieu'] }} điểm đến
+                                            {{ $xep_loai[1]['diem_toi_thieu'] - 1 }} điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
+                                            <input type="radio" name="ca_nhan_tu_xep_loai" value="khong_hoan_thanh"
                                                 id="khong_hoan_thanh" class="form-control">
-                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu']-1 }} điểm trở
+                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ
+                                            {{ $xep_loai[2]['diem_toi_thieu'] - 1 }} điểm trở
                                             xuống
                                         </td>
                                     </tr>
@@ -256,7 +262,8 @@
                                     <tr>
                                         <td class="py-0"></td>
                                         <td class="py-0"></td>
-                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng {{ $date->month }} năm  {{ $date->year }} </td>
+                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng
+                                            {{ $date->month }} năm {{ $date->year }} </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -412,7 +419,8 @@
             let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
             let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
             let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
-            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 + tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
+            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
+                tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
             document.getElementById("tc_210").value = tieu_chi_210;
         }
 

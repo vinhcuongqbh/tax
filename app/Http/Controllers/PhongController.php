@@ -71,7 +71,7 @@ class PhongController extends Controller
             'ten_phong' => 'required',
         ]);
 
-        $phong = Phong::where('ma_phong', $request->ma_phong)->first();        
+        $phong = Phong::where('ma_phong', $id)->first();        
         $phong->ten_phong = $request->ten_phong;
         $phong->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
         $phong->save();

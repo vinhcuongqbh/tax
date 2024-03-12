@@ -29,7 +29,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="/phieudanhgia/store" method="post" id="maudanhgia-captrendanhgia">
+                <form action="{{ route('phieudanhgia.captrendanhgia.store', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"
+                    method="post" id="maudanhgia-captrendanhgia">
                     @csrf
                     <div class="card card-default">
                         {{-- <div class="card-header">
@@ -98,8 +99,7 @@
                                                 $ket_qua_muc_A->loai_tieu_chi == 'muc_lon' ||
                                                 $ket_qua_muc_A->loai_tieu_chi == 'muc_nho' ||
                                                 $ket_qua_muc_A->loai_tieu_chi == 'lua_chon' ||
-                                                $ket_qua_muc_A->loai_tieu_chi == 'tong_diem' ||
-                                                $ket_qua_muc_A->loai_tieu_chi == 'cong'
+                                                $ket_qua_muc_A->loai_tieu_chi == 'tong_diem'
                                             ) {
                                                 $tinh_diem = 0;
                                             } else {
@@ -117,25 +117,34 @@
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->diem_toi_da }}
                                             </td>
-                                            <td
-                                                class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $ket_qua_muc_A->diem_tu_cham }}
-                                            </td>
+                                            @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                                <td class="align-middle text-center">
+                                                    <input class="m-0" type="radio"
+                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @else disabled @endif></label>
+                                                </td>
+                                            @else
+                                                <td
+                                                    class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
+                                                    {{ $ket_qua_muc_A->diem_tu_cham }}
+                                                </td>
+                                            @endif
                                             @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
                                                         name="{{ $ket_qua_muc_A->tieu_chi_me }}"
-                                                        value="{{ $ket_qua_muc_A->diem_tu_cham }}"
+                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
                                                         id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
-                                                        @if ($ket_qua_muc_A->diem_toi_da == 50) checked @endif
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @endif
                                                         onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @else
-                                                <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
+                                                <td
+                                                    class="align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                     <input type="number" id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
                                                         name="{{ $ket_qua_muc_A->ma_tieu_chi }}" min="0"
                                                         max="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                        value="{{ $ket_qua_muc_A->diem_tu_cham; }}"
+                                                        value="{{ $ket_qua_muc_A->diem_tu_cham }}"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
                                                         onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
@@ -157,112 +166,112 @@
                                 </tbody>
                             </table>
                             <br>
-                        <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
-                        <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
-                            <i>(Thống kê
-                                các
-                                nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
-                        </h6>
-                        <table id="nhiem-vu" class="table table-bordered">
-                            <colgroup>
-                                <col style="width:5%;">
-                                <col style="width:45%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
-                            </colgroup>
-                            <thead>
-                                <tr class="text-center">
-                                    <th class="align-middle text-bold">TT</th>
-                                    <th class="align-middle text-bold">Nhiệm vụ</th>
-                                    <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</th>
-                                    <th class="align-middle text-bold">Trước hạn</th>
-                                    <th class="align-middle text-bold">Đúng hạn</th>
-                                    <th class="align-middle text-bold">Quá hạn</th>
-                                    <th class="align-middle text-bold">Lùi, chưa triển khai</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($ket_qua_muc_B as $ket_qua_muc_B)
-                                    <tr>
-                                        <td>+</td>
-                                        <td class="text-justify">
-                                            <p>{{ $ket_qua_muc_B->noi_dung }}</p>
-                                        </td>
-                                        <td><input type="checkbox" value="1"
-                                                @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @endif disabled></td>
-                                        <td><input type="radio" value="truoc_han"
-                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @else disabled @endif></td>
-                                        <td><input type="radio" value="dung_han"
-                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @else disabled @endif></td>
-                                        <td><input type="radio" value="qua_han"
-                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @else disabled @endif></td>
-                                        <td><input type="radio" value="lui_han"
-                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @else disabled @endif></td>
+                            <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
+                            <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
+                                <i>(Thống kê
+                                    các
+                                    nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
+                            </h6>
+                            <table id="nhiem-vu" class="table table-bordered">
+                                <colgroup>
+                                    <col style="width:5%;">
+                                    <col style="width:45%;">
+                                    <col style="width:10%;">
+                                    <col style="width:10%;">
+                                    <col style="width:10%;">
+                                    <col style="width:10%;">
+                                    <col style="width:10%;">
+                                </colgroup>
+                                <thead>
+                                    <tr class="text-center">
+                                        <th class="align-middle text-bold">TT</th>
+                                        <th class="align-middle text-bold">Nhiệm vụ</th>
+                                        <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</th>
+                                        <th class="align-middle text-bold">Trước hạn</th>
+                                        <th class="align-middle text-bold">Đúng hạn</th>
+                                        <th class="align-middle text-bold">Quá hạn</th>
+                                        <th class="align-middle text-bold">Lùi, chưa triển khai</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <br>
-                        <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được
-                            áp
-                            dụng
-                            điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
-                        <div class="form-group">
-                            <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7" readonly>{{ $ly_do_diem_cong->noi_dung }}</textarea>
-                        </div>
-                        <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
-                        <div class="form-group">
-                            <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7" readonly>{{ $ly_do_diem_tru->noi_dung }}</textarea>
-                        </div>
-                        <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
-                                ô tương ứng dưới đây)</i></h6>
-                        <table class="table table-borderless">
-                            <colgroup>
-                                <col style="width:20%;">
-                                <col style="width:5%;">
-                                <col style="width:20%;">
-                                <col style="width:5%;">
-                                <col style="width:20%;">
-                                <col style="width:5%;">
-                                <col style="width:20%;">
-                            </colgroup>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
-                                            id="hoan_thanh_xuat_sac" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_xuat_sac') checked @else disabled @endif>
-                                        <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
-                                    </td>
-                                    <td></td>
-                                    <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
-                                            id="hoan_thanh_tot" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_tot') checked @else disabled @endif>
-                                        <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
-                                        điểm
-                                    </td>
-                                    <td></td>
-                                    <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
-                                            class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh') checked @else disabled @endif>
-                                        <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
-                                    </td>
-                                    <td></td>
-                                    <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
-                                            id="khong_hoan_thanh" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'khong_hoan_thanh') checked @else disabled @endif>
-                                        <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
-                                        xuống
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($ket_qua_muc_B as $ket_qua_muc_B)
+                                        <tr>
+                                            <td>+</td>
+                                            <td class="text-justify">
+                                                <p>{{ $ket_qua_muc_B->noi_dung }}</p>
+                                            </td>
+                                            <td><input type="checkbox" value="1"
+                                                    @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @else disabled @endif></td>
+                                            <td><input type="radio" value="truoc_han"
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @else disabled @endif></td>
+                                            <td><input type="radio" value="dung_han"
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @else disabled @endif></td>
+                                            <td><input type="radio" value="qua_han"
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @else disabled @endif></td>
+                                            <td><input type="radio" value="lui_han"
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @else disabled @endif></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <br>
+                            <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được
+                                áp
+                                dụng
+                                điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
+                            <div class="form-group">
+                                <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7" readonly>{{ $ly_do_diem_cong->noi_dung }}</textarea>
+                            </div>
+                            <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
+                            <div class="form-group">
+                                <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7" readonly>{{ $ly_do_diem_tru->noi_dung }}</textarea>
+                            </div>
+                            <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
+                                    ô tương ứng dưới đây)</i></h6>
+                            <table class="table table-borderless">
+                                <colgroup>
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                    <col style="width:5%;">
+                                    <col style="width:20%;">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">
+                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh_xuat_sac"
+                                                id="hoan_thanh_xuat_sac" class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_xuat_sac') checked @else disabled @endif>
+                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
+                                        </td>
+                                        <td></td>
+                                        <td class="text-center">
+                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh_tot"
+                                                id="hoan_thanh_tot" class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_tot') checked @else disabled @endif>
+                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
+                                            điểm
+                                        </td>
+                                        <td></td>
+                                        <td class="text-center">
+                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh"
+                                                id="hoan_thanh" class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh') checked @else disabled @endif>
+                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
+                                        </td>
+                                        <td></td>
+                                        <td class="text-center">
+                                            <input type="radio" name="ket_qua_xep_loai" value="khong_hoan_thanh"
+                                                id="khong_hoan_thanh" class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'khong_hoan_thanh') checked @else disabled @endif>
+                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
+                                            xuống
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <br>
                             <table class="table table-borderless">
                                 <colgroup>
@@ -312,6 +321,10 @@
     <style>
         table.dataTable tbody tr.selected>* {
             box-shadow: inset 0 0 0 9999px rgb(184, 184, 184) !important;
+        }
+
+        input[type="checkbox"] {
+            pointer-events: none;
         }
     </style>
 @stop
@@ -423,7 +436,8 @@
             let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
             let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
             let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
-            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 + tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
+            tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
+                tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
             document.getElementById("tc_210").value = tieu_chi_210;
         }
 
