@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Tạo mới Đánh giá, xếp loại')
+@section('title', 'Cấp trên Đánh giá, xếp loại')
 
 @section('heading')
-    Tạo mới Đánh giá, xếp loại
+    Cấp trên Đánh giá, xếp loại
 @stop
 
 @section('content')
@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="/phieudanhgia/store" method="post" id="maudanhgia-create">
+                <form action="/phieudanhgia/store" method="post" id="maudanhgia-captrendanhgia">
                     @csrf
                     <div class="card card-default">
                         {{-- <div class="card-header">
@@ -60,18 +60,14 @@
                             <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
-                                <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
-                                    min="1" max="{{ $thoi_diem_danh_gia->month }}"
-                                    value="{{ $thoi_diem_danh_gia->month }}"> / <input type="number" class="text-center"
-                                    id="nam_danh_gia" name="nam_danh_gia" min="1"
-                                    max="{{ $thoi_diem_danh_gia->year }}" value="{{ $thoi_diem_danh_gia->year }}" readonly>
+                                {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                             </h6>
                             <br>
-                            <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                            @if ($mau == 'mau01A')
-                                <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
+                            <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $mau_phieu_danh_gia->name }}</h6>
+                            @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
+                                <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $mau_phieu_danh_gia->ten_chuc_vu }}</h6>
                             @endif
-                            <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
+                            <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $mau_phieu_danh_gia->ten_don_vi }}</h6>
                             <br>
                             <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
 
@@ -96,14 +92,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia)
+                                    @foreach ($ket_qua_muc_A as $ket_qua_muc_A)
                                         @php
                                             if (
-                                                $mau_phieu_danh_gia->loai_tieu_chi == 'muc_lon' ||
-                                                $mau_phieu_danh_gia->loai_tieu_chi == 'muc_nho' ||
-                                                $mau_phieu_danh_gia->loai_tieu_chi == 'lua_chon' ||
-                                                $mau_phieu_danh_gia->loai_tieu_chi == 'tong_diem' ||
-                                                $mau_phieu_danh_gia->loai_tieu_chi == 'cong'
+                                                $ket_qua_muc_A->loai_tieu_chi == 'muc_lon' ||
+                                                $ket_qua_muc_A->loai_tieu_chi == 'muc_nho' ||
+                                                $ket_qua_muc_A->loai_tieu_chi == 'lua_chon' ||
+                                                $ket_qua_muc_A->loai_tieu_chi == 'tong_diem' ||
+                                                $ket_qua_muc_A->loai_tieu_chi == 'cong'
                                             ) {
                                                 $tinh_diem = 0;
                                             } else {
@@ -112,139 +108,161 @@
                                         @endphp
                                         <tr>
                                             <td class="text-center @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_phieu_danh_gia->tt }}
+                                                {{ $ket_qua_muc_A->tt }}
                                             </td>
                                             <td class="text-justify @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_phieu_danh_gia->noi_dung }}
+                                                {{ $ket_qua_muc_A->noi_dung }}
                                             </td>
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $mau_phieu_danh_gia->diem_toi_da }}
+                                                {{ $ket_qua_muc_A->diem_toi_da }}
                                             </td>
-                                            @if ($mau_phieu_danh_gia->loai_tieu_chi == 'phuong_an')
+                                            <td
+                                                class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
+                                                {{ $ket_qua_muc_A->diem_tu_cham }}
+                                            </td>
+                                            @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
-                                                        name="{{ $mau_phieu_danh_gia->tieu_chi_me }}"
-                                                        value="{{ $mau_phieu_danh_gia->diem_toi_da }}"
-                                                        id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
-                                                        @if ($mau_phieu_danh_gia->diem_toi_da == 50) checked @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
+                                                        name="{{ $ket_qua_muc_A->tieu_chi_me }}"
+                                                        value="{{ $ket_qua_muc_A->diem_tu_cham }}"
+                                                        id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
+                                                        @if ($ket_qua_muc_A->diem_toi_da == 50) checked @endif
+                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @else
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                    <input type="number" id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
-                                                        name="{{ $mau_phieu_danh_gia->ma_tieu_chi }}" min="0"
-                                                        max="{{ $mau_phieu_danh_gia->diem_toi_da }}"
-                                                        value="@php if (($mau_phieu_danh_gia->loai_tieu_chi == 'diem_thuong') 
-                                                    or ($mau_phieu_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
-                                                    else echo $mau_phieu_danh_gia->diem_toi_da; @endphp"
+                                                    <input type="number" id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
+                                                        name="{{ $ket_qua_muc_A->ma_tieu_chi }}" min="0"
+                                                        max="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                        value="{{ $ket_qua_muc_A->diem_tu_cham; }}"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
+                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
                                                 </td>
                                             @endif
-                                            <td>
-                                            </td>
                                         </tr>
                                     @endforeach
                                     <tr>
                                         <td></td>
                                         <td class="align-middle text-bold">TỔNG CỘNG</td>
                                         <td></td>
-                                        <td class="align-middle text-center text-bold display-4 p-0" id="tong_cong">90
+                                        <td class="align-middle text-center text-bold display-4 p-0"
+                                            id="tong_diem_tu_danh_gia">{{ $mau_phieu_danh_gia->tong_diem_tu_cham }}
+                                        </td>
+                                        <td class="align-middle text-center text-bold display-4 p-0" id="tong_cong">
+                                            {{ $mau_phieu_danh_gia->tong_diem_tu_cham }}
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <br>
-                            <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
-                            <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
-                                <i>(Thống kê
-                                    các
-                                    nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
-                            </h6>
-                            <button type="button" class="btn bg-olive text-nowrap mb-2" id="addRow">Thêm
-                                dòng</button>
-                            <button type="button" class="btn btn-danger text-nowrap mb-2" id="removeRow">Xóa
-                                dòng</button>
-                            <table id="nhiem-vu" class="table table-bordered">
-                                <colgroup>
-                                    <col style="width:5%;">
-                                    <col style="width:45%;">
-                                    <col style="width:10%;">
-                                    <col style="width:10%;">
-                                    <col style="width:10%;">
-                                    <col style="width:10%;">
-                                    <col style="width:10%;">
-                                </colgroup>
-                                <thead>
-                                    <tr class="text-center">
-                                        <th class="align-middle text-bold">TT</th>
-                                        <th class="align-middle text-bold">Nhiệm vụ</th>
-                                        <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</th>
-                                        <th class="align-middle text-bold">Trước hạn</th>
-                                        <th class="align-middle text-bold">Đúng hạn</th>
-                                        <th class="align-middle text-bold">Quá hạn</th>
-                                        <th class="align-middle text-bold">Lùi, chưa triển khai</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                            <br>
-                            <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được
-                                áp
-                                dụng
-                                điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
-                            <div class="form-group">
-                                <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7"></textarea>
-                            </div>
-                            <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
-                            <div class="form-group">
-                                <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7"></textarea>
-                            </div>
-                            <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
-                                    ô tương ứng dưới đây)</i></h6>
-                            <table class="table table-borderless">
-                                <colgroup>
-                                    <col style="width:20%;">
-                                    <col style="width:5%;">
-                                    <col style="width:20%;">
-                                    <col style="width:5%;">
-                                    <col style="width:20%;">
-                                    <col style="width:5%;">
-                                    <col style="width:20%;">
-                                </colgroup>
-                                <tbody>
+                        <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
+                        <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
+                            <i>(Thống kê
+                                các
+                                nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
+                        </h6>
+                        <table id="nhiem-vu" class="table table-bordered">
+                            <colgroup>
+                                <col style="width:5%;">
+                                <col style="width:45%;">
+                                <col style="width:10%;">
+                                <col style="width:10%;">
+                                <col style="width:10%;">
+                                <col style="width:10%;">
+                                <col style="width:10%;">
+                            </colgroup>
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="align-middle text-bold">TT</th>
+                                    <th class="align-middle text-bold">Nhiệm vụ</th>
+                                    <th class="align-middle text-bold">Nhiệm vụ phát sinh (đánh dấu x)</th>
+                                    <th class="align-middle text-bold">Trước hạn</th>
+                                    <th class="align-middle text-bold">Đúng hạn</th>
+                                    <th class="align-middle text-bold">Quá hạn</th>
+                                    <th class="align-middle text-bold">Lùi, chưa triển khai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($ket_qua_muc_B as $ket_qua_muc_B)
                                     <tr>
-                                        <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
-                                                id="hoan_thanh_xuat_sac" class="form-control">
-                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>{{ $xep_loai[0]['diem_toi_thieu'] }} điểm trở lên
+                                        <td>+</td>
+                                        <td class="text-justify">
+                                            <p>{{ $ket_qua_muc_B->noi_dung }}</p>
                                         </td>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
-                                                id="hoan_thanh_tot" class="form-control">
-                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ {{ $xep_loai[1]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[0]['diem_toi_thieu']-1 }}
-                                            điểm
-                                        </td>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
-                                                class="form-control">
-                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu'] }} điểm đến {{ $xep_loai[1]['diem_toi_thieu']-1 }} điểm
-                                        </td>
-                                        <td></td>
-                                        <td class="text-center">
-                                            <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
-                                                id="khong_hoan_thanh" class="form-control">
-                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ {{ $xep_loai[2]['diem_toi_thieu']-1 }} điểm trở
-                                            xuống
-                                        </td>
+                                        <td><input type="checkbox" value="1"
+                                                @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @endif disabled></td>
+                                        <td><input type="radio" value="truoc_han"
+                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @else disabled @endif></td>
+                                        <td><input type="radio" value="dung_han"
+                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @else disabled @endif></td>
+                                        <td><input type="radio" value="qua_han"
+                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @else disabled @endif></td>
+                                        <td><input type="radio" value="lui_han"
+                                                @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @else disabled @endif></td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                        <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được
+                            áp
+                            dụng
+                            điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
+                        <div class="form-group">
+                            <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7" readonly>{{ $ly_do_diem_cong->noi_dung }}</textarea>
+                        </div>
+                        <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
+                        <div class="form-group">
+                            <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7" readonly>{{ $ly_do_diem_tru->noi_dung }}</textarea>
+                        </div>
+                        <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
+                                ô tương ứng dưới đây)</i></h6>
+                        <table class="table table-borderless">
+                            <colgroup>
+                                <col style="width:20%;">
+                                <col style="width:5%;">
+                                <col style="width:20%;">
+                                <col style="width:5%;">
+                                <col style="width:20%;">
+                                <col style="width:5%;">
+                                <col style="width:20%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
+                                            id="hoan_thanh_xuat_sac" class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_xuat_sac') checked @else disabled @endif>
+                                        <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
+                                    </td>
+                                    <td></td>
+                                    <td class="text-center">
+                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
+                                            id="hoan_thanh_tot" class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_tot') checked @else disabled @endif>
+                                        <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
+                                        điểm
+                                    </td>
+                                    <td></td>
+                                    <td class="text-center">
+                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
+                                            class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh') checked @else disabled @endif>
+                                        <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
+                                    </td>
+                                    <td></td>
+                                    <td class="text-center">
+                                        <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
+                                            id="khong_hoan_thanh" class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'khong_hoan_thanh') checked @else disabled @endif>
+                                        <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
+                                        xuống
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                             <br>
                             <table class="table table-borderless">
                                 <colgroup>
@@ -256,7 +274,8 @@
                                     <tr>
                                         <td class="py-0"></td>
                                         <td class="py-0"></td>
-                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng {{ $date->month }} năm  {{ $date->year }} </td>
+                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng
+                                            {{ $date->month }} năm {{ $date->year }} </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -264,7 +283,7 @@
                                         <td class="text-center text-bold py-0">
                                             NGƯỜI TỰ ĐÁNH GIÁ
                                             <br><br><br><br><br>
-                                            {{ $user->name }}
+                                            {{ $mau_phieu_danh_gia->name }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -274,9 +293,11 @@
                     </div>
                     <!-- /.card -->
                     <div class="text-right">
-                        <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">Gửi</button>
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">ĐÁNH
+                            GIÁ</button>
                     </div>
-                    <input type="hidden" name="mau_phieu_danh_gia" value="{{ $mau }}">
+                    <input type="hidden" name="mau_phieu_danh_gia"
+                        value="{{ $mau_phieu_danh_gia->ma_phieu_danh_gia }}">
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -301,13 +322,8 @@
     <script src="/plugins/jquery-validation/additional-methods.min.js"></script>
     <script>
         $(function() {
-            $('#maudanhgia-create').validate({
+            $('#maudanhgia-captrendanhgia').validate({
                 rules: {
-                    thang_danh_gia: {
-                        required: true,
-                        min: 1,
-                        max: {{ $thoi_diem_danh_gia->month }},
-                    },
                     @php
                         foreach ($so_tieu_chi as $so_tieu_chi) {
                             echo '
@@ -325,11 +341,6 @@
                     @endphp
                 },
                 messages: {
-                    thang_danh_gia: {
-                        required: "Vui lòng nhập thông tin",
-                        min: "Không nhập số âm",
-                        max: "Chưa đến thời điểm đánh giá",
-                    },
                     @php
                         foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
                             echo '

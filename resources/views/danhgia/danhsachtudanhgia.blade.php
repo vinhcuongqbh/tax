@@ -33,18 +33,18 @@
                                 <col style="width:10%;">
                                 <col style="width:10%;">
                             </colgroup>
-                            <thead style="text-align: center">
+                            <thead style="text-center">
                                 <tr>
-                                    <th class="text-center">STT</th>
-                                    <th class="text-center">Thời điểm đánh giá</th>
-                                    <th class="text-center">Mã phiếu đánh giá</th>
-                                    <th class="text-center">Họ và tên</th>
-                                    <th class="text-center">Chức vụ</th>
-                                    <th class="text-center">Phòng/Đội</th>
-                                    <th class="text-center">Đơn vị</th>
-                                    <th class="text-center">Điểm tự chấm</th>
-                                    <th class="text-center">Điểm cấp trên đánh giá</th>
-                                    <th class="text-center">Kết quả xếp loại</th>
+                                    <th class="text-center align-middle">STT</th>
+                                    <th class="text-center align-middle">Thời điểm đánh giá</th>
+                                    <th class="text-center align-middle">Mã phiếu đánh giá</th>
+                                    <th class="text-center align-middle">Họ và tên</th>
+                                    <th class="text-center align-middle">Chức vụ</th>
+                                    <th class="text-center align-middle">Phòng/Đội</th>
+                                    <th class="text-center align-middle">Đơn vị</th>
+                                    <th class="text-center align-middle">Điểm tự chấm</th>
+                                    <th class="text-center align-middle">Điểm cấp trên đánh giá</th>
+                                    <th class="text-center align-middle">Kết quả xếp loại</th>
                                 </tr>
                             </thead>
                             <tbody>

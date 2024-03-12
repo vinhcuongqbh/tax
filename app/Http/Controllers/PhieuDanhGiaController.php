@@ -145,7 +145,7 @@ class PhieuDanhGiaController extends Controller
             $phieu_danh_gia->ma_trang_thai = 11;
             $phieu_danh_gia->save();
 
-            return back()->with('msg_success', 'Đã gửi thành công Phiếu đánh giá');
+            return redirect()->route('phieudanhgia.show', ['id' => $phieu_danh_gia->ma_phieu_danh_gia])->with('msg_success', 'Đã gửi thành công Phiếu đánh giá');
         }
     }
 
@@ -204,6 +204,75 @@ class PhieuDanhGiaController extends Controller
             [
                 'mau_phieu_danh_gia' => $phieu_danh_gia,
                 'ten_mau' => $ten_mau,
+                'doi_tuong_ap_dung' => $doi_tuong_ap_dung,
+                'ket_qua_muc_A' => $ket_qua_muc_A,
+                'ket_qua_muc_B' => $ket_qua_muc_B,
+                'ly_do_diem_cong' => $ly_do_diem_cong,
+                'ly_do_diem_tru' => $ly_do_diem_tru,
+                'date' => $date,
+            ]
+        );
+    }
+
+
+    public function captrendanhgia($id)
+    {
+        //Tìm Phiếu đánh giá
+        $phieu_danh_gia = PhieuDanhGia::where('phieu_danh_gia.ma_phieu_danh_gia', $id)
+            ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+            ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+            ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+            ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'don_vi.ten_don_vi')
+            ->first();
+
+        //Lấy dữ liệu mục A
+        if ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01A') {
+            $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
+                ->leftjoin('mau01A', 'mau01A.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
+                ->select('ket_qua_muc_A.*', 'mau01A.tieu_chi_me', 'mau01A.loai_tieu_chi', 'mau01A.tt', 'mau01A.noi_dung')
+                ->get();
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01B') {
+            $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
+                ->leftjoin('mau01B', 'mau01B.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
+                ->select('ket_qua_muc_A.*', 'mau01B.tieu_chi_me', 'mau01B.loai_tieu_chi', 'mau01B.tt', 'mau01B.noi_dung')
+                ->get();
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01C') {
+            $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
+                ->leftjoin('mau01C', 'mau01C.ma_tieu_chi', 'ket_qua_muc_A.ma_tieu_chi')
+                ->select('ket_qua_muc_A.*', 'mau01C.tieu_chi_me', 'mau01C.loai_tieu_chi', 'mau01C.tt', 'mau01C.noi_dung')
+                ->get();
+        }
+
+        //Lấy dữ liệu mục B
+        $ket_qua_muc_B = KetQuaMucB::where('ma_phieu_danh_gia', $id)->get();
+        //Lấy dữ liệu Lý do điểm cộng
+        $ly_do_diem_cong = LyDoDiemCong::where('ma_phieu_danh_gia', $id)->first();
+        //Lấy dữ liệu Lý do điểm trừ
+        $ly_do_diem_tru = LyDoDiemTru::where('ma_phieu_danh_gia', $id)->first();
+
+        //Lấy thông tin Mẫu phiếu đánh giá
+        if ($phieu_danh_gia->mau_phieu_danh_gia == "mau01A") {
+            $ten_mau = "Mẫu 01A";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "công chức giữ chức vụ lãnh đạo, quản lý";
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01B") {
+            $ten_mau = "Mẫu 01B";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "công chức không giữ chức vụ lãnh đạo, quản lý";
+        } elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01C") {
+            $ten_mau = "Mẫu 01C";
+            $doi_tuong_ap_dung = $doi_tuong_ap_dung = "người lao động";
+        }
+
+        $date = new Carbon($phieu_danh_gia->create_at);
+        $xep_loai = XepLoai::all();
+
+        return view(
+            'danhgia.mauphieu_captrendanhgia',
+            [
+                'mau_phieu_danh_gia' => $phieu_danh_gia,
+                'so_tieu_chi' => $ket_qua_muc_A,
+                'so_tieu_chi_2' => $ket_qua_muc_A,
+                'ten_mau' => $ten_mau,
+                'xep_loai' => $xep_loai,
                 'doi_tuong_ap_dung' => $doi_tuong_ap_dung,
                 'ket_qua_muc_A' => $ket_qua_muc_A,
                 'ket_qua_muc_B' => $ket_qua_muc_B,
