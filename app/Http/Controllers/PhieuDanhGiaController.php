@@ -94,6 +94,12 @@ class PhieuDanhGiaController extends Controller
             $tc_500 = $request->tc_500;
             $tong_diem_tu_cham = $tc_300 + $tc_400 - $tc_500;
 
+            //Kết quả cá nhân tự xếp loại
+            $xep_loai = Xeploai::orderby('diem_toi_thieu','ASC')->get();
+            foreach ($xep_loai as $xep_loai) {
+                if ($tong_diem_tu_cham >= $xep_loai->diem_toi_thieu) $ca_nhan_tu_xep_loai = $xep_loai->ma_xep_loai;
+            }
+
             //Lưu kết quả tự chấm Mục A
             if ($request->mau_phieu_danh_gia == "mau01A") $mau_phieu_danh_gia = Mau01A::all();
             elseif ($request->mau_phieu_danh_gia == "mau01B") $mau_phieu_danh_gia = Mau01B::all();
@@ -142,7 +148,7 @@ class PhieuDanhGiaController extends Controller
             $phieu_danh_gia->ma_phong = Auth::user()->ma_phong;
             $phieu_danh_gia->ma_don_vi = Auth::user()->ma_don_vi;
             $phieu_danh_gia->tong_diem_tu_cham = $tong_diem_tu_cham;
-            $phieu_danh_gia->ca_nhan_tu_xep_loai = $request->ca_nhan_tu_xep_loai;
+            $phieu_danh_gia->ca_nhan_tu_xep_loai = $ca_nhan_tu_xep_loai;
             $phieu_danh_gia->ma_trang_thai = 11;
             $phieu_danh_gia->save();
 
@@ -169,17 +175,23 @@ class PhieuDanhGiaController extends Controller
         $tc_500 = $request->tc_500;
         $tong_diem_danh_gia = $tc_300 + $tc_400 - $tc_500;
 
+        //Kết quả cá nhân tự xếp loại
+        $xep_loai = Xeploai::orderby('diem_toi_thieu','ASC')->get();
+        foreach ($xep_loai as $xep_loai) {
+            if ($tong_diem_danh_gia >= $xep_loai->diem_toi_thieu) $ket_qua_xep_loai = $xep_loai->ma_xep_loai;
+        }
+
         //Tìm Phiếu đánh giá        
         $phieu_danh_gia = PhieuDanhGia::where('ma_phieu_danh_gia', $id)->first();
 
         //Cập nhật kết quả cấp trên đánh giá cho Mục A
         if ($phieu_danh_gia->mau_phieu_danh_gia == "mau01A") $mau_phieu_danh_gia = Mau01A::all();
         elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01B") $mau_phieu_danh_gia = Mau01B::all();
-        elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01C") $mau_phieu_danh_gia = Mau01C::all();        
+        elseif ($phieu_danh_gia->mau_phieu_danh_gia == "mau01C") $mau_phieu_danh_gia = Mau01C::all();
 
         foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia) {
             $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $id)
-                ->where('ma_tieu_chi', $mau_phieu_danh_gia->ma_tieu_chi)    
+                ->where('ma_tieu_chi', $mau_phieu_danh_gia->ma_tieu_chi)
                 ->first();
             $ket_qua_muc_A->diem_danh_gia = $request->input($mau_phieu_danh_gia->ma_tieu_chi);
             $ket_qua_muc_A->save();
@@ -187,7 +199,7 @@ class PhieuDanhGiaController extends Controller
 
         //Lưu kết quả Phiếu đánh giá cấp trên đánh giá        
         $phieu_danh_gia->tong_diem_danh_gia = $tong_diem_danh_gia;
-        $phieu_danh_gia->ket_qua_xep_loai = $request->ket_qua_xep_loai;
+        $phieu_danh_gia->ket_qua_xep_loai = $ket_qua_xep_loai;
         $phieu_danh_gia->ma_trang_thai = 13;
         $phieu_danh_gia->save();
 
@@ -242,7 +254,8 @@ class PhieuDanhGiaController extends Controller
             $doi_tuong_ap_dung = $doi_tuong_ap_dung = "người lao động";
         }
 
-        $date = new Carbon($phieu_danh_gia->create_at);
+        $date = new Carbon($phieu_danh_gia->created_at);
+        $xep_loai = XepLoai::all();
 
         return view(
             'danhgia.mauphieu_show',
@@ -255,6 +268,7 @@ class PhieuDanhGiaController extends Controller
                 'ly_do_diem_cong' => $ly_do_diem_cong,
                 'ly_do_diem_tru' => $ly_do_diem_tru,
                 'date' => $date,
+                'xep_loai' => $xep_loai,
             ]
         );
     }
@@ -307,7 +321,7 @@ class PhieuDanhGiaController extends Controller
             $doi_tuong_ap_dung = $doi_tuong_ap_dung = "người lao động";
         }
 
-        $date = new Carbon($phieu_danh_gia->create_at);
+        $date = new Carbon($phieu_danh_gia->created_at);
         $xep_loai = XepLoai::all();
 
         return view(

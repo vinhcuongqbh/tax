@@ -30,15 +30,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    {{-- <div class="card-header">
-                        <div class="row">
-                            <div class="col-auto">
-                                <a href="{{ route('donvi.create') }}"><button type="button"
-                                        class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="card-body">
+                        {{-- Phần Tiêu đề --}}
                         <table class="table table-borderless">
                             <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
                             <tbody>
@@ -61,14 +54,18 @@
                             {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                         </h6>
                         <br>
+
+                        {{-- Phần Thông tin cá nhân --}}
                         <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $mau_phieu_danh_gia->name }}</h6>
                         @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
                             <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $mau_phieu_danh_gia->ten_chuc_vu }}</h6>
                         @endif
                         <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $mau_phieu_danh_gia->ten_don_vi }}</h6>
                         <br>
-                        <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
 
+                        {{-- Phần A --}}
+                        <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
+                        {{-- Bảng tiêu chí đánh giá --}}
                         <table id="danh-gia" class="table table-bordered">
                             <colgroup>
                                 <col style="width:4%;">
@@ -105,21 +102,32 @@
                                         }
                                     @endphp
                                     <tr>
+                                        {{-- Cột Số thứ tự --}}
                                         <td class="text-center @if ($tinh_diem == 0) text-bold @endif">
                                             {{ $ket_qua_muc_A->tt }}
                                         </td>
+                                        {{-- Cột Nội dung tiêu chí --}}
                                         <td class="text-justify @if ($tinh_diem == 0) text-bold @endif">
                                             {{ $ket_qua_muc_A->noi_dung }}
                                         </td>
+                                        {{-- Cột Điểm tối đa của tiêu chí --}}
                                         <td
                                             class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                             {{ $ket_qua_muc_A->diem_toi_da }}
                                         </td>
+                                        {{-- Cột Điểm cá nhân tự chấm --}}
                                         @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                            {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
                                             <td class="align-middle text-center">
                                                 <input class="m-0" type="radio"
                                                     value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @else disabled @endif></label>
+                                                    @if (
+                                                        $ket_qua_muc_A->diem_toi_da ==
+                                                            $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @else disabled @endif></label>
                                             </td>
                                         @else
                                             <td
@@ -127,11 +135,19 @@
                                                 {{ $ket_qua_muc_A->diem_tu_cham }}
                                             </td>
                                         @endif
+                                        {{-- Cột Điểm cấp trên đánh giá --}}
                                         @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                            {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
                                             <td class="align-middle text-center">
                                                 <input class="m-0" type="radio"
                                                     value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_danh_gia) checked @else disabled @endif></label>
+                                                    @if (
+                                                        $ket_qua_muc_A->diem_toi_da ==
+                                                            $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_danh_gia) checked @else disabled @endif></label>
                                             </td>
                                         @else
                                             <td
@@ -204,9 +220,7 @@
                             </tbody>
                         </table>
                         <br>
-                        <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được
-                            áp
-                            dụng
+                        <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được áp dụng
                             điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
                         <div class="form-group">
                             <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7" readonly>{{ $ly_do_diem_cong->noi_dung }}</textarea>
@@ -215,8 +229,11 @@
                         <div class="form-group">
                             <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7" readonly>{{ $ly_do_diem_tru->noi_dung }}</textarea>
                         </div>
-                        <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04
-                                ô tương ứng dưới đây)</i></h6>
+
+                        {{-- Mục Cá nhân tự xếp loại --}}
+                        <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04 ô tương ứng
+                                dưới đây)</i></h6>
+                        {{-- Danh sách xếp loại --}}
                         <table class="table table-borderless">
                             <colgroup>
                                 <col style="width:20%;">
@@ -230,33 +247,41 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_xuat_sac"
-                                            id="hoan_thanh_xuat_sac" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_xuat_sac') checked @else disabled @endif>
-                                        <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
+                                        <input type="radio" name="tu_danh_gia" value="A" id="hoan_thanh_xuat_sac"
+                                            class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'A')->first()->ma_xep_loai) checked @else disabled @endif>
+                                        <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại
+                                            A)</b><br>{{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu }}
+                                        điểm trở lên
                                     </td>
                                     <td></td>
                                     <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh_tot"
-                                            id="hoan_thanh_tot" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_tot') checked @else disabled @endif>
-                                        <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
+                                        <input type="radio" name="tu_danh_gia" value="B" id="hoan_thanh_tot"
+                                            class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'B')->first()->ma_xep_loai) checked @else disabled @endif>
+                                        <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ
+                                        {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu }} điểm đến
+                                        {{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu - 1 }}
                                         điểm
                                     </td>
                                     <td></td>
                                     <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="hoan_thanh" id="hoan_thanh"
+                                        <input type="radio" name="tu_danh_gia" value="C" id="hoan_thanh"
                                             class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh') checked @else disabled @endif>
-                                        <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'C')->first()->ma_xep_loai) checked @else disabled @endif>
+                                        <b>Hoàn thành <br>nhiệm vụ<br>(Loại
+                                            C)</b><br>{{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu }}
+                                        điểm đến {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu - 1 }}
+                                        điểm
                                     </td>
                                     <td></td>
                                     <td class="text-center">
-                                        <input type="radio" name="tu_danh_gia" value="khong_hoan_thanh"
-                                            id="khong_hoan_thanh" class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'khong_hoan_thanh') checked @else disabled @endif>
-                                        <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
-                                        xuống
+                                        <input type="radio" name="tu_danh_gia" value="D" id="khong_hoan_thanh"
+                                            class="form-control"
+                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'D')->first()->ma_xep_loai) checked @else disabled @endif>
+                                        <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ
+                                        {{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu - 1 }} điểm
+                                        trở xuống
                                     </td>
                                 </tr>
                             </tbody>

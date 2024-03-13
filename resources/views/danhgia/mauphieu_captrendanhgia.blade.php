@@ -121,7 +121,9 @@
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
                                                         value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                        @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @else disabled @endif></label>
+                                                        @if (
+                                                            $ket_qua_muc_A->diem_toi_da ==
+                                                                $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @else disabled @endif></label>
                                                 </td>
                                             @else
                                                 <td
@@ -135,7 +137,9 @@
                                                         name="{{ $ket_qua_muc_A->tieu_chi_me }}"
                                                         value="{{ $ket_qua_muc_A->diem_toi_da }}"
                                                         id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
-                                                        @if ($ket_qua_muc_A->diem_toi_da == $ket_qua_muc_A->where('ma_tieu_chi', 'tc_230')->first()->diem_tu_cham) checked @endif
+                                                        @if (
+                                                            $ket_qua_muc_A->diem_toi_da ==
+                                                                $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @endif
                                                         onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @else
@@ -241,33 +245,42 @@
                                 <tbody>
                                     <tr>
                                         <td class="text-center">
-                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh_xuat_sac"
+                                            <input type="radio" name="tu_danh_gia" value="A"
                                                 id="hoan_thanh_xuat_sac" class="form-control"
-                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_xuat_sac') checked @else disabled @endif>
-                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại A)</b><br>92 điểm trở lên
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'A')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại
+                                                A)</b><br>{{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu }}
+                                            điểm trở lên
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh_tot"
-                                                id="hoan_thanh_tot" class="form-control"
-                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh_tot') checked @else disabled @endif>
-                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ 71 điểm đến 91
+                                            <input type="radio" name="tu_danh_gia" value="B" id="hoan_thanh_tot"
+                                                class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'B')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ
+                                            {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu }} điểm đến
+                                            {{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu - 1 }}
                                             điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="ket_qua_xep_loai" value="hoan_thanh"
-                                                id="hoan_thanh" class="form-control"
-                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'hoan_thanh') checked @else disabled @endif>
-                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại C)</b><br>Từ 51 điểm đến 70 điểm
+                                            <input type="radio" name="tu_danh_gia" value="C" id="hoan_thanh"
+                                                class="form-control"
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'C')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            <b>Hoàn thành <br>nhiệm vụ<br>(Loại
+                                                C)</b><br>{{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu }}
+                                            điểm đến
+                                            {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu - 1 }}
+                                            điểm
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            <input type="radio" name="ket_qua_xep_loai" value="khong_hoan_thanh"
+                                            <input type="radio" name="tu_danh_gia" value="D"
                                                 id="khong_hoan_thanh" class="form-control"
-                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == 'khong_hoan_thanh') checked @else disabled @endif>
-                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ 50 điểm trở
-                                            xuống
+                                                @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'D')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ
+                                            {{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu - 1 }} điểm
+                                            trở xuống
                                         </td>
                                     </tr>
                                 </tbody>
@@ -333,56 +346,7 @@
     <!-- jquery-validation -->
     <script src="/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="/plugins/jquery-validation/additional-methods.min.js"></script>
-    <script>
-        $(function() {
-            $('#maudanhgia-captrendanhgia').validate({
-                rules: {
-                    @php
-                        foreach ($so_tieu_chi as $so_tieu_chi) {
-                            echo '
-                            ' .
-                                $so_tieu_chi->ma_tieu_chi .
-                                ': 
-                            {
-                                required: true,
-                                min: 0,
-                                max: ' .
-                                $so_tieu_chi->diem_toi_da .
-                                '
-                            },';
-                        }
-                    @endphp
-                },
-                messages: {
-                    @php
-                        foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
-                            echo '
-                            ' .
-                                $so_tieu_chi_2->ma_tieu_chi .
-                                ': 
-                            {
-                                required: true,
-                                min: "Không nhập số âm",
-                                max: "Lớn hơn điểm tối đa",
-                            },';
-                        }
-                    @endphp
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.align-middle').append(error);
 
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
-        });
-    </script>
     <script>
         function tong_tc_110() {
             let tieu_chi_110 = parseInt(document.getElementById("tc_110").value);
@@ -546,37 +510,55 @@
             addNewRow();
         });
     </script>
-    <script>
-        let diem_tu_cham;
-        tu_xep_loai();
 
-        function tu_xep_loai() {
-            diem_tu_cham = document.querySelector('#tong_cong').innerHTML;
-            if (diem_tu_cham >= {{ $xep_loai[0]['diem_toi_thieu'] }}) {
-                document.getElementById("hoan_thanh_xuat_sac").checked = true;
-                document.getElementById("hoan_thanh_xuat_sac").disabled = false;
-                document.getElementById("hoan_thanh_tot").disabled = true;
-                document.getElementById("hoan_thanh").disabled = true;
-                document.getElementById("khong_hoan_thanh").disabled = true;
-            } else if (diem_tu_cham >= {{ $xep_loai[1]['diem_toi_thieu'] }}) {
-                document.getElementById("hoan_thanh_tot").checked = true;
-                document.getElementById("hoan_thanh_tot").disabled = false;
-                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
-                document.getElementById("hoan_thanh").disabled = true;
-                document.getElementById("khong_hoan_thanh").disabled = true;
-            } else if (diem_tu_cham >= {{ $xep_loai[2]['diem_toi_thieu'] }}) {
-                document.getElementById("hoan_thanh").checked = true;
-                document.getElementById("hoan_thanh").disabled = false;
-                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
-                document.getElementById("hoan_thanh_tot").disabled = true;
-                document.getElementById("khong_hoan_thanh").disabled = true;
-            } else {
-                document.getElementById("khong_hoan_thanh").checked = true;
-                document.getElementById("khong_hoan_thanh").disabled = false;
-                document.getElementById("hoan_thanh_xuat_sac").disabled = true;
-                document.getElementById("hoan_thanh_tot").disabled = true;
-                document.getElementById("hoan_thanh").disabled = true;
-            }
-        }
+    <script>
+        $(function() {
+            $('#maudanhgia-captrendanhgia').validate({
+                rules: {
+                    @php
+                        foreach ($so_tieu_chi as $so_tieu_chi) {
+                            echo '
+                        ' .
+                                $so_tieu_chi->ma_tieu_chi .
+                                ': 
+                        {
+                            required: true,
+                            min: 0,
+                            max: ' .
+                                $so_tieu_chi->diem_toi_da .
+                                '
+                        },';
+                        }
+                    @endphp
+                },
+                messages: {
+                    @php
+                        foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
+                            echo '
+                        ' .
+                                $so_tieu_chi_2->ma_tieu_chi .
+                                ': 
+                        {
+                            required: true,
+                            min: "Không nhập số âm",
+                            max: "Lớn hơn điểm tối đa",
+                        },';
+                        }
+                    @endphp
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.align-middle').append(error);
+
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
     </script>
 @stop
