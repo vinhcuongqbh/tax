@@ -33,15 +33,8 @@
                     method="post" id="maudanhgia-captrendanhgia">
                     @csrf
                     <div class="card card-default">
-                        {{-- <div class="card-header">
-                        <div class="row">
-                            <div class="col-auto">
-                                <a href="{{ route('donvi.create') }}"><button type="button"
-                                        class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
-                            </div>
-                        </div>
-                    </div> --}}
                         <div class="card-body">
+                            {{-- Phần Tiêu đề --}}
                             <table class="table table-borderless">
                                 <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
                                 <tbody>
@@ -64,14 +57,18 @@
                                 {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                             </h6>
                             <br>
+
+                            {{-- Phần Thông tin cá nhân --}}
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $mau_phieu_danh_gia->name }}</h6>
                             @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
                                 <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $mau_phieu_danh_gia->ten_chuc_vu }}</h6>
                             @endif
                             <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $mau_phieu_danh_gia->ten_don_vi }}</h6>
                             <br>
-                            <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
 
+                            {{-- Phần A --}}
+                            <h6 class="text-bold">&emsp;&emsp;&emsp;A. Điểm đánh giá</h6>
+                            {{-- Bảng tiêu chí đánh giá --}}
                             <table id="danh-gia" class="table table-bordered">
                                 <colgroup>
                                     <col style="width:4%;">
@@ -107,42 +104,45 @@
                                             }
                                         @endphp
                                         <tr>
+                                            {{-- Cột Số thứ tự --}}
                                             <td class="text-center @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->tt }}
                                             </td>
+                                            {{-- Cột Nội dung tiêu chí --}}
                                             <td class="text-justify @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->noi_dung }}
                                             </td>
+                                            {{-- Cột Điểm tối đa của tiêu chí --}}
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->diem_toi_da }}
                                             </td>
-                                            @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
-                                                <td class="align-middle text-center">
-                                                    <input class="m-0" type="radio"
-                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                        @if (
-                                                            $ket_qua_muc_A->diem_toi_da ==
-                                                                $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @else disabled @endif></label>
-                                                </td>
-                                            @else
+                                            {{-- Cột Điểm cá nhân tự chấm --}}
+                                            @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
                                                 <td
                                                     class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                     {{ $ket_qua_muc_A->diem_tu_cham }}
                                                 </td>
-                                            @endif
-                                            @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                            @else
+                                                {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
+                                                @php
+                                                    $diem_tu_cham = $ket_qua_muc_A
+                                                        ->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)
+                                                        ->where('ma_phieu_danh_gia', $ket_qua_muc_A->ma_phieu_danh_gia)
+                                                        ->first()->diem_tu_cham;
+                                                @endphp
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio"
-                                                        name="{{ $ket_qua_muc_A->tieu_chi_me }}"
                                                         value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                        id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
-                                                        @if (
-                                                            $ket_qua_muc_A->diem_toi_da ==
-                                                                $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @endif
-                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $diem_tu_cham) checked @else disabled @endif></label>
                                                 </td>
-                                            @else
+                                            @endif
+                                            {{-- Cột Điểm cấp trên đánh giá --}}
+                                            @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
                                                 <td
                                                     class="align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                     <input type="number" id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
@@ -152,6 +152,15 @@
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
                                                         onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
+                                                </td>
+                                            @else
+                                                <td class="align-middle text-center">
+                                                    <input class="m-0" type="radio"
+                                                        name="{{ $ket_qua_muc_A->tieu_chi_me }}"
+                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                        id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $diem_tu_cham) checked @endif
+                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @endif
                                         </tr>

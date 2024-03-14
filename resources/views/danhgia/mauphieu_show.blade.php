@@ -116,43 +116,53 @@
                                             {{ $ket_qua_muc_A->diem_toi_da }}
                                         </td>
                                         {{-- Cột Điểm cá nhân tự chấm --}}
-                                        @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
-                                            {{-- Ghi chú: 
-                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
-                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
-                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
-                                                --}}
-                                            <td class="align-middle text-center">
-                                                <input class="m-0" type="radio"
-                                                    value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    @if (
-                                                        $ket_qua_muc_A->diem_toi_da ==
-                                                            $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_tu_cham) checked @else disabled @endif></label>
-                                            </td>
-                                        @else
+                                        @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->diem_tu_cham }}
                                             </td>
-                                        @endif
-                                        {{-- Cột Điểm cấp trên đánh giá --}}
-                                        @if ($ket_qua_muc_A->loai_tieu_chi == 'phuong_an')
+                                        @else
                                             {{-- Ghi chú: 
                                                     - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
                                                     - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
                                                       Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
                                                 --}}
+                                            @php
+                                                $diem_tu_cham = $ket_qua_muc_A
+                                                    ->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)
+                                                    ->where('ma_phieu_danh_gia', $ket_qua_muc_A->ma_phieu_danh_gia)
+                                                    ->first()->diem_tu_cham;
+                                            @endphp
                                             <td class="align-middle text-center">
                                                 <input class="m-0" type="radio"
                                                     value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    @if (
-                                                        $ket_qua_muc_A->diem_toi_da ==
-                                                            $ket_qua_muc_A->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)->first()->diem_danh_gia) checked @else disabled @endif></label>
+                                                    @if ($ket_qua_muc_A->diem_toi_da == $diem_tu_cham) checked @else disabled @endif></label>
                                             </td>
-                                        @else
+                                        @endif
+                                        {{-- Cột Điểm cấp trên đánh giá --}}
+                                        @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                 {{ $ket_qua_muc_A->diem_danh_gia }}
+                                            </td>
+                                        @else
+                                            {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
+                                            @php
+                                                $diem_danh_gia = $ket_qua_muc_A
+                                                    ->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)
+                                                    ->where('ma_phieu_danh_gia', $ket_qua_muc_A->ma_phieu_danh_gia)
+                                                    ->first()->diem_danh_gia;
+                                            @endphp
+                                            <td class="align-middle text-center">
+                                                @if ($diem_danh_gia != null)
+                                                    <input class="m-0" type="radio"
+                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $diem_danh_gia) checked @else disabled @endif></label>
+                                                @endif
                                             </td>
                                         @endif
                                     </tr>
@@ -171,12 +181,15 @@
                             </tbody>
                         </table>
                         <br>
+
+                        {{-- Mục B --}}
                         <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
                         <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
                             <i>(Thống kê
                                 các
                                 nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
                         </h6>
+                        {{-- Bảng danh sách Nhiệm vụ --}}
                         <table id="nhiem-vu" class="table table-bordered">
                             <colgroup>
                                 <col style="width:5%;">
@@ -220,16 +233,17 @@
                             </tbody>
                         </table>
                         <br>
+                        {{-- Mục Lý do Điểm thưởng --}}
                         <h6>&emsp;&emsp;&emsp;- Các nhiệm vụ có sáng kiến, đổi mới, sáng tạo, mang lại hiệu quả được áp dụng
                             điểm thưởng: <i>(mô tả tóm tắt cách thức, hiệu quả mang lại)</i></h6>
                         <div class="form-group">
                             <textarea class="form-control" id="ly_do_diem_cong" name="ly_do_diem_cong" rows="7" readonly>{{ $ly_do_diem_cong->noi_dung }}</textarea>
                         </div>
+                        {{-- Mục Lý do Điểm trừ --}}
                         <h6>&emsp;&emsp;&emsp;- Lý do áp dụng điểm trừ: <i>(mô tả tóm tắt)</i></h6>
                         <div class="form-group">
                             <textarea class="form-control" id="ly_do_diem_tru" name="ly_do_diem_tru" rows="7" readonly>{{ $ly_do_diem_tru->noi_dung }}</textarea>
                         </div>
-
                         {{-- Mục Cá nhân tự xếp loại --}}
                         <h6 class="text-bold">&emsp;&emsp;&emsp;C. Cá nhân tự xếp loại: <i>(Chọn 01 trong 04 ô tương ứng
                                 dưới đây)</i></h6>
@@ -246,6 +260,7 @@
                             </colgroup>
                             <tbody>
                                 <tr>
+                                    {{-- Xếp loại A --}}
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="A" id="hoan_thanh_xuat_sac"
                                             class="form-control"
@@ -255,6 +270,7 @@
                                         điểm trở lên
                                     </td>
                                     <td></td>
+                                    {{-- Xếp loại B --}}
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="B" id="hoan_thanh_tot"
                                             class="form-control"
@@ -265,6 +281,7 @@
                                         điểm
                                     </td>
                                     <td></td>
+                                    {{-- Xếp loại C --}}
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="C" id="hoan_thanh"
                                             class="form-control"
@@ -275,6 +292,7 @@
                                         điểm
                                     </td>
                                     <td></td>
+                                    {{-- Xếp loại D --}}
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="D" id="khong_hoan_thanh"
                                             class="form-control"
@@ -287,6 +305,8 @@
                             </tbody>
                         </table>
                         <br>
+
+                        {{-- Phần Thông tin Người ký --}}
                         <table class="table table-borderless">
                             <colgroup>
                                 <col style="width:40%;">

@@ -122,33 +122,36 @@
                                                 {{ $mau_phieu_danh_gia->diem_toi_da }}
                                             </td>
                                             {{-- Cột Điểm cá nhân tự chấm --}}
-                                            @if ($mau_phieu_danh_gia->loai_tieu_chi == 'phuong_an')
-                                                {{-- Ghi chú: 
-                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
-                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
-                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
-                                                --}}
-                                                <td class="align-middle text-center">
-                                                    <input class="m-0" type="radio"
-                                                        name="{{ $mau_phieu_danh_gia->tieu_chi_me }}"
-                                                        value="{{ $mau_phieu_danh_gia->diem_toi_da }}"
-                                                        id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
-                                                        @if (
-                                                            $mau_phieu_danh_gia->diem_toi_da ==
-                                                                $mau_phieu_danh_gia->where('ma_tieu_chi', $mau_phieu_danh_gia->tieu_chi_me)->first()->diem_toi_da) checked @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
-                                                </td>
-                                            @else
+                                            @if ($mau_phieu_danh_gia->loai_tieu_chi != 'phuong_an')
                                                 <td class="align-middle @if ($tinh_diem == 0) text-bold @endif">
                                                     <input type="number" id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
                                                         name="{{ $mau_phieu_danh_gia->ma_tieu_chi }}" min="0"
                                                         max="{{ $mau_phieu_danh_gia->diem_toi_da }}"
                                                         value="@php if (($mau_phieu_danh_gia->loai_tieu_chi == 'diem_thuong') 
-                                                    or ($mau_phieu_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
-                                                    else echo $mau_phieu_danh_gia->diem_toi_da; @endphp"
+                                                or ($mau_phieu_danh_gia->loai_tieu_chi == 'diem_tru')) echo '0'; 
+                                                else echo $mau_phieu_danh_gia->diem_toi_da; @endphp"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
                                                         onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()">
+                                                </td>
+                                            @else
+                                                {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
+                                                @php
+                                                    $diem_toi_da = $mau_phieu_danh_gia
+                                                        ->where('ma_tieu_chi', $mau_phieu_danh_gia->tieu_chi_me)
+                                                        ->first()->diem_toi_da;
+                                                @endphp
+                                                <td class="align-middle text-center">
+                                                    <input class="m-0" type="radio"
+                                                        name="{{ $mau_phieu_danh_gia->tieu_chi_me }}"
+                                                        value="{{ $mau_phieu_danh_gia->diem_toi_da }}"
+                                                        id="{{ $mau_phieu_danh_gia->ma_tieu_chi }}"
+                                                        @if ($mau_phieu_danh_gia->diem_toi_da == $diem_toi_da) checked @endif
+                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @endif
                                             {{-- Cột Điểm cấp trên đánh giá --}}
