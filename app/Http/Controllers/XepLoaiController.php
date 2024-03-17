@@ -29,11 +29,13 @@ class XepLoaiController extends Controller
         //Kiểm tra thông tin đầu vào
         $validated = $request->validate([
             'ma_xep_loai' => 'required|unique:App\Models\XepLoai,ma_xep_loai',
+            'ten_xep_loai' => 'required',
             'diem_toi_thieu' => 'required',
         ]);
 
         $xep_loai = new XepLoai();
         $xep_loai->ma_xep_loai = $request->ma_xep_loai;
+        $xep_loai->ten_xep_loai = $request->ten_xep_loai;
         $xep_loai->diem_toi_thieu = $request->diem_toi_thieu;
         $xep_loai->save();
         
@@ -46,7 +48,6 @@ class XepLoaiController extends Controller
     {
         $xep_loai = XepLoai::where('ma_xep_loai', $id)->first();
 
-
         return view('xeploai.edit', [
             'xep_loai' => $xep_loai,
         ]);
@@ -57,11 +58,13 @@ class XepLoaiController extends Controller
     public function update(Request $request, $id)
     {
         //Kiểm tra thông tin đầu vào
-        $validated = $request->validate([            
+        $validated = $request->validate([  
+            'ten_xep_loai' => 'required',          
             'diem_toi_thieu' => 'required',
         ]);
 
-        $xep_loai = XepLoai::where('ma_xep_loai', $id)->first();        
+        $xep_loai = XepLoai::where('ma_xep_loai', $id)->first();     
+        $xep_loai->ten_xep_loai = $request->ten_xep_loai;   
         $xep_loai->diem_toi_thieu = $request->diem_toi_thieu;
         $xep_loai->save();
         return redirect()->route('xeploai.edit', ['id' => $xep_loai->ma_xep_loai])->with('message', 'Đã cập nhật Xếp loại thành công');

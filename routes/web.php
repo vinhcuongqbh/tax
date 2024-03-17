@@ -75,9 +75,15 @@ Route::middleware('auth')->group(function () {
 
 
     Route::group(['prefix' => 'phieudanhgia'], function () {        
-        Route::get('create', [PhieuDanhGiaController::class, 'taophieudanhgia'])->name('phieudanhgia.create');
-        Route::post('store', [PhieuDanhGiaController::class, 'luuphieudanhgia'])->name('phieudanhgia.store');
-        Route::get('{id}/show', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.show');        
+        Route::get('canhanCreate', [PhieuDanhGiaController::class, 'canhanCreate'])->name('phieudanhgia.canhan.create');
+        Route::post('canhanStore', [PhieuDanhGiaController::class, 'canhanStore'])->name('phieudanhgia.canhan.store');
+        Route::get('{id}/canhanEdit', [PhieuDanhGiaController::class, 'canhanEdit'])->name('phieudanhgia.canhan.edit');
+        Route::get('canhanUpdate', [PhieuDanhGiaController::class, 'canhanUpdate'])->name('phieudanhgia.canhan.update');    
+        Route::get('{id}/canhanShow', [PhieuDanhGiaController::class, 'canhanShow'])->name('phieudanhgia.canhan.show');
+
+
+        
+        
         Route::get('{id}/edit', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.edit');        
         Route::get('{id}/captrendanhgia', [PhieuDanhGiaController::class, 'captrendanhgia'])->name('phieudanhgia.captrendanhgia');        
         Route::post('{id}/captrendanhgiaStore', [PhieuDanhGiaController::class, 'captrendanhgiaStore'])->name('phieudanhgia.captrendanhgia.store');

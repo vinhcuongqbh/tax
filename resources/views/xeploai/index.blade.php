@@ -33,14 +33,16 @@
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>
                                 <col style="width:5%;">
+                                <col style="width:25%;">
                                 <col style="width:45%;">
-                                <col style="width:50%;">
+                                <col style="width:25%;">
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
-                                    <th class="text-center">STT</th>
-                                    <th class="text-center">Xếp loại</th>
-                                    <th class="text-center">Điểm tối thiểu</th>
+                                    <th class="text-center align-middle">STT</th>
+                                    <th class="text-center align-middle">Mã Xếp loại</th>
+                                    <th class="text-center align-middle">Xếp loại</th>
+                                    <th class="text-center align-middle">Điểm tối thiểu</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +53,7 @@
                                         <td class="text-center"><a
                                                 href="{{ route('xeploai.edit', $xep_loai->ma_xep_loai) }}">{{ $xep_loai->ma_xep_loai }}</a>
                                         </td>
+                                        <td class="text-left">{{ $xep_loai->ten_xep_loai }}</td>
                                         <td class="text-center">{{ $xep_loai->diem_toi_thieu }}</td>
                                     </tr>
                                 @endforeach

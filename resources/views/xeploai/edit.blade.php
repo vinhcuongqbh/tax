@@ -37,10 +37,17 @@
                         @csrf
                         <div class="card-body">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label" for="ma_xep_loai">Xếp loại</label>
+                                <label class="col-sm-3 col-form-label" for="ma_xep_loai">Mã xếp loại</label>
                                 <div class="col-sm-9">
                                     <input type="text" id="ma_xep_loai" name="ma_xep_loai"
                                         value="{{ $xep_loai->ma_xep_loai }}" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label" for="ten_xep_loai">Xếp loại</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="ten_xep_loai" name="ten_xep_loai"
+                                        value="{{ $xep_loai->ten_xep_loai }}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -79,6 +86,9 @@
                     ma_xep_loai: {
                         required: true,
                     },
+                    ten_xep_loai: {
+                        required: true,
+                    },
                     diem_toi_thieu: {
                         required: true,
                         digits: true,
@@ -86,6 +96,9 @@
                 },
                 messages: {
                     ma_xep_loai: {
+                        required: "Vui lòng nhập thông tin",
+                    },
+                    ten_xep_loai: {
                         required: "Vui lòng nhập thông tin",
                     },
                     diem_toi_thieu: {

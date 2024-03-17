@@ -31,7 +31,8 @@
                                 <col style="width:10%;">
                                 <col style="width:10%;">
                                 <col style="width:10%;">
-                                <col style="width:10%;">
+                                {{-- <col style="width:10%;">
+                                <col style="width:10%;"> --}}
                             </colgroup>
                             <thead style="text-center">
                                 <tr>
@@ -43,8 +44,9 @@
                                     <th class="text-center align-middle">Phòng/Đội</th>
                                     <th class="text-center align-middle">Đơn vị</th>
                                     <th class="text-center align-middle">Điểm tự chấm</th>
-                                    <th class="text-center align-middle">Điểm cấp trên đánh giá</th>
-                                    <th class="text-center align-middle">Kết quả xếp loại</th>
+                                    <th class="text-center align-middle">Cá nhân tự xếp loại</th>
+                                    {{-- <th class="text-center align-middle">Điểm cấp trên đánh giá</th>
+                                    <th class="text-center align-middle">Kết quả xếp loại</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,15 +57,16 @@
                                         <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
                                         echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
                                         <td class="text-center"><a
-                                                href="{{ route('phieudanhgia.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
+                                                href="{{ route('phieudanhgia.canhan.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
                                         </td>
                                         <td>{{ $danh_sach->name }}</td>
                                         <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
                                         <td class="text-center">{{ $danh_sach->ten_phong }}</td>
                                         <td class="text-center">{{ $danh_sach->ten_don_vi }}</td>
                                         <td class="text-center">{{ $danh_sach->tong_diem_tu_cham }}</td>
-                                        <td class="text-center">{{ $danh_sach->tong_diem_danh_gia }}</td>
-                                        <td class="text-center">{{ $danh_sach->ket_qua_xep_loai }}</td>
+                                        <td class="text-center">{{ $danh_sach->ca_nhan_tu_xep_loai }}</td>
+                                        {{-- <td class="text-center">{{ $danh_sach->tong_diem_danh_gia }}</td>
+                                        <td class="text-center">{{ $danh_sach->ket_qua_xep_loai }}</td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -88,22 +91,6 @@
     <script>
         $(function() {
             $("#table").DataTable({
-                // responsive: {
-                //     details: {
-                //         display: DataTable.Responsive.display.modal({
-                //             header: function(row) {
-                //                 var data = row.data();
-                //                 return data[2];
-                //             }
-                //         }),
-                //         renderer: DataTable.Responsive.renderer.tableAll({
-                //             tableClass: 'table'
-                //         })
-                //     }
-                // },
-                // rowReorder: {
-                //     selector: 'td:nth-child(2)'
-                // },
                 lengthChange: false,
                 pageLength: 20,
                 searching: true,
@@ -113,7 +100,7 @@
                         text: 'Tạo mới',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('phieudanhgia.create') }}';
+                            window.location = '{{ route('phieudanhgia.canhan.create') }}';
                         },
                     },
                     {
