@@ -11,14 +11,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    {{-- <div class="card-header">
-                        <div class="row">
-                            <div class="col-auto">
-                                <a href="{{ route('congchuc.create') }}"><button type="button"
-                                        class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>
@@ -56,7 +48,7 @@
                                             <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
                                             echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
                                             <td class="text-center"><a
-                                                    href="{{ route('phieudanhgia.captrendanhgia', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
+                                                    href="{{ route('phieudanhgia.captren.create', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
                                             </td>
                                             <td>{{ $danh_sach->name }}</td>
                                             <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
@@ -94,23 +86,6 @@
                 pageLength: 20,
                 searching: true,
                 autoWidth: false,
-                // dom: 'Bfrtip',
-                // buttons: [{
-                //         text: 'Tạo mới',
-                //         className: 'bg-olive',
-                //         action: function(e, dt, node, config) {
-                //             window.location = '{{ route('phieudanhgia.create') }}';
-                //         },
-                //     },
-                //     {
-                //         extend: 'spacer',
-                //         style: 'bar',
-                //         text: 'Xuất:'
-                //     },
-                //     //'csv',
-                //     'excel',
-                //     'pdf',
-                // ],
                 language: {
                     url: '/plugins/datatables/vi.json'
                 },

@@ -74,24 +74,20 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::group(['prefix' => 'phieudanhgia'], function () {        
+    Route::group(['prefix' => 'phieudanhgia'], function () {   
+        Route::get('canhanList', [PhieuDanhGiaController::class, 'canhanList'])->name('phieudanhgia.canhan.list');     
         Route::get('canhanCreate', [PhieuDanhGiaController::class, 'canhanCreate'])->name('phieudanhgia.canhan.create');
         Route::post('canhanStore', [PhieuDanhGiaController::class, 'canhanStore'])->name('phieudanhgia.canhan.store');
         Route::get('{id}/canhanEdit', [PhieuDanhGiaController::class, 'canhanEdit'])->name('phieudanhgia.canhan.edit');
-        Route::get('canhanUpdate', [PhieuDanhGiaController::class, 'canhanUpdate'])->name('phieudanhgia.canhan.update');    
+        Route::post('{id}/canhanUpdate', [PhieuDanhGiaController::class, 'canhanUpdate'])->name('phieudanhgia.canhan.update');    
         Route::get('{id}/canhanShow', [PhieuDanhGiaController::class, 'canhanShow'])->name('phieudanhgia.canhan.show');
-
-
         
-        
-        Route::get('{id}/edit', [PhieuDanhGiaController::class, 'xemphieudanhgia'])->name('phieudanhgia.edit');        
-        Route::get('{id}/captrendanhgia', [PhieuDanhGiaController::class, 'captrendanhgia'])->name('phieudanhgia.captrendanhgia');        
-        Route::post('{id}/captrendanhgiaStore', [PhieuDanhGiaController::class, 'captrendanhgiaStore'])->name('phieudanhgia.captrendanhgia.store');
-        Route::get('danhsachtudanhgia', [PhieuDanhGiaController::class, 'danhsachtudanhgia'])->name('phieudanhgia.danhsachtudanhgia');
-        Route::get('danhsachcaptrendanhgia', [PhieuDanhGiaController::class, 'danhsachcaptrendanhgia'])->name('phieudanhgia.danhsachcaptrendanhgia');
-        // Route::post('ketquatucham', [PhieuDanhGiaController::class, 'ketquatucham'])->name('ketquatucham');
-        // Route::get('maucaptrendanhgia', [PhieuDanhGiaController::class, 'maucaptrendanhgia'])->name('maucaptrendanhgia');
-        // Route::post('ketquacaptrendanhgia', [PhieuDanhGiaController::class, 'ketquacaptrendanhgia'])->name('ketquacaptrendanhgia');
+        Route::get('captrenList', [PhieuDanhGiaController::class, 'captrenList'])->name('phieudanhgia.captren.list');
+        Route::get('{id}/captrenCreate', [PhieuDanhGiaController::class, 'captrenCreate'])->name('phieudanhgia.captren.create');        
+        Route::post('{id}/captrenStore', [PhieuDanhGiaController::class, 'captrenStore'])->name('phieudanhgia.captren.store');
+        Route::get('{id}/captrenEdit', [PhieuDanhGiaController::class, 'captrenEdit'])->name('phieudanhgia.captren.edit');
+        Route::post('{id}/captrenUpdate', [PhieuDanhGiaController::class, 'captrenUpdate'])->name('phieudanhgia.captren.update');
+        Route::get('{id}/captrenShow', [PhieuDanhGiaController::class, 'captrenShow'])->name('phieudanhgia.captren.show');        
     });
 });
 

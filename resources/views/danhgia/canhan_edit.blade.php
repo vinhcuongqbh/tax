@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="{{ route('phieudanhgia.canhan.store') }}" method="post" id="mauphieudanhgia">
+                <form action="{{ route('phieudanhgia.canhan.update', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}" method="post" id="mauphieudanhgia">
                     @csrf
                     <div class="card card-default">
                         <div class="card-body">
@@ -331,10 +331,8 @@
 
                     {{-- Nút Lưu và Nút Gửi --}}
                     <div class="text-right">
-                        <button type="submit" class="btn bg-warning text-nowrap mb-2 ml-2 col-1" name="save"
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="save"
                             id="submitForm">Lưu</button>
-                        <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="send"
-                            id="submitForm">Lưu & Gửi</button>
                     </div>
                 </form>
             </div>
@@ -399,7 +397,7 @@
             document.getElementById("tc_170").value = tieu_chi_170;
         }
 
-        function tong_tc_210() {     
+        function tong_tc_210() {
             let tieu_chi_210 = parseInt(document.getElementById("tc_210").value);
             let tieu_chi_211 = parseInt(document.getElementById("tc_211").value);
             let tieu_chi_212 = parseInt(document.getElementById("tc_212").value);
@@ -407,10 +405,30 @@
             let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
             let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
             let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
-            let tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
-            let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
-            let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
-            let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            let tieu_chi_217;
+            if (document.getElementById("tc_217") != null) {
+                tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
+            } else {
+                tieu_chi_217 = 0;
+            }
+            let tieu_chi_218;
+            if (document.getElementById("tc_218") != null) {
+                tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
+            } else {
+                tieu_chi_218 = 0;
+            }
+            let tieu_chi_219;
+            if (document.getElementById("tc_219") != null) {
+                tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
+            } else {
+                tieu_chi_219 = 0;
+            }
+            let tieu_chi_220;
+            if (document.getElementById("tc_220") != null) {
+                tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            } else {
+                tieu_chi_220 = 0;
+            }
             tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
                 tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
             document.getElementById("tc_210").value = tieu_chi_210;
@@ -479,7 +497,7 @@
                     }
                 ],
             })
-            let ma_tieu_chi = 1;
+            
 
             //Xóa Dòng
             table.on('click', 'tbody tr', (e) => {
@@ -494,6 +512,7 @@
             });
 
             //Thêm Dòng
+            let ma_tieu_chi = 1;
             function addNewRow() {
                 if (ma_tieu_chi <= 50) {
                     table.row

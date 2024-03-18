@@ -167,12 +167,12 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/phieudanhgia/danhsachtudanhgia" class="nav-link">
+                                    <a href="/phieudanhgia/canhanList" class="nav-link">
                                         <p>2.1. Công chức tự đánh giá</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/phieudanhgia/danhsachcaptrendanhgia" class="nav-link">
+                                    <a href="/phieudanhgia/captrenList" class="nav-link">
                                         <p>2.2. Cấp có thẩm quyền đánh giá</p>
                                     </a>
                                 </li>

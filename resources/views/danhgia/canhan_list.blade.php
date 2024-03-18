@@ -11,14 +11,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="card card-default">
-                    {{-- <div class="card-header">
-                        <div class="row">
-                            <div class="col-auto">
-                                <a href="{{ route('congchuc.create') }}"><button type="button"
-                                        class="btn bg-olive text-white w-100 text-nowrap"><span>Tạo mới</span></button></a>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>

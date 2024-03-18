@@ -140,8 +140,31 @@
                                             </td>
                                         @endif
                                         {{-- Cột Điểm cấp trên đánh giá --}}
-                                        <td class="align-middle text-center">
-                                        </td>
+                                        @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
+                                            <td
+                                                class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
+                                                {{ $ket_qua_muc_A->diem_danh_gia }}
+                                            </td>
+                                        @else
+                                            {{-- Ghi chú: 
+                                                    - Nếu điểm của phương án bằng điểm tối đa của tiêu chí mẹ thì tự đánh dấu vào ô của phương án đó. 
+                                                    - Khi điểm của tiêu chí con nào thay đổi thì thực hiện tính toán lại Tổng điểm của tiêu chí mẹ, 
+                                                      Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
+                                                --}}
+                                            @php
+                                                $diem_danh_gia = $ket_qua_muc_A
+                                                    ->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)
+                                                    ->where('ma_phieu_danh_gia', $ket_qua_muc_A->ma_phieu_danh_gia)
+                                                    ->first()->diem_danh_gia;
+                                            @endphp
+                                            <td class="align-middle text-center">
+                                                @if ($diem_danh_gia != null)
+                                                    <input class="m-0" type="radio"
+                                                        value="{{ $ket_qua_muc_A->diem_toi_da }}"
+                                                        @if ($ket_qua_muc_A->diem_toi_da == $diem_danh_gia) checked @else disabled @endif></label>
+                                                @endif
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 <tr>
@@ -152,6 +175,7 @@
                                         {{ $mau_phieu_danh_gia->tong_diem_tu_cham }}
                                     </td>
                                     <td class="align-middle text-center text-bold display-4 p-0" id="tong_diem_dang_gia">
+                                        {{ $mau_phieu_danh_gia->tong_diem_danh_gia }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -161,7 +185,9 @@
                         {{-- Mục B --}}
                         <h6 class="text-bold">&emsp;&emsp;&emsp;B. Số liệu thống kê kết quả thực hiện nhiệm vụ</h6>
                         <h6>&emsp;&emsp;&emsp;- Nhiệm vụ theo chương trình, kế hoạch và nhiệm vụ phát sinh:
-                            <i>(Thống kê các nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
+                            <i>(Thống kê
+                                các
+                                nhiệm vụ và đánh dấu X vào một trong 4 ô sau cùng tương ứng)</i>
                         </h6>
                         {{-- Bảng danh sách Nhiệm vụ --}}
                         <table id="nhiem-vu" class="table table-bordered">

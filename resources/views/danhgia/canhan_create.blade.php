@@ -52,7 +52,7 @@
                             <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
                             <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
                             </h6>
-                            <h6 class="text-center align-middle my-0">Tháng                                
+                            <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
                                     min="1" max="{{ $thoi_diem_danh_gia->month }}"
                                     value="{{ $thoi_diem_danh_gia->month }}"> / <input type="number" class="text-center"
@@ -303,12 +303,10 @@
                     </div>
                     <!-- /.card -->
 
-                    {{-- Nút Lưu và Nút Gửi --}}
+                    {{-- Nút Lưu --}}
                     <div class="text-right">
-                        <button type="submit" class="btn bg-warning text-nowrap mb-2 ml-2 col-1" name="save"
-                            id="submitForm">Lưu</button>
-                        <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="send"
-                            id="submitForm">Lưu & Gửi</button>
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="submitForm"
+                            value="save">Lưu</button>
                     </div>
                     <input type="hidden" name="mau_phieu_danh_gia" value="{{ $mau }}">
                 </form>
@@ -383,17 +381,37 @@
             let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
             let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
             let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
-            let tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
-            let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
-            let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
-            let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            let tieu_chi_217;
+            if (document.getElementById("tc_217") != null) {
+                tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
+            } else {
+                tieu_chi_217 = 0;
+            }
+            let tieu_chi_218;
+            if (document.getElementById("tc_218") != null) {
+                tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
+            } else {
+                tieu_chi_218 = 0;
+            }
+            let tieu_chi_219;
+            if (document.getElementById("tc_219") != null) {
+                tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
+            } else {
+                tieu_chi_219 = 0;
+            }
+            let tieu_chi_220;
+            if (document.getElementById("tc_220") != null) {
+                tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            } else {
+                tieu_chi_220 = 0;
+            }
             tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
                 tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
             document.getElementById("tc_210").value = tieu_chi_210;
         }
 
         function tong_tc_230() {
-            var tieu_chi_230 = document.querySelector('input[name="tc_230"]:checked').value;
+            let tieu_chi_230 = document.querySelector('input[name="tc_230"]:checked').value;
             document.getElementById("tc_230").value = tieu_chi_230;
         }
 
@@ -454,8 +472,7 @@
                         targets: [0, 1, 2, 3, 4, 5, 6]
                     }
                 ],
-            })
-            let ma_tieu_chi = 1;
+            })            
 
             //Xóa Dòng
             table.on('click', 'tbody tr', (e) => {
@@ -470,6 +487,7 @@
             });
 
             //Thêm Dòng
+            let ma_tieu_chi = 1;
             function addNewRow() {
                 if (ma_tieu_chi <= 50) {
                     table.row
@@ -508,7 +526,7 @@
         function tu_xep_loai() {
             let diem_tu_cham = document.querySelector('#tong_diem_tu_cham').innerHTML;
             let ca_nhan_tu_xep_loai = document.getElementsByName("ca_nhan_tu_xep_loai");
-            for (var i = 0, len = ca_nhan_tu_xep_loai.length; i < len; i++) {
+            for (let i = 0, len = ca_nhan_tu_xep_loai.length; i < len; i++) {
                 ca_nhan_tu_xep_loai[i].disabled = true;
             }
             if (diem_tu_cham >= {{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu }}) {

@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="{{ route('phieudanhgia.captrendanhgia.store', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"
+                <form action="{{ route('phieudanhgia.captren.store', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"
                     method="post" id="maudanhgia-captrendanhgia">
                     @csrf
                     <div class="card card-default">
@@ -405,10 +405,30 @@
             let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
             let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
             let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
-            let tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
-            let tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
-            let tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
-            let tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            let tieu_chi_217;
+            if (document.getElementById("tc_217") != null) {
+                tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
+            } else {
+                tieu_chi_217 = 0;
+            }
+            let tieu_chi_218;
+            if (document.getElementById("tc_218") != null) {
+                tieu_chi_218 = parseInt(document.getElementById("tc_218").value);
+            } else {
+                tieu_chi_218 = 0;
+            }
+            let tieu_chi_219;
+            if (document.getElementById("tc_219") != null) {
+                tieu_chi_219 = parseInt(document.getElementById("tc_219").value);
+            } else {
+                tieu_chi_219 = 0;
+            }
+            let tieu_chi_220;
+            if (document.getElementById("tc_220") != null) {
+                tieu_chi_220 = parseInt(document.getElementById("tc_220").value);
+            } else {
+                tieu_chi_220 = 0;
+            }
             tieu_chi_210 = tieu_chi_211 + tieu_chi_212 + tieu_chi_213 + tieu_chi_214 + tieu_chi_215 + tieu_chi_216 +
                 tieu_chi_217 + tieu_chi_218 + tieu_chi_219 + tieu_chi_220;
             document.getElementById("tc_210").value = tieu_chi_210;

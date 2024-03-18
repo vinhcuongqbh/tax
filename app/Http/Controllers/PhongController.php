@@ -10,14 +10,14 @@ class PhongController extends Controller
 {
     //Hiển thị danh sách Phòng/Đội
     public function index()
-    {        
+    {
         $phong = Phong::leftjoin('don_vi', 'don_vi.ma_don_vi', 'phong.ma_don_vi_cap_tren')
-            ->select('phong.id', 'phong.ma_phong', 'phong.ten_phong', 'don_vi.ten_don_vi','phong.ma_trang_thai')
+            ->select('phong.id', 'phong.ma_phong', 'phong.ten_phong', 'don_vi.ten_don_vi', 'phong.ma_trang_thai')
             ->get();
 
         return view('phong.index', ['phong' => $phong]);
     }
-    
+
 
     //Tạo mới Phòng/Đội
     public function create()
@@ -26,7 +26,7 @@ class PhongController extends Controller
 
         return view('phong.create', ['don_vi' => $don_vi]);
     }
-    
+
 
     //Lưu trữ thông tin Phòng/Đội
     public function store(Request $request)
@@ -43,8 +43,11 @@ class PhongController extends Controller
         $phong->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
         $phong->ma_trang_thai = 1;
         $phong->save();
-        
-        return redirect()->route('phong.edit', ['id' => $request->ma_phong])->with('message', 'Đã tạo mới Phòng/Đội thành công');
+
+        return redirect()->route(
+            'phong.edit',
+            ['id' => $request->ma_phong]
+        )->with('message', 'Đã tạo mới Phòng/Đội thành công');
     }
 
 
@@ -71,7 +74,7 @@ class PhongController extends Controller
             'ten_phong' => 'required',
         ]);
 
-        $phong = Phong::where('ma_phong', $id)->first();        
+        $phong = Phong::where('ma_phong', $id)->first();
         $phong->ten_phong = $request->ten_phong;
         $phong->ma_don_vi_cap_tren = $request->ma_don_vi_cap_tren;
         $phong->save();
@@ -99,14 +102,14 @@ class PhongController extends Controller
 
         return back()->with('message', 'Đã mở khóa Phòng/Đội');
     }
-    
+
 
     //Lấy danh sách Phòng/Đội dựa trên Đơn vị
     public function dmPhong(Request $request)
     {
         $data['phong'] = Phong::where('ma_don_vi_cap_tren', $request->ma_don_vi)
-                                ->get(['ma_phong', 'ten_phong']);
-  
+            ->get(['ma_phong', 'ten_phong']);
+
         return response()->json($data);
     }
 }
