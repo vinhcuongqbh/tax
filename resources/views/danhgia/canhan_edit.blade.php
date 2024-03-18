@@ -53,8 +53,7 @@
                             <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
-                                {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/
-                                {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
+                                {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
                             </h6>
                             <br>
 
@@ -127,7 +126,7 @@
                                                         value="{{ $ket_qua_muc_A->diem_tu_cham }}"
                                                         class="text-center form-control pl-4"
                                                         @if ($tinh_diem == 0) readonly @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100(); 
+                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100(); 
                                                         tong_200(); tong_300(); tong_diem_tu_cham(); tu_xep_loai()">
                                                 </td>
                                             @else
@@ -148,7 +147,7 @@
                                                         value="{{ $ket_qua_muc_A->diem_toi_da }}"
                                                         id="{{ $ket_qua_muc_A->ma_tieu_chi }}"
                                                         @if ($ket_qua_muc_A->diem_toi_da == $diem_tu_cham) checked @endif
-                                                        onchange="tong_{{ $mau_phieu_danh_gia->tieu_chi_me }}(); tong_100();
+                                                        onchange="tong_{{ $ket_qua_muc_A->tieu_chi_me }}(); tong_100();
                                                         tong_200(); tong_300(); tong_diem_tu_cham(); tu_xep_loai()"></label>
                                                 </td>
                                             @endif
@@ -336,7 +335,7 @@
                             id="submitForm">Lưu</button>
                         <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="send"
                             id="submitForm">Lưu & Gửi</button>
-                    </div>                    
+                    </div>
                 </form>
             </div>
             <!-- /.col -->
@@ -400,7 +399,7 @@
             document.getElementById("tc_170").value = tieu_chi_170;
         }
 
-        function tong_tc_210() {
+        function tong_tc_210() {     
             let tieu_chi_210 = parseInt(document.getElementById("tc_210").value);
             let tieu_chi_211 = parseInt(document.getElementById("tc_211").value);
             let tieu_chi_212 = parseInt(document.getElementById("tc_212").value);
