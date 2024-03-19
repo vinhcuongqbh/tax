@@ -307,10 +307,19 @@
                         </table>
                         <br>
                     </div>
+                    <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                <input type="hidden" name="mau_phieu_danh_gia" value="mau01B">
-                <!-- /.card-body -->
+                @if ($mau_phieu_danh_gia->ma_trang_thai == 11)
+                    <div class="text-right">
+                        <a href="{{ route('phieudanhgia.canhan.edit', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"><button
+                                type="button" class="btn bg-warning text-nowrap mb-2 ml-2 col-1"
+                                name="edit">Sửa</button></a>
+                        <a href="{{ route('phieudanhgia.canhan.send', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"><button
+                                type="button" class="btn bg-olive text-nowrap mb-2 ml-2 col-1"
+                                name="send">Gửi</button></a>
+                    </div>
+                @endif
             </div>
             <!-- /.col -->
         </div>

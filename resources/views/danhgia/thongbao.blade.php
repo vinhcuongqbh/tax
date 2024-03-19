@@ -1,9 +1,9 @@
 @extends('dashboard')
 
-@section('title', 'Danh sách Phiếu đánh giá')
+@section('title', 'Thông báo kết quả xếp loại')
 
 @section('heading')
-    Danh sách Phiếu Đánh giá
+    Thông báo kết quả xếp loại
 @stop
 
 @section('content')
@@ -42,12 +42,19 @@
                                 @if (isset($danh_sach))
                                     @foreach ($danh_sach as $danh_sach)
                                         <tr>
-                                            <td class="text-center">{{ $i++ }}</td>
+                                            <td class="text-center">
+                                                <div class="">
+                                                    {{-- <input class="form-check-input" type="checkbox"
+                                                        id="{{ $danh_sach->ma_phieu_danh_gia }}"
+                                                        value="{{ $danh_sach->ma_phieu_danh_gia }}" name="ma_phieu_list[]"
+                                                        checked> --}}{{ $i++ }}
+                                                </div>
+                                            </td>
                                             <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
                                             echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
                                             <td><a
-                                                    href="{{ route('phieudanhgia.captren.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->name }}</a>
-                                            </td>
+                                                    href="{{ route('phieudanhgia.captren.create', $danh_sach->ma_phieu_danh_gia) }}">
+                                                    {{ $danh_sach->name }}</a></td>
                                             <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
                                             <td class="text-center">{{ $danh_sach->ten_phong }}</td>
                                             <td class="text-center">{{ $danh_sach->ten_don_vi }}</td>
@@ -89,10 +96,10 @@
                 scrollY: 1000,
                 dom: 'Bfrtip',
                 buttons: [{
-                        text: 'Phê duyệt',
+                        text: 'Trình Cấp trên',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('phieudanhgia.capqd.approve') }}';
+                            window.location = '{{ route('phieudanhgia.captren.send') }}';
                         },
                     },
                     {

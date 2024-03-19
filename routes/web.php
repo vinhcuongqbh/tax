@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
         Route::get('{id}/canhanEdit', [PhieuDanhGiaController::class, 'canhanEdit'])->name('phieudanhgia.canhan.edit');
         Route::post('{id}/canhanUpdate', [PhieuDanhGiaController::class, 'canhanUpdate'])->name('phieudanhgia.canhan.update');    
         Route::get('{id}/canhanShow', [PhieuDanhGiaController::class, 'canhanShow'])->name('phieudanhgia.canhan.show');
+        Route::get('{id}/canhanSend', [PhieuDanhGiaController::class, 'canhanSend'])->name('phieudanhgia.canhan.send');
         
         
         Route::get('captrenList', [PhieuDanhGiaController::class, 'captrenList'])->name('phieudanhgia.captren.list');
@@ -92,6 +93,9 @@ Route::middleware('auth')->group(function () {
         Route::get('captrenSend', [PhieuDanhGiaController::class, 'captrenSend'])->name('phieudanhgia.captren.send');        
 
         Route::get('capqdList', [PhieuDanhGiaController::class, 'capqdList'])->name('phieudanhgia.capqd.list');
+        Route::get('capqdApprove', [PhieuDanhGiaController::class, 'capqdApprove'])->name('phieudanhgia.capqd.approve');
+
+        Route::get('tbKQXL', [PhieuDanhGiaController::class, 'tbKQXL'])->name('phieudanhgia.tbKQXL');   
     });
 });
 

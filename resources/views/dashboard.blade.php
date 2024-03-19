@@ -173,7 +173,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="/phieudanhgia/captrenList" class="nav-link">
-                                        <p>2.2. Cấp tham mưu đánh giá</p>
+                                        <p>2.2. Cấp trên đánh giá</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -290,6 +290,25 @@
                 </div><!-- /.container-fluid -->
             </section>
             <section class="content">
+                @if (session()->has('msg_success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            text: `{{ session()->get('msg_success') }}`,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    </script>
+                @elseif (session()->has('msg_error'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            text: `{{ session()->get('msg_error') }}`,
+                            showConfirmButton: false,
+                            timer: 3000
+                        })
+                    </script>
+                @endif
                 @yield('content')
             </section>
         </div>
@@ -308,4 +327,5 @@
     @yield('css')
     @yield('js')
 </body>
+
 </html>
