@@ -173,12 +173,12 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="/phieudanhgia/captrenList" class="nav-link">
-                                        <p>2.2. Cấp có thẩm quyền đánh giá</p>
+                                        <p>2.2. Cấp tham mưu đánh giá</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>2.3. Lấy kiến của Hội đồng</p>
+                                    <a href="/phieudanhgia/capqdList" class="nav-link">
+                                        <p>2.3. Hội đồng/Cấp có thẩm quyền quyết định đánh giá</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

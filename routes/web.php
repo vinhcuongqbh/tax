@@ -82,12 +82,16 @@ Route::middleware('auth')->group(function () {
         Route::post('{id}/canhanUpdate', [PhieuDanhGiaController::class, 'canhanUpdate'])->name('phieudanhgia.canhan.update');    
         Route::get('{id}/canhanShow', [PhieuDanhGiaController::class, 'canhanShow'])->name('phieudanhgia.canhan.show');
         
+        
         Route::get('captrenList', [PhieuDanhGiaController::class, 'captrenList'])->name('phieudanhgia.captren.list');
         Route::get('{id}/captrenCreate', [PhieuDanhGiaController::class, 'captrenCreate'])->name('phieudanhgia.captren.create');        
         Route::post('{id}/captrenStore', [PhieuDanhGiaController::class, 'captrenStore'])->name('phieudanhgia.captren.store');
         Route::get('{id}/captrenEdit', [PhieuDanhGiaController::class, 'captrenEdit'])->name('phieudanhgia.captren.edit');
         Route::post('{id}/captrenUpdate', [PhieuDanhGiaController::class, 'captrenUpdate'])->name('phieudanhgia.captren.update');
         Route::get('{id}/captrenShow', [PhieuDanhGiaController::class, 'captrenShow'])->name('phieudanhgia.captren.show');        
+        Route::get('captrenSend', [PhieuDanhGiaController::class, 'captrenSend'])->name('phieudanhgia.captren.send');        
+
+        Route::get('capqdList', [PhieuDanhGiaController::class, 'capqdList'])->name('phieudanhgia.capqd.list');
     });
 });
 

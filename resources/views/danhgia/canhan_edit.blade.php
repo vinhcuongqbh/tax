@@ -205,18 +205,19 @@
                                         <tr>
                                             <td>+</td>
                                             <td class="text-justify">
-                                                <p>{{ $ket_qua_muc_B->noi_dung }}</p>
+                                                <textarea class="form-control" id="' + ma_tieu_chi + '_noi_dung_nhiem_vu" name="' +
+                            ma_tieu_chi + '_noi_dung_nhiem_vu" rows="2">{{ $ket_qua_muc_B->noi_dung }}</textarea>
                                             </td>
-                                            <td><input type="checkbox" value="1"
-                                                    @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @else disabled @endif></td>
+                                            <td><input type="checkbox" value="1" 
+                                                    @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @endif></td>
                                             <td><input type="radio" value="truoc_han"
-                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @else disabled @endif></td>
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @endif></td>
                                             <td><input type="radio" value="dung_han"
-                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @else disabled @endif></td>
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @endif></td>
                                             <td><input type="radio" value="qua_han"
-                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @else disabled @endif></td>
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @endif></td>
                                             <td><input type="radio" value="lui_han"
-                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @else disabled @endif></td>
+                                                    @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @endif></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -16,11 +16,10 @@
                             <colgroup>
                                 <col style="width:5%;">
                                 <col style="width:10%;">
-                                <col style="width:10%;">
                                 <col style="width:15%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
-                                <col style="width:10%;">
+                                <col style="width:15%;">
+                                <col style="width:20%;">
+                                <col style="width:15%;">
                                 <col style="width:10%;">
                                 <col style="width:10%;">
                                 {{-- <col style="width:10%;">
@@ -30,7 +29,6 @@
                                 <tr>
                                     <th class="text-center align-middle">STT</th>
                                     <th class="text-center align-middle">Thời điểm đánh giá</th>
-                                    <th class="text-center align-middle">Mã phiếu đánh giá</th>
                                     <th class="text-center align-middle">Họ và tên</th>
                                     <th class="text-center align-middle">Chức vụ</th>
                                     <th class="text-center align-middle">Phòng/Đội</th>
@@ -48,10 +46,11 @@
                                         <td class="text-center">{{ $i++ }}</td>
                                         <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
                                         echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
-                                        <td class="text-center"><a
-                                                href="{{ route('phieudanhgia.canhan.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->ma_phieu_danh_gia }}</a>
                                         </td>
-                                        <td>{{ $danh_sach->name }}</td>
+                                        <td><a href="{{ route('phieudanhgia.canhan.show', $danh_sach->ma_phieu_danh_gia) }}">
+                                                {{ $danh_sach->name }}
+                                            </a>
+                                        </td>
                                         <td class="text-center">{{ $danh_sach->ten_chuc_vu }}</td>
                                         <td class="text-center">{{ $danh_sach->ten_phong }}</td>
                                         <td class="text-center">{{ $danh_sach->ten_don_vi }}</td>

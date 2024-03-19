@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 
 class PhieuDanhGiaController extends Controller
 {
+    ///////////////////// Cá nhân tự đánh giá, xếp loại ////////////////////
     //Tạo Phiếu đánh giá cá nhân tự chấm
     public function canhanCreate()
     {
@@ -157,7 +158,7 @@ class PhieuDanhGiaController extends Controller
                 [
                     'id' => $phieu_danh_gia->ma_phieu_danh_gia
                 ]
-            )->with('msg_success', 'Đã gửi thành công Phiếu đánh giá');
+            )->with('msg_success', 'Đã lưu thành công Phiếu đánh giá');
         }
     }
 
@@ -265,12 +266,10 @@ class PhieuDanhGiaController extends Controller
 
         foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia) {
             $ket_qua_muc_A = KetQuaMucA::where('ma_phieu_danh_gia', $ma_phieu_danh_gia)
-                //->where('ma_tieu_chi', $request->input($mau_phieu_danh_gia->ma_tieu_chi))
+                ->where('ma_tieu_chi', $mau_phieu_danh_gia->ma_tieu_chi)
                 ->first();
-            echo $ket_qua_muc_A->diem_tu_cham;
-            echo "<br>";
-            // $ket_qua_muc_A->diem_tu_cham = $request->input($mau_phieu_danh_gia->ma_tieu_chi);
-            // $ket_qua_muc_A->save();
+            $ket_qua_muc_A->diem_tu_cham = $request->input($mau_phieu_danh_gia->ma_tieu_chi);
+            $ket_qua_muc_A->save();
         }
 
         //Lưu kết quả tự chấm Mục B    
@@ -396,7 +395,7 @@ class PhieuDanhGiaController extends Controller
         return view('danhgia.canhan_list', ['danh_sach' => $danh_sach_tu_danh_gia]);
     }
 
-    //////////////// Cấp trên //////////////////////
+    //////////////// Cấp tham mưu đánh giá, xếp loại //////////////////////
 
     //Danh sách Phiếu đánh giá cấp trên cần thực hiện đánh giá
     public function captrenList()
@@ -642,5 +641,51 @@ class PhieuDanhGiaController extends Controller
                 'xep_loai' => $xep_loai,
             ]
         );
+    }
+
+    public function captrenSend(Request $request) {
+        $ma_phieu_list = $request->ma_phieu_list;
+        var_dump($ma_phieu_list);
+    }
+    //////////////////////// Cấp quyết định đánh giá, xếp loại ////////////////////////////////
+    //Danh sách Phiếu đánh giá cần phê duyệt
+    public function capqdList()
+    {
+        if (Auth::user()->ma_chuc_vu == "01") {
+            //Nếu Người dùng có chức vụ Cục Trưởng
+            $danh_sach_pheduyet = PhieuDanhGia::where('phieu_danh_gia.ma_trang_thai', '17')
+                ->where('phieu_danh_gia.ma_chuc_vu', '02') //Phê duyệt đánh giá cho Phó Cục trưởng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '03') //Phê duyệt đánh giá cho Chi cục trưởng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '04') //Phê duyệt đánh giá cho Chánh Văn phòng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '05') //Phê duyệt đánh giá cho Trưởng phòng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '06') //Phê duyệt đánh giá cho Phó Chi cục Trưởng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '07') //Phê duyệt đánh giá cho Phó Chánh Văn phòng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '08') //Phê duyệt đánh giá cho Phó Trưởng phòng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '09') //Phê duyệt đánh giá cho Đội trưởng
+                ->orwhere('phieu_danh_gia.ma_chuc_vu', '10') //Phê duyệt đánh giá cho Phó Đội Trưởng
+                ->orwhere('phieu_danh_gia.ma_don_vi', Auth::user()->ma_don_vi) //Phê duyệt đánh giá cho Công chức không giữ chức vụ lãnh đạo thuộc Văn phòng, Phòng của Cục thuế
+                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
+                ->get();
+        } elseif (Auth::user()->ma_chuc_vu == "03") {
+            //Nếu Người dùng có chức vụ Chi cục Trưởng
+            $danh_sach_pheduyet = PhieuDanhGia::where('phieu_danh_gia.ma_don_vi', Auth::user()->ma_don_vi)
+                ->where('phieu_danh_gia.ma_chuc_vu', null) //Đánh giá cho Công chức không giữ chức vụ lãnh đạo thuộc Chi cục                
+                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('phieu_danh_gia.created_at', 'DESC')
+                ->get();
+        } else {
+            $danh_sach_pheduyet = Null;
+        }
+
+        return view('danhgia.capqd_list', ['danh_sach' => $danh_sach_pheduyet]);
     }
 }
