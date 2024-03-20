@@ -100,7 +100,7 @@
                         <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="/" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('congchuc.show', Auth::user()->so_hieu_cong_chuc) }}" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -150,11 +150,11 @@
                                         <p>1.4. Danh mục xếp loại</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="/" class="nav-link">
                                         <p>1.5. Phân quyền sử dụng</p>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -229,7 +229,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="fas fa-chart-bar"></i>
                                 <p>
@@ -269,8 +269,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-
+                        </li> --}}
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

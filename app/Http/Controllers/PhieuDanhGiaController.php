@@ -32,7 +32,12 @@ class PhieuDanhGiaController extends Controller
             ->select('users.*', 'chuc_vu.ten_chuc_vu', 'don_vi.ten_don_vi')
             ->first();
 
-        if (Auth::user()->ma_chuc_vu != NULL) {
+        if (in_array(Auth::user()->ma_ngach, ['01.007','01.009','01.010','01.011'])) {
+            $mau_phieu_danh_gia = Mau01C::all();
+            $mau = "mau01C";
+            $ten_mau = "Mẫu số 01C";
+            $doi_tuong_ap_dung = "người lao động";
+        } elseif (Auth::user()->ma_chuc_vu != NULL) {
             $mau_phieu_danh_gia = Mau01A::all();
             $mau = "mau01A";
             $ten_mau = "Mẫu số 01A";
@@ -702,6 +707,19 @@ class PhieuDanhGiaController extends Controller
     //Danh sách Phiếu đánh giá cần phê duyệt
     public function capqdList()
     {
+        if (Auth::user()->hoi_dong_phe_duyet == 1) {
+            // Nếu Người dùng có chức năng phê duyệt của Hội đồng TĐKT
+            $danh_sach_hoi_dong = PhieuDanhGia::where('phieu_danh_gia.ma_trang_thai', '13')
+                ->where('phieu_danh_gia.ma_chuc_vu', '01')
+                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
+                ->get();
+        }
+
         if (Auth::user()->ma_chuc_vu == "01") {
             // Nếu Người dùng có chức vụ Cục Trưởng
             // Phê duyệt đánh giá cho: 02-Phó Cục trưởng; 03-Chi cục trưởng; 04-Chánh Văn phòng; 05-Trưởng phòng; 06-Phó Chi cục Trưởng; 
@@ -735,11 +753,32 @@ class PhieuDanhGiaController extends Controller
             $danh_sach = Null;
         }
 
-        return view('danhgia.capqd_list', ['danh_sach' => $danh_sach]);
+        if (($danh_sach_hoi_dong != null) && ($danh_sach != null)) {
+            $danh_sach_phe_duyet = $danh_sach_hoi_dong->merge($danh_sach);
+        } elseif (($danh_sach_hoi_dong != null) && ($danh_sach == null)) {
+            $danh_sach_phe_duyet = $danh_sach_hoi_dong;
+        } elseif (($danh_sach_hoi_dong == null) && ($danh_sach != null)) {
+            $danh_sach_phe_duyet = $danh_sach;
+        }
+
+        return view('danhgia.capqd_list', ['danh_sach' => $danh_sach_phe_duyet]);
     }
 
     public function capqdApprove()
     {
+        if (Auth::user()->hoi_dong_phe_duyet == 1) {
+            // Nếu Người dùng có chức năng phê duyệt của Hội đồng TĐKT
+            $danh_sach_hoi_dong = PhieuDanhGia::where('phieu_danh_gia.ma_trang_thai', '13')
+                ->where('phieu_danh_gia.ma_chuc_vu', '01')
+                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
+                ->get();
+        }
+
         if (Auth::user()->ma_chuc_vu == "01") {
             // Nếu Người dùng có chức vụ Cục Trưởng
             // Phê duyệt đánh giá cho: 02-Phó Cục trưởng; 03-Chi cục trưởng; 04-Chánh Văn phòng; 05-Trưởng phòng; 06-Phó Chi cục Trưởng; 
@@ -773,16 +812,28 @@ class PhieuDanhGiaController extends Controller
             $danh_sach = Null;
         }
 
-        foreach ($danh_sach as $danh_sach) {
-            $danh_sach->ma_trang_thai = 19;
-            $danh_sach->save();
+        if (($danh_sach_hoi_dong != null) && ($danh_sach != null)) {
+            $danh_sach_phe_duyet = $danh_sach_hoi_dong->merge($danh_sach);
+        } elseif (($danh_sach_hoi_dong != null) && ($danh_sach == null)) {
+            $danh_sach_phe_duyet = $danh_sach_hoi_dong;
+        } elseif (($danh_sach_hoi_dong == null) && ($danh_sach != null)) {
+            $danh_sach_phe_duyet = $danh_sach;
+        }
+
+        foreach ($danh_sach_phe_duyet as $danh_sach_phe_duyet) {
+            if ($danh_sach_phe_duyet->ma_chuc_vu = '01') {
+                $danh_sach_phe_duyet->tong_diem_danh_gia = $danh_sach_phe_duyet->tong_diem_tu_cham;
+                $danh_sach_phe_duyet->ket_qua_xep_loai = $danh_sach_phe_duyet->ca_nhan_tu_xep_loai;
+            }
+            $danh_sach_phe_duyet->ma_trang_thai = 19;
+            $danh_sach_phe_duyet->save();
         }
 
         return redirect()->route('phieudanhgia.capqd.list')->with('msg_success', 'Đã phê duyệt thành công Danh sách phiếu đánh giá');
     }
 
 
-    //Danh sách Phiếu đánh giá cấp trên cần thực hiện đánh giá
+    //Danh sách Thông báo Kết quả xếp loại
     public function tbKQXL()
     {
         if (Auth::user()->ma_chuc_vu == "01") {
@@ -829,5 +880,4 @@ class PhieuDanhGiaController extends Controller
 
         return view('danhgia.captren_list', ['danh_sach' => $danh_sach_cap_tren_danh_gia]);
     }
-
 }

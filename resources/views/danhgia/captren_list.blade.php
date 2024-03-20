@@ -96,7 +96,7 @@
                 scrollY: 1000,
                 dom: 'Bfrtip',
                 buttons: [{
-                        text: 'Trình Cấp trên',
+                        text: 'Trình Phê duyệt',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
                             window.location = '{{ route('phieudanhgia.captren.send') }}';

@@ -7,6 +7,7 @@ use App\Http\Controllers\PhongController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\XepLoaiController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 // use App\Http\Controllers\ProfileController;
 // use Illuminate\Foundation\Application;
 // use Inertia\Inertia;
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return redirect()->route('congchuc.show', Auth::user()->so_hieu_cong_chuc);
     })->name('dashboard');
 
     Route::group(['prefix' => 'donvi'], function () {
@@ -56,7 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::get('', [UserController::class, 'index'])->name('congchuc');
         Route::get('create', [UserController::class, 'create'])->name('congchuc.create');
         Route::post('store', [UserController::class, 'store'])->name('congchuc.store');
-        //Route::get('{id}/', [UserControldon_viler::class, 'show'])->name('congchuc.show');
+        Route::get('{id}/show', [UserController::class, 'show'])->name('congchuc.show');
         Route::get('{id}/edit', [UserController::class, 'edit'])->name('congchuc.edit');
         Route::post('{id}/update', [UserController::class, 'update'])->name('congchuc.update');
         Route::get('{id}/delete', [UserController::class, 'destroy'])->name('congchuc.delete');

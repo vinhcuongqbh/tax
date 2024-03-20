@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('ma_don_vi');            
             $table->tinyInteger('tong_diem_tu_cham');
             $table->tinyInteger('tong_diem_danh_gia')->nullable();
+            $table->string('ma_cap_tren_danh_gia')->nullable();
+            $table->string('ma_cap_tren_phe_duyet')->nullable(); 
             $table->string('ca_nhan_tu_xep_loai')->nullable();
             $table->string('ket_qua_xep_loai')->nullable();
             $table->tinyInteger('ma_trang_thai');

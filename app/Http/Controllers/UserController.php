@@ -82,6 +82,29 @@ class UserController extends Controller
     }
 
 
+    //Xem thông tin User
+    public function show($id)
+    {
+        $user = User::where('so_hieu_cong_chuc', $id)->first();
+        $gioi_tinh = GioiTinh::all();
+        $ngach = Ngach::where('ma_trang_thai', 1)->get();
+        $chuc_vu = ChucVu::where('ma_trang_thai', 1)->get();
+        $don_vi = DonVi::where('ma_trang_thai', 1)->get();
+        $phong = Phong::where('ma_trang_thai', 1)
+            ->where('ma_don_vi_cap_tren', $user->ma_don_vi)
+            ->get();
+
+        return view('congchuc.show', [
+            'cong_chuc' => $user,
+            'gioi_tinh' => $gioi_tinh,
+            'ngach' => $ngach,
+            'chuc_vu' => $chuc_vu,
+            'don_vi' => $don_vi,
+            'phong' => $phong
+        ]);
+    }
+
+
     //Sửa thông tin User
     public function edit($id)
     {

@@ -29,7 +29,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form action="{{ route('phieudanhgia.canhan.update', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}" method="post" id="mauphieudanhgia">
+                <form action="{{ route('phieudanhgia.canhan.update', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"
+                    method="post" id="mauphieudanhgia">
                     @csrf
                     <div class="card card-default">
                         <div class="card-body">
@@ -201,24 +202,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $ma_tieu_chi_B = 1;
+                                    @endphp
                                     @foreach ($ket_qua_muc_B as $ket_qua_muc_B)
                                         <tr>
                                             <td>+</td>
                                             <td class="text-justify">
-                                                <textarea class="form-control" id="' + ma_tieu_chi + '_noi_dung_nhiem_vu" name="' +
-                            ma_tieu_chi + '_noi_dung_nhiem_vu" rows="2">{{ $ket_qua_muc_B->noi_dung }}</textarea>
+                                                <textarea class="form-control" id="{{ $ma_tieu_chi_B . '_noi_dung_nhiem_vu' }}"
+                                                    name="{{ $ma_tieu_chi_B . '_noi_dung_nhiem_vu' }}" rows="2">{{ $ket_qua_muc_B->noi_dung }}</textarea>
                                             </td>
-                                            <td><input type="checkbox" value="1" 
+                                            <td><input type="checkbox" value="1"
+                                                    name="{{ $ma_tieu_chi_B . '_nhiem_vu_phat_sinh' }}"
                                                     @if ($ket_qua_muc_B->nhiem_vu_phat_sinh == 1) checked @endif></td>
                                             <td><input type="radio" value="truoc_han"
+                                                    name="{{ $ma_tieu_chi_B . '_hoan_thanh_nhiem_vu' }}"
                                                     @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'truoc_han') checked @endif></td>
                                             <td><input type="radio" value="dung_han"
+                                                    name="{{ $ma_tieu_chi_B . '_hoan_thanh_nhiem_vu' }}"
                                                     @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'dung_han') checked @endif></td>
                                             <td><input type="radio" value="qua_han"
+                                                    name="{{ $ma_tieu_chi_B . '_hoan_thanh_nhiem_vu' }}"
                                                     @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'qua_han') checked @endif></td>
                                             <td><input type="radio" value="lui_han"
+                                                    name="{{ $ma_tieu_chi_B . '_hoan_thanh_nhiem_vu' }}"
                                                     @if ($ket_qua_muc_B->hoan_thanh_nhiem_vu == 'lui_han') checked @endif></td>
                                         </tr>
+                                        @php
+                                            $ma_tieu_chi_B++;
+                                        @endphp
                                     @endforeach
                                 </tbody>
                             </table>
@@ -405,7 +417,12 @@
             let tieu_chi_213 = parseInt(document.getElementById("tc_213").value);
             let tieu_chi_214 = parseInt(document.getElementById("tc_214").value);
             let tieu_chi_215 = parseInt(document.getElementById("tc_215").value);
-            let tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
+            let tieu_chi_216;
+            if (document.getElementById("tc_216") != null) {
+                tieu_chi_216 = parseInt(document.getElementById("tc_216").value);
+            } else {
+                tieu_chi_216 = 0;
+            }
             let tieu_chi_217;
             if (document.getElementById("tc_217") != null) {
                 tieu_chi_217 = parseInt(document.getElementById("tc_217").value);
@@ -498,7 +515,7 @@
                     }
                 ],
             })
-            
+
 
             //Xóa Dòng
             table.on('click', 'tbody tr', (e) => {
@@ -513,7 +530,8 @@
             });
 
             //Thêm Dòng
-            let ma_tieu_chi = 1;
+            let ma_tieu_chi = {{ $ma_tieu_chi_B }};
+
             function addNewRow() {
                 if (ma_tieu_chi <= 50) {
                     table.row
