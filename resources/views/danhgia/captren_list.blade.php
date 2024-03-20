@@ -3,7 +3,7 @@
 @section('title', 'Danh sách Phiếu đánh giá')
 
 @section('heading')
-    Danh sách Phiếu Đánh giá
+    Cấp trên đánh giá
 @stop
 
 @section('content')

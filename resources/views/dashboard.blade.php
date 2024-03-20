@@ -130,27 +130,27 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/donvi" class="nav-link">
                                         <p>1.1. Danh mục đơn vị</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/phong" class="nav-link">
                                         <p>1.2. Danh mục phòng/đội</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/congchuc" class="nav-link">
                                         <p>1.3. Danh sách công chức</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/xeploai" class="nav-link">
                                         <p>1.4. Danh mục xếp loại</p>
                                     </a>
                                 </li>
-                                {{-- <li class="nav-item">
+                                {{-- <li class="nav-item pl-3">
                                     <a href="/" class="nav-link">
                                         <p>1.5. Phân quyền sử dụng</p>
                                     </a>
@@ -162,32 +162,32 @@
                                 <i class="fas fa-chart-bar"></i>
                                 <p>
                                     2. Đánh giá, xếp loại cá nhân hàng tháng
-                                    <i class="right fas fa-angle-left"></i>
+                                    <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item pl-3">
                                     <a href="/phieudanhgia/canhanList" class="nav-link">
                                         <p>2.1. Công chức tự đánh giá</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/phieudanhgia/captrenList" class="nav-link">
                                         <p>2.2. Cấp trên đánh giá</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="/phieudanhgia/capqdList" class="nav-link">
                                         <p>2.3. Hội đồng/Cấp có thẩm quyền quyết định đánh giá</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>2.4. Thông báo kết quả xếp loại</p>
+                                <li class="nav-item pl-3">
+                                    <a href="/phieudanhgia/thongbaoKQXL" class="nav-link">
+                                        <p>2.4. Thông báo KQ xếp loại</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                <li class="nav-item pl-3">
+                                    <a href="/" class="nav-link">
                                         <p>2.5. Báo cáo theo tháng </p>
                                     </a>
                                 </li>
@@ -202,29 +202,24 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-                                <li class="nav-item">
+                                {{-- <li class="nav-item pl-3">
                                     <a href="#" class="nav-link">
                                         <p>3.1. Tổng hợp kết quả đánh giá</p>
                                     </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>3.2. Cấp có thẩm quyền đánh giá</p>
+                                </li> --}}
+                                <li class="nav-item pl-3">
+                                    <a href="/phieudanhgia/capqdListQuarter" class="nav-link">
+                                        <p>3.1. Hội đồng/Cấp có thẩm quyền quyết định đánh giá</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <li class="nav-item pl-3">
                                     <a href="#" class="nav-link">
-                                        <p>3.3. Lấy kiến của Hội đồng</p>
+                                        <p>3.2. Thông báo KQ xếp loại</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>3.4. Thông báo kết quả xếp loại</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <p>3.5. Báo cáo theo quý</p>
+                                <li class="nav-item pl-3">
+                                    <a href="/" class="nav-link">
+                                        <p>3.3. Báo cáo theo quý</p>
                                     </a>
                                 </li>
                             </ul>

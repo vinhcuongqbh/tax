@@ -95,8 +95,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('capqdList', [PhieuDanhGiaController::class, 'capqdList'])->name('phieudanhgia.capqd.list');
         Route::get('capqdApprove', [PhieuDanhGiaController::class, 'capqdApprove'])->name('phieudanhgia.capqd.approve');
-
-        Route::get('tbKQXL', [PhieuDanhGiaController::class, 'tbKQXL'])->name('phieudanhgia.tbKQXL');   
+        Route::get('thongbaoKQXL', [PhieuDanhGiaController::class, 'thongbaoKQXL'])->name('phieudanhgia.thongbaoKQXL');   
+        Route::get('capqdListQuarter', [PhieuDanhGiaController::class, 'capqdListQuarter'])->name('phieudanhgia.capqd.listquarter'); 
     });
 });
 

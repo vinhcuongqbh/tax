@@ -3,7 +3,7 @@
 @section('title', 'Tạo mới Đánh giá, xếp loại')
 
 @section('heading')
-    Tạo mới Đánh giá, xếp loại
+    Công chức tạo Phiếu đánh giá
 @stop
 
 @section('content')

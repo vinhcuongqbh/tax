@@ -32,7 +32,7 @@ class PhieuDanhGiaController extends Controller
             ->select('users.*', 'chuc_vu.ten_chuc_vu', 'don_vi.ten_don_vi')
             ->first();
 
-        if (in_array(Auth::user()->ma_ngach, ['01.007','01.009','01.010','01.011'])) {
+        if (in_array(Auth::user()->ma_ngach, ['01.007', '01.009', '01.010', '01.011'])) {
             $mau_phieu_danh_gia = Mau01C::all();
             $mau = "mau01C";
             $ten_mau = "Mẫu số 01C";
@@ -669,7 +669,7 @@ class PhieuDanhGiaController extends Controller
         );
     }
 
-    public function captrenSend(Request $request)
+    public function captrenSend()
     {
         if (Auth::user()->ma_chuc_vu == "01") {
             // Nếu Người dùng có chức vụ Cục Trưởng
@@ -692,9 +692,12 @@ class PhieuDanhGiaController extends Controller
                 ->where('phieu_danh_gia.ma_phong', Auth::user()->ma_phong)
                 ->where('phieu_danh_gia.so_hieu_cong_chuc', '<>', Auth::user()->so_hieu_cong_chuc)
                 ->get();
+        } else {
+            $danh_sach = null;
         }
 
-        if ($danh_sach->isEmpty()) return redirect()->route('phieudanhgia.captren.list')->with('msg_error', 'Danh sách trống / Có phiếu chưa được cấp tham mưu đánh giá');
+        if ($danh_sach->isEmpty() || $danh_sach == null)
+            return redirect()->route('phieudanhgia.captren.list')->with('msg_error', 'Danh sách trống / Có phiếu chưa được cấp tham mưu đánh giá');
 
         foreach ($danh_sach as $list) {
             $list->ma_trang_thai = 17;
@@ -703,8 +706,10 @@ class PhieuDanhGiaController extends Controller
 
         return redirect()->route('phieudanhgia.captren.list')->with('msg_success', 'Đã gửi thành công Danh sách phiếu đánh giá');
     }
+
+
     //////////////////////// Cấp quyết định đánh giá, xếp loại ////////////////////////////////
-    //Danh sách Phiếu đánh giá cần phê duyệt
+    // Danh sách Phiếu đánh giá cần phê duyệt
     public function capqdList()
     {
         if (Auth::user()->hoi_dong_phe_duyet == 1) {
@@ -718,6 +723,8 @@ class PhieuDanhGiaController extends Controller
                 ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
                 ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
                 ->get();
+        } else {
+            $danh_sach_hoi_dong = null;
         }
 
         if (Auth::user()->ma_chuc_vu == "01") {
@@ -759,6 +766,8 @@ class PhieuDanhGiaController extends Controller
             $danh_sach_phe_duyet = $danh_sach_hoi_dong;
         } elseif (($danh_sach_hoi_dong == null) && ($danh_sach != null)) {
             $danh_sach_phe_duyet = $danh_sach;
+        } else {
+            $danh_sach_phe_duyet = null;
         }
 
         return view('danhgia.capqd_list', ['danh_sach' => $danh_sach_phe_duyet]);
@@ -777,6 +786,8 @@ class PhieuDanhGiaController extends Controller
                 ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
                 ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
                 ->get();
+        } else {
+            $danh_sach_hoi_dong = null;
         }
 
         if (Auth::user()->ma_chuc_vu == "01") {
@@ -818,66 +829,200 @@ class PhieuDanhGiaController extends Controller
             $danh_sach_phe_duyet = $danh_sach_hoi_dong;
         } elseif (($danh_sach_hoi_dong == null) && ($danh_sach != null)) {
             $danh_sach_phe_duyet = $danh_sach;
+        } else {
+            $danh_sach_phe_duyet = null;
         }
 
-        foreach ($danh_sach_phe_duyet as $danh_sach_phe_duyet) {
-            if ($danh_sach_phe_duyet->ma_chuc_vu = '01') {
-                $danh_sach_phe_duyet->tong_diem_danh_gia = $danh_sach_phe_duyet->tong_diem_tu_cham;
-                $danh_sach_phe_duyet->ket_qua_xep_loai = $danh_sach_phe_duyet->ca_nhan_tu_xep_loai;
+        if ($danh_sach_phe_duyet != null) {
+            foreach ($danh_sach_phe_duyet as $danh_sach_phe_duyet) {
+                if ($danh_sach_phe_duyet->ma_chuc_vu == '01') {
+                    $danh_sach_phe_duyet->ket_qua_xep_loai = $danh_sach_phe_duyet->ca_nhan_tu_xep_loai;
+                }
+                $danh_sach_phe_duyet->ma_trang_thai = 19;
+                $danh_sach_phe_duyet->save();
             }
-            $danh_sach_phe_duyet->ma_trang_thai = 19;
-            $danh_sach_phe_duyet->save();
-        }
 
-        return redirect()->route('phieudanhgia.capqd.list')->with('msg_success', 'Đã phê duyệt thành công Danh sách phiếu đánh giá');
+            return redirect()->route('phieudanhgia.capqd.list')->with('msg_success', 'Đã phê duyệt thành công Danh sách phiếu đánh giá');
+        } else {
+            return redirect()->route('phieudanhgia.capqd.list')->with('msg_error', 'Danh sách phê duyệt trống');
+        }
     }
 
 
     //Danh sách Thông báo Kết quả xếp loại
-    public function tbKQXL()
+    public function thongbaoKQXL()
     {
-        if (Auth::user()->ma_chuc_vu == "01") {
-            // Nếu Người dùng có chức vụ Cục Trưởng
-            // Đánh giá cho: 02-Phó Cục trưởng; 03-Chi Cục trưởng; 04-Chánh Văn phòng; 05-Trưởng phòng
-            $danh_sach_cap_tren_danh_gia = PhieuDanhGia::wherein('phieu_danh_gia.ma_trang_thai', [13, 15])
-                ->wherein('phieu_danh_gia.ma_chuc_vu', ['02', '03', '04', '05'])
+        if (in_array(Auth::user()->ma_chuc_vu, ['01', '02', '04'])) {
+            // Nếu Người dùng có chức vụ Cục Trưởng, Cục Phó, Chánh Văn phòng
+            $danh_sach = PhieuDanhGia::where('phieu_danh_gia.ma_trang_thai', 19)
                 ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
                 ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
                 ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
                 ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
                 ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
-                ->orderBy('phieu_danh_gia.created_at', 'DESC')
-                ->get();
-        } elseif (Auth::user()->ma_chuc_vu == "03") {
-            // Nếu Người dùng có chức vụ Chi cục Trưởng
-            // Đánh giá cho: 06-Phó chi Cục trưởng; 09-Đội trưởng
-            $danh_sach_cap_tren_danh_gia = PhieuDanhGia::wherein('phieu_danh_gia.ma_trang_thai', [13, 15])
-                ->where('phieu_danh_gia.ma_don_vi', Auth::user()->ma_don_vi)
-                ->wherein('phieu_danh_gia.ma_chuc_vu', ['06', '09'])
-                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
-                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
-                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
-                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
-                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
-                ->orderBy('phieu_danh_gia.created_at', 'DESC')
-                ->get();
-        } elseif ((Auth::user()->ma_chuc_vu == "04") || (Auth::user()->ma_chuc_vu == "05") || (Auth::user()->ma_chuc_vu == "09")) {
-            //Nếu Người dùng có chức vụ Chánh Văn phòng, Trưởng phòng hoặc Đội trưởng
-            $danh_sach_cap_tren_danh_gia = PhieuDanhGia::wherein('phieu_danh_gia.ma_trang_thai', [13, 15])
-                ->where('phieu_danh_gia.ma_don_vi', Auth::user()->ma_don_vi)
-                ->where('phieu_danh_gia.ma_phong', Auth::user()->ma_phong)
-                ->where('phieu_danh_gia.so_hieu_cong_chuc', '<>', Auth::user()->so_hieu_cong_chuc)
-                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
-                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
-                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
-                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
-                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
-                ->orderBy('phieu_danh_gia.created_at', 'DESC')
+                ->orderBy('phieu_danh_gia.ma_don_vi', 'ASC')
+                ->orderBy('phieu_danh_gia.ma_phong', 'ASC')
+                ->orderByRaw('ISNULL(phieu_danh_gia.ma_chuc_vu), phieu_danh_gia.ma_chuc_vu ASC')
                 ->get();
         } else {
-            $danh_sach_cap_tren_danh_gia = Null;
+            // Những người còn lại            
+            $danh_sach = PhieuDanhGia::where('phieu_danh_gia.ma_trang_thai', 19)
+                ->where('phieu_danh_gia.ma_don_vi', Auth::user()->ma_don_vi)
+                ->leftjoin('users', 'users.so_hieu_cong_chuc', 'phieu_danh_gia.so_hieu_cong_chuc')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'phieu_danh_gia.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
+                ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('phieu_danh_gia.ma_phong', 'ASC')
+                ->orderByRaw('ISNULL(phieu_danh_gia.ma_chuc_vu), phieu_danh_gia.ma_chuc_vu ASC')
+                ->get();
         }
 
-        return view('danhgia.captren_list', ['danh_sach' => $danh_sach_cap_tren_danh_gia]);
+        return view('danhgia.thongbao', ['danh_sach' => $danh_sach]);
+    }
+
+
+    // Phê duyệt Danh sách kết quả xếp loại theo quý
+    public function capqdListQuarter(Request $request)
+    {
+        $quy = "quy1";
+        $nam = "2024";
+        if ($quy == "quy1") {
+            $list_thang = [$nam . "01", $nam . "02", $nam . "03"];
+        } elseif ($quy == "quy2") {
+            $list_thang = [$nam . "04", $nam . "05", $nam . "06"];
+        } elseif ($quy == "quy3") {
+            $list_thang = [$nam . "07", $nam . "08", $nam . "09"];
+        } elseif ($quy == "quy4") {
+            $list_thang = [$nam . "10", $nam . "11", $nam . "12"];
+        }
+
+        if (Auth::user()->hoi_dong_phe_duyet == 1) {
+            // Nếu Người dùng có chức năng phê duyệt của Hội đồng TĐKT
+            $user_list_hd = User::where('users.ma_chuc_vu', '01')
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'users.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')
+                ->select('users.*', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('users.ma_don_vi', 'ASC')
+                ->orderBy('users.ma_phong', 'ASC')
+                ->orderByRaw('ISNULL(users.ma_chuc_vu), users.ma_chuc_vu ASC')
+                ->get();
+        } else {
+            $user_list_hd = null;
+        }
+ 
+        if (Auth::user()->ma_chuc_vu == "01") {
+            // Nếu Người dùng có chức vụ Cục Trưởng 
+            $user_list_cm = User::wherein('users.ma_chuc_vu', ['02', '03', '04', '05', '06', '07', '08', '09', '10'])
+                ->orwhere('users.ma_don_vi', Auth::user()->ma_don_vi)
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'users.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')
+                ->select('users.*', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('users.ma_don_vi', 'ASC')
+                ->orderBy('users.ma_phong', 'ASC')
+                ->orderByRaw('ISNULL(users.ma_chuc_vu), users.ma_chuc_vu ASC')
+                ->get();
+        } elseif (Auth::user()->ma_chuc_vu == "03") {
+            // Nếu Người dùng có chức vụ Chi cục Trưởng 
+            $user_list_cm = User::where('users.ma_don_vi', Auth::user()->ma_don_vi)
+                ->where('users.ma_chuc_vu', null)
+                ->leftjoin('chuc_vu', 'chuc_vu.ma_chuc_vu', 'users.ma_chuc_vu')
+                ->leftjoin('phong', 'phong.ma_phong', 'users.ma_phong')
+                ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'users.ma_don_vi')
+                ->select('users.*', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
+                ->orderBy('users.ma_don_vi', 'ASC')
+                ->orderBy('users.ma_phong', 'ASC')
+                ->orderByRaw('ISNULL(users.ma_chuc_vu), users.ma_chuc_vu ASC')
+                ->get();
+        } else {
+            $user_list_cm = null;
+        }
+
+        if (($user_list_hd != null) && ($user_list_cm != null)) {
+            $user_list = $user_list_hd->merge($user_list_cm);
+        } elseif (($user_list_hd != null) && ($user_list_cm == null)) {
+            $user_list = $user_list_hd;
+        } elseif (($user_list_hd == null) && ($user_list_cm != null)) {
+            $user_list = $user_list_cm;
+        } else {
+            $user_list = null;
+        }
+
+        $collection = collect();
+        $xep_loai_1 = null;
+        $xep_loai_2 = null;
+        $xep_loai_3 = null;
+
+        foreach ($user_list as $user) {
+            $xep_loai_1 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $list_thang[0])
+                ->where('ma_trang_thai', 19)
+                ->first();
+            if (isset($xep_loai_1)) $xep_loai_1 = $xep_loai_1->ket_qua_xep_loai;
+            else $xep_loai_1 = "D";
+
+            $xep_loai_2 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $list_thang[1])
+                ->where('ma_trang_thai', 19)
+                ->first();
+            if (isset($xep_loai_2)) $xep_loai_2 = $xep_loai_2->ket_qua_xep_loai;
+            else $xep_loai_2 = "D";
+
+            $xep_loai_3 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $list_thang[2])
+                ->where('ma_trang_thai', 19)
+                ->first();
+            if (isset($xep_loai_3)) $xep_loai_3 = $xep_loai_3->ket_qua_xep_loai;
+            else $xep_loai_3 = "D";
+
+            // Xếp loại quý
+            $countA = 0;
+            $countB = 0;
+            $countC = 0;
+            $countD = 0;
+
+            if ($xep_loai_1 == "A") $countA++;
+            elseif ($xep_loai_1 == "B") $countB++;
+            elseif ($xep_loai_1 == "C") $countC++;
+            elseif ($xep_loai_1 == "D")  $countD++;
+
+            if ($xep_loai_2 == "A") $countA++;
+            elseif ($xep_loai_2 == "B") $countB++;
+            elseif ($xep_loai_2 == "C") $countC++;
+            elseif ($xep_loai_2 == "D")  $countD++;
+
+            if ($xep_loai_3 == "A") $countA++;
+            elseif ($xep_loai_3 == "B") $countB++;
+            elseif ($xep_loai_3 == "C") $countC++;
+            elseif ($xep_loai_3 == "D")  $countD++;
+
+            $ket_qua_xep_loai = null;
+            if (($countA >= 2) && ($countC == 0) && ($countD == 0)) $ket_qua_xep_loai = "A";
+            elseif (((($countA >= 2) || ($countB >= 2)) || (($countA >= 1) && ($countB >= 1))) && ($countD == 0)) $ket_qua_xep_loai = "B";
+            elseif ((($countA > 0) || ($countB > 0) || ($countC > 0)) && ($countD == 0)) $ket_qua_xep_loai = "C";
+            elseif ($countD > 0) $ket_qua_xep_loai = "D";
+            else $ket_qua_xep_loai = null;
+
+            $collection->push([
+                'name' => $user->name,
+                'ten_chuc_vu' => $user->ten_chuc_vu,
+                'ten_phong' => $user->ten_phong,
+                'ten_don_vi' => $user->ten_don_vi,
+                'xep_loai_1' => $xep_loai_1,
+                'xep_loai_2' => $xep_loai_2,
+                'xep_loai_3' => $xep_loai_3,
+                'ket_qua_xep_loai' => $ket_qua_xep_loai,
+            ]);
+        }
+
+        return view(
+            'danhgia.capqd_listquarter',
+            [
+                'danh_sach' => $collection,
+                'thang' => $list_thang,
+            ]
+        );
     }
 }
