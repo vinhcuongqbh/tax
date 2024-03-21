@@ -100,7 +100,8 @@
                         <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="{{ route('congchuc.show', Auth::user()->so_hieu_cong_chuc) }}" class="d-block">{{ Auth::user()->name }}</a>
+                        <a href="{{ route('congchuc.show', Auth::user()->so_hieu_cong_chuc) }}"
+                            class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -162,10 +163,10 @@
                                 <i class="fas fa-chart-bar"></i>
                                 <p>
                                     2. Đánh giá, xếp loại cá nhân hàng tháng
-                                    <i class="fas fa-angle-left right"></i>
+                                    <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview" style="display: block;">
+                            <ul class="nav nav-treeview">
                                 <li class="nav-item pl-3">
                                     <a href="/phieudanhgia/canhanList" class="nav-link">
                                         <p>2.1. Công chức tự đánh giá</p>
@@ -277,7 +278,7 @@
             <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <h1>@yield('heading')</h1>
                         </div>
                     </div>
@@ -320,6 +321,25 @@
 
     @yield('css')
     @yield('js')
+    <script>
+        $(function() {
+            var url = window.location;
+            // for single sidebar menu
+            $('ul.nav-sidebar a').filter(function() {
+                return this.href == url;
+            })//.addClass('active');
+
+            // for sidebar menu and treeview
+            $('ul.nav-treeview a').filter(function() {
+                    return this.href == url;
+                }).parentsUntil(".nav-sidebar > .nav-treeview")
+                .css({
+                    'display': 'block'
+                })
+                .addClass('menu-open').prev('a')
+                .addClass('active');
+        });
+    </script>
 </body>
 
 </html>

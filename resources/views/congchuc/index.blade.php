@@ -43,14 +43,14 @@
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
-                                    <th class="text-center">STT</th>
-                                    <th class="text-center">Số hiệu</th>
-                                    <th class="text-center">Họ và tên</th>
-                                    <th class="text-center">Ngày sinh</th>
-                                    <th class="text-center">Chức vụ</th>
-                                    <th class="text-center">Phòng/Đội</th>
-                                    <th class="text-center">Đơn vị</th>
-                                    <th class="text-center">Mở/Khóa</th>
+                                    <th class="text-center align-middle">STT</th>
+                                    <th class="text-center align-middle">Số hiệu</th>
+                                    <th class="text-center align-middle">Họ và tên</th>
+                                    <th class="text-center align-middle">Ngày sinh</th>
+                                    <th class="text-center align-middle">Chức vụ</th>
+                                    <th class="text-center align-middle">Phòng/Đội</th>
+                                    <th class="text-center align-middle">Đơn vị</th>
+                                    <th class="text-center align-middle">Mở/Khóa</th>
                                 </tr>
                             </thead>
                             <tbody>

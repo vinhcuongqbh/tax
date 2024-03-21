@@ -32,24 +32,20 @@
                     <div class="card-body">
                         <table id="table" class="table table-bordered table-striped">
                             <colgroup>
-                                <col style="width:5%;">
-                                <col style="width:25%;">
-                                <col style="width:45%;">
-                                <col style="width:25%;">
+                                <col style="width:20%;">
+                                <col style="width:50%;">
+                                <col style="width:30%;">
                             </colgroup>
                             <thead style="text-align: center">
                                 <tr>
-                                    <th class="text-center align-middle">STT</th>
                                     <th class="text-center align-middle">Mã Xếp loại</th>
                                     <th class="text-center align-middle">Xếp loại</th>
                                     <th class="text-center align-middle">Điểm tối thiểu</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $i = 1; ?>
                                 @foreach ($xep_loai as $xep_loai)
                                     <tr>
-                                        <td class="text-center">{{ $i++ }}</td>
                                         <td class="text-center"><a
                                                 href="{{ route('xeploai.edit', $xep_loai->ma_xep_loai) }}">{{ $xep_loai->ma_xep_loai }}</a>
                                         </td>

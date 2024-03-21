@@ -47,11 +47,6 @@ class PhieuDanhGiaController extends Controller
             $mau = "mau01B";
             $ten_mau = "Mẫu số 01B";
             $doi_tuong_ap_dung = "công chức giữ chức vụ lãnh đạo, quản lý";
-        } else {
-            $mau_phieu_danh_gia = Mau01C::all();
-            $mau = "mau01C";
-            $ten_mau = "Mẫu số 01C";
-            $doi_tuong_ap_dung = "người lao động";
         }
 
         return view(
@@ -178,7 +173,7 @@ class PhieuDanhGiaController extends Controller
             ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'don_vi.ten_don_vi')
             ->first();
 
-        //Nếu Mã trạng thái khác 11: Cá nhân tạo Phiếu đánh giá
+        //Nếu Mã trạng thái khác 11-Cá nhân tạo Phiếu đánh giá
         if (($phieu_danh_gia->ma_trang_thai <> 11) || ($phieu_danh_gia->so_hieu_cong_chuc <> Auth::user()->so_hieu_cong_chuc)) {
             return back()->with('msg_error', "Không được phép sửa Phiếu đánh giá này");
         }
@@ -414,7 +409,7 @@ class PhieuDanhGiaController extends Controller
             ->leftjoin('phong', 'phong.ma_phong', 'phieu_danh_gia.ma_phong')
             ->leftjoin('don_vi', 'don_vi.ma_don_vi', 'phieu_danh_gia.ma_don_vi')
             ->select('phieu_danh_gia.*', 'users.name', 'chuc_vu.ten_chuc_vu', 'phong.ten_phong', 'don_vi.ten_don_vi')
-            ->orderBy('phieu_danh_gia.created_at', 'DESC')
+            ->orderBy('phieu_danh_gia.thoi_diem_danh_gia', 'DESC')
             ->get();
 
         return view('danhgia.canhan_list', ['danh_sach' => $danh_sach_tu_danh_gia]);
@@ -961,21 +956,18 @@ class PhieuDanhGiaController extends Controller
                 ->where('ma_trang_thai', 19)
                 ->first();
             if (isset($xep_loai_1)) $xep_loai_1 = $xep_loai_1->ket_qua_xep_loai;
-            else $xep_loai_1 = "D";
 
             $xep_loai_2 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
                 ->where('thoi_diem_danh_gia', $list_thang[1])
                 ->where('ma_trang_thai', 19)
                 ->first();
             if (isset($xep_loai_2)) $xep_loai_2 = $xep_loai_2->ket_qua_xep_loai;
-            else $xep_loai_2 = "D";
 
             $xep_loai_3 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
                 ->where('thoi_diem_danh_gia', $list_thang[2])
                 ->where('ma_trang_thai', 19)
                 ->first();
             if (isset($xep_loai_3)) $xep_loai_3 = $xep_loai_3->ket_qua_xep_loai;
-            else $xep_loai_3 = "D";
 
             // Xếp loại quý
             $countA = 0;

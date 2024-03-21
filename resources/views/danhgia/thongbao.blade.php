@@ -93,9 +93,16 @@
                 scrollX: true,
                 scrollY: 1000,
                 dom: 'Bfrtip',
-                buttons: [
+                buttons: [{
+                        text: 'Tạo mới',
+                        className: 'bg-olive',
+                        action: function(e, dt, node, config) {
+                            window.location = '{{ route('phieudanhgia.canhan.create') }}';
+                        },
+                    },
                     {
                         extend: 'spacer',
+                        style: 'bar',
                         text: 'Xuất:'
                     },
                     //'csv',
