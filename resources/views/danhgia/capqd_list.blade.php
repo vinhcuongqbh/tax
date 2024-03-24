@@ -43,8 +43,9 @@
                                     @foreach ($danh_sach as $danh_sach)
                                         <tr>
                                             <td class="text-center">{{ $i++ }}</td>
-                                            <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
-                                            echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
+                                            <td class="text-center">
+                                                {{ date('m', strtotime($danh_sach->thoi_diem_danh_gia)) }}/{{ date('Y', strtotime($danh_sach->thoi_diem_danh_gia)) }}
+                                            </td>
                                             <td><a
                                                     href="{{ route('phieudanhgia.captren.show', $danh_sach->ma_phieu_danh_gia) }}">{{ $danh_sach->name }}</a>
                                             </td>

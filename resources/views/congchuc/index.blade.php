@@ -17,6 +17,14 @@
             })
         </script>
     @endif
+    <script>
+        Swal.fire({
+            icon: 'warning',
+            text: 'Lưu ý: Mọi sự thay đổi về nhân sự chỉ thực hiện sau khi kết thúc phê duyệt kết quả đánh giá trong tháng',
+            showConfirmButton: false,
+            timer: 10000
+        })
+    </script>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">

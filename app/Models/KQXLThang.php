@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class KQXLThang extends Model
 {
     use HasFactory;
+    protected $table = 'kqxl_thang';
 }
+

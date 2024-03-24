@@ -43,15 +43,11 @@
                                     @foreach ($danh_sach as $danh_sach)
                                         <tr>
                                             <td class="text-center">
-                                                <div class="">                                                    
-                                                    {{-- <input class="form-check-input" type="checkbox"
-                                                        id="{{ $danh_sach->ma_phieu_danh_gia }}"
-                                                        value="{{ $danh_sach->ma_phieu_danh_gia }}" name="ma_phieu_list[]"
-                                                        checked>--}}{{ $i++ }} 
-                                                </div>
+                                                <div class="">{{ $i++ }}</div>
                                             </td>
-                                            <td class="text-center">@php echo substr($danh_sach->thoi_diem_danh_gia, 4, 2) @endphp/@php
-                                            echo substr($danh_sach->thoi_diem_danh_gia, 0, 4); @endphp</td>
+                                            <td class="text-center">
+                                                {{ date('m', strtotime($danh_sach->thoi_diem_danh_gia)) }}/{{ date('Y', strtotime($danh_sach->thoi_diem_danh_gia)) }}
+                                            </td>
                                             <td><a
                                                     href="{{ route('phieudanhgia.captren.create', $danh_sach->ma_phieu_danh_gia) }}">
                                                     {{ $danh_sach->name }}</a></td>

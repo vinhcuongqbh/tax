@@ -183,12 +183,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item pl-3">
-                                    <a href="/phieudanhgia/thongbaoKQXL" class="nav-link">
+                                    <a href="/phieudanhgia/thongbaothang" class="nav-link">
                                         <p>2.4. Thông báo KQ xếp loại</p>
                                     </a>
                                 </li>
                                 <li class="nav-item pl-3">
-                                    <a href="/" class="nav-link">
+                                    <a href="/phieudanhgia/baocaothang" class="nav-link">
                                         <p>2.5. Báo cáo theo tháng </p>
                                     </a>
                                 </li>
@@ -209,12 +209,12 @@
                                     </a>
                                 </li> --}}
                                 <li class="nav-item pl-3">
-                                    <a href="/phieudanhgia/capqdListQuarter" class="nav-link">
+                                    <a href="/phieudanhgia/capQDPheDuyetDanhSachQuy" class="nav-link">
                                         <p>3.1. Hội đồng/Cấp có thẩm quyền quyết định đánh giá</p>
                                     </a>
                                 </li>
                                 <li class="nav-item pl-3">
-                                    <a href="#" class="nav-link">
+                                    <a href="/phieudanhgia/thongbaoquy" class="nav-link">
                                         <p>3.2. Thông báo KQ xếp loại</p>
                                     </a>
                                 </li>
@@ -321,7 +321,7 @@
 
     @yield('css')
     @yield('js')
-    <script>
+    {{-- <script>
         $(function() {
             var url = window.location;
             // for single sidebar menu
@@ -339,7 +339,7 @@
                 .addClass('menu-open').prev('a')
                 .addClass('active');
         });
-    </script>
+    </script> --}}
 </body>
 
 </html>

@@ -7,25 +7,6 @@
 @stop
 
 @section('content')
-    @if (session()->has('msg_success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                text: `{{ session()->get('msg_success') }}`,
-                showConfirmButton: false,
-                timer: 3000
-            })
-        </script>
-    @elseif (session()->has('msg_error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                text: `{{ session()->get('msg_error') }}`,
-                showConfirmButton: false,
-                timer: 3000
-            })
-        </script>
-    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -33,7 +14,7 @@
                     <div class="card-body">
                         {{-- Phần Tiêu đề --}}
                         <table class="table table-borderless">
-                            <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
+                            <h6 class="font-italic text-bold text-right">{{ $thong_tin_mau_phieu['ten_mau'] }}</h6>
                             <tbody>
                                 <tr>
                                     <td class="text-center py-0">TỔNG CỤC THUẾ</td>
@@ -48,19 +29,19 @@
                         <br>
                         <br>
                         <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                        <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
+                        <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $thong_tin_mau_phieu['doi_tuong_ap_dung'] }})
                         </h6>
                         <h6 class="text-center align-middle my-0">Tháng
-                            {{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 4, 2) }}/{{ substr($mau_phieu_danh_gia->thoi_diem_danh_gia, 0, 4) }}
+                            {{ $thoi_diem_danh_gia->month }}/{{ $thoi_diem_danh_gia->year  }}
                         </h6>
                         <br>
 
                         {{-- Phần Thông tin cá nhân --}}
-                        <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $mau_phieu_danh_gia->name }}</h6>
-                        @if ($mau_phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
-                            <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $mau_phieu_danh_gia->ten_chuc_vu }}</h6>
+                        <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $phieu_danh_gia->name }}</h6>
+                        @if ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
+                            <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $phieu_danh_gia->ten_chuc_vu }}</h6>
                         @endif
-                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $mau_phieu_danh_gia->ten_don_vi }}</h6>
+                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $phieu_danh_gia->ten_phong }}, {{ $phieu_danh_gia->ten_don_vi }}</h6>
                         <br>
 
                         {{-- Phần A --}}
@@ -87,14 +68,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($ket_qua_muc_A as $ket_qua_muc_A)
+                                @foreach ($ket_qua_muc_A as $ket_qua)
                                     @php
                                         if (
-                                            $ket_qua_muc_A->loai_tieu_chi == 'muc_lon' ||
-                                            $ket_qua_muc_A->loai_tieu_chi == 'muc_nho' ||
-                                            $ket_qua_muc_A->loai_tieu_chi == 'lua_chon' ||
-                                            $ket_qua_muc_A->loai_tieu_chi == 'tong_diem' ||
-                                            $ket_qua_muc_A->loai_tieu_chi == 'cong'
+                                            $ket_qua->loai_tieu_chi == 'muc_lon' ||
+                                            $ket_qua->loai_tieu_chi == 'muc_nho' ||
+                                            $ket_qua->loai_tieu_chi == 'lua_chon' ||
+                                            $ket_qua->loai_tieu_chi == 'tong_diem' ||
+                                            $ket_qua->loai_tieu_chi == 'cong'
                                         ) {
                                             $tinh_diem = 0;
                                         } else {
@@ -104,22 +85,22 @@
                                     <tr>
                                         {{-- Cột Số thứ tự --}}
                                         <td class="text-center @if ($tinh_diem == 0) text-bold @endif">
-                                            {{ $ket_qua_muc_A->tt }}
+                                            {{ $ket_qua->tt }}
                                         </td>
                                         {{-- Cột Nội dung tiêu chí --}}
                                         <td class="text-justify @if ($tinh_diem == 0) text-bold @endif">
-                                            {{ $ket_qua_muc_A->noi_dung }}
+                                            {{ $ket_qua->noi_dung }}
                                         </td>
                                         {{-- Cột Điểm tối đa của tiêu chí --}}
                                         <td
                                             class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                            {{ $ket_qua_muc_A->diem_toi_da }}
+                                            {{ $ket_qua->diem_toi_da }}
                                         </td>
                                         {{-- Cột Điểm cá nhân tự chấm --}}
-                                        @if ($ket_qua_muc_A->loai_tieu_chi != 'phuong_an')
+                                        @if ($ket_qua->loai_tieu_chi != 'phuong_an')
                                             <td
                                                 class="text-center align-middle @if ($tinh_diem == 0) text-bold @endif">
-                                                {{ $ket_qua_muc_A->diem_tu_cham }}
+                                                {{ $ket_qua->diem_tu_cham }}
                                             </td>
                                         @else
                                             {{-- Ghi chú: 
@@ -128,15 +109,15 @@
                                                       Tổng điểm của các Mục lớn, Tổng điểm cuối cùng và Tự xếp loại. 
                                                 --}}
                                             @php
-                                                $diem_tu_cham = $ket_qua_muc_A
-                                                    ->where('ma_tieu_chi', $ket_qua_muc_A->tieu_chi_me)
-                                                    ->where('ma_phieu_danh_gia', $ket_qua_muc_A->ma_phieu_danh_gia)
+                                                $diem_tu_cham = $ket_qua
+                                                    ->where('ma_tieu_chi', $ket_qua->tieu_chi_me)
+                                                    ->where('ma_phieu_danh_gia', $ket_qua->ma_phieu_danh_gia)
                                                     ->first()->diem_tu_cham;
                                             @endphp
                                             <td class="align-middle text-center">
                                                 <input class="m-0" type="radio"
-                                                    value="{{ $ket_qua_muc_A->diem_toi_da }}"
-                                                    @if ($ket_qua_muc_A->diem_toi_da == $diem_tu_cham) checked @else disabled @endif></label>
+                                                    value="{{ $ket_qua->diem_toi_da }}"
+                                                    @if ($ket_qua->diem_toi_da == $diem_tu_cham) checked @else disabled @endif></label>
                                             </td>
                                         @endif
                                         {{-- Cột Điểm cấp trên đánh giá --}}
@@ -149,7 +130,7 @@
                                     <td class="align-middle text-bold">TỔNG CỘNG</td>
                                     <td></td>
                                     <td class="align-middle text-center text-bold display-4 p-0" id="tong_diem_tu_cham">
-                                        {{ $mau_phieu_danh_gia->tong_diem_tu_cham }}
+                                        {{ $phieu_danh_gia->tong_diem_tu_cham }}
                                     </td>
                                     <td class="align-middle text-center text-bold display-4 p-0" id="tong_diem_dang_gia">
                                     </td>
@@ -238,7 +219,8 @@
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="A" id="hoan_thanh_xuat_sac"
                                             class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'A')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            @if ($phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'A')->first()->ma_xep_loai) 
+                                            checked @else disabled @endif>
                                         <b>Hoàn thành suất sắc <br>nhiệm vụ<br>(Loại
                                             A)</b><br>{{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu }}
                                         điểm trở lên
@@ -248,7 +230,8 @@
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="B" id="hoan_thanh_tot"
                                             class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'B')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            @if ($phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'B')->first()->ma_xep_loai) 
+                                            checked @else disabled @endif>
                                         <b>Hoàn thành tốt <br>nhiệm vụ<br>(Loại B)</b><br>Từ
                                         {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu }} điểm đến
                                         {{ $xep_loai->where('ma_xep_loai', 'A')->first()->diem_toi_thieu - 1 }}
@@ -259,7 +242,8 @@
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="C" id="hoan_thanh"
                                             class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'C')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            @if ($phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'C')->first()->ma_xep_loai) 
+                                            checked @else disabled @endif>
                                         <b>Hoàn thành <br>nhiệm vụ<br>(Loại
                                             C)</b><br>{{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu }}
                                         điểm đến {{ $xep_loai->where('ma_xep_loai', 'B')->first()->diem_toi_thieu - 1 }}
@@ -270,7 +254,8 @@
                                     <td class="text-center">
                                         <input type="radio" name="tu_danh_gia" value="D" id="khong_hoan_thanh"
                                             class="form-control"
-                                            @if ($mau_phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'D')->first()->ma_xep_loai) checked @else disabled @endif>
+                                            @if ($phieu_danh_gia->ca_nhan_tu_xep_loai == $xep_loai->where('ma_xep_loai', 'D')->first()->ma_xep_loai) 
+                                            checked @else disabled @endif>
                                         <b>Không hoàn thành <br>nhiệm vụ<br>(Loại D)</b><br>Từ
                                         {{ $xep_loai->where('ma_xep_loai', 'C')->first()->diem_toi_thieu - 1 }} điểm
                                         trở xuống
@@ -291,8 +276,8 @@
                                 <tr>
                                     <td class="py-0"></td>
                                     <td class="py-0"></td>
-                                    <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng
-                                        {{ $date->month }} năm {{ $date->year }} </td>
+                                    <td class="text-center font-italic py-0">Ngày {{ $ngay_thuc_hien_danh_gia->day }} tháng
+                                        {{ $ngay_thuc_hien_danh_gia->month }} năm {{ $ngay_thuc_hien_danh_gia->year }} </td>
                                 </tr>
                                 <tr>
                                     <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -300,7 +285,7 @@
                                     <td class="text-center text-bold py-0">
                                         NGƯỜI TỰ ĐÁNH GIÁ
                                         <br><br><br><br><br>
-                                        {{ $mau_phieu_danh_gia->name }}
+                                        {{ $phieu_danh_gia->name }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -310,12 +295,12 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
-                @if ($mau_phieu_danh_gia->ma_trang_thai == 11)
+                @if ($phieu_danh_gia->ma_trang_thai == 11)
                     <div class="text-right">
-                        <a href="{{ route('phieudanhgia.canhan.edit', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"><button
+                        <a href="{{ route('phieudanhgia.canhan.edit', $phieu_danh_gia->ma_phieu_danh_gia) }}"><button
                                 type="button" class="btn bg-warning text-nowrap mb-2 ml-2 col-1"
                                 name="edit">Sửa</button></a>
-                        <a href="{{ route('phieudanhgia.canhan.send', $mau_phieu_danh_gia->ma_phieu_danh_gia) }}"><button
+                        <a href="{{ route('phieudanhgia.canhan.send', $phieu_danh_gia->ma_phieu_danh_gia) }}"><button
                                 type="button" class="btn bg-olive text-nowrap mb-2 ml-2 col-1"
                                 name="send">Gửi</button></a>
                     </div>

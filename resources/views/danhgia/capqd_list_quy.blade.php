@@ -3,7 +3,21 @@
 @section('title', 'Danh sách Phiếu đánh giá')
 
 @section('heading')
-    Hội đồng TĐKT / Cấp có thẩm quyền quyết định
+    <form action="{{ route('phieudanhgia.capqd.pheduyetdsquy') }}" method="get">
+        <div class="d-flex">
+            <div class="col-9">
+                Hội đồng TĐKT / Cấp có thẩm quyền quyết định
+            </div>
+            <div class="d-flex justify-content-end col-3">
+                <label for="quy_danh_gia" class="h6 mt-2 mx-2">Quý: </label>
+                <input id="quy_danh_gia" name="quy_danh_gia" type="number" min="1" max="4"
+                    value="{{ $quy_danh_gia }}" class="form-control col-3"><label class="h6 mt-2 mx-2">/</label><input
+                    type="number" id="nam_danh_gia" name="nam_danh_gia" max="{{ $nam_danh_gia }}"
+                    value="{{ $nam_danh_gia }}" class="form-control col-3">
+                <button type="submit" class="btn bg-olive form-control ml-2">Xem</button>
+            </div>
+        </div>
+    </form>
 @stop
 
 @section('content')
@@ -32,11 +46,11 @@
                                     <th class="text-center align-middle">Phòng/Đội</th>
                                     <th class="text-center align-middle">Đơn vị</th>
                                     <th class="text-center align-middle">Tháng
-                                        {{ substr($thang[0], 4, 2) }}/{{ substr($thang[0], 0, 4) }}</th>
+                                        {{ substr($thang[0], 0, 4) }}</th>
                                     <th class="text-center align-middle">Tháng
-                                        {{ substr($thang[1], 4, 2) }}/{{ substr($thang[1], 0, 4) }}</th>
+                                        {{ substr($thang[1], 0, 4) }}</th>
                                     <th class="text-center align-middle">Tháng
-                                        {{ substr($thang[2], 4, 2) }}/{{ substr($thang[2], 0, 4) }}</th>
+                                        {{ substr($thang[2], 0, 4) }}</th>
                                     <th class="text-center align-middle">Kết quả xếp loại Quý</th>
                                 </tr>
                             </thead>

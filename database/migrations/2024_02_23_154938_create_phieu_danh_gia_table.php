@@ -15,18 +15,24 @@ return new class extends Migration
             $table->id();
             $table->string('mau_phieu_danh_gia');
             $table->string('ma_phieu_danh_gia')->unique();
-            $table->string('thoi_diem_danh_gia');
+            $table->date('thoi_diem_danh_gia');
             $table->string('so_hieu_cong_chuc');            
             $table->string('ma_chuc_vu')->nullable();
             $table->string('ma_phong');
-            $table->string('ma_don_vi');            
-            $table->tinyInteger('tong_diem_tu_cham');
+            $table->string('ma_don_vi');       
+            $table->tinyInteger('diem_tu_cham')->nullable(); 
+            $table->tinyInteger('diem_cong_tu_cham')->nullable(); 
+            $table->tinyInteger('diem_tru_tu_cham')->nullable();
+            $table->tinyInteger('tong_diem_tu_cham')->nullable();
+            $table->tinyInteger('diem_danh_gia')->nullable(); 
+            $table->tinyInteger('diem_cong_danh_gia')->nullable(); 
+            $table->tinyInteger('diem_tru_danh_gia')->nullable();
             $table->tinyInteger('tong_diem_danh_gia')->nullable();
             $table->string('ma_cap_tren_danh_gia')->nullable();
             $table->string('ma_cap_tren_phe_duyet')->nullable(); 
             $table->string('ca_nhan_tu_xep_loai')->nullable();
             $table->string('ket_qua_xep_loai')->nullable();
-            $table->tinyInteger('ma_trang_thai');
+            $table->tinyInteger('ma_trang_thai')->default(1);
             $table->timestamps();
         });
     }

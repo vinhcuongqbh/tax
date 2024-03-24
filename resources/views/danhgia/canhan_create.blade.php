@@ -7,25 +7,6 @@
 @stop
 
 @section('content')
-    @if (session()->has('msg_success'))
-        <script>
-            Swal.fire({
-                icon: 'success',
-                text: `{{ session()->get('msg_success') }}`,
-                showConfirmButton: false,
-                timer: 3000
-            })
-        </script>
-    @elseif (session()->has('msg_error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                text: `{{ session()->get('msg_error') }}`,
-                showConfirmButton: false,
-                timer: 3000
-            })
-        </script>
-    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -35,7 +16,7 @@
                         <div class="card-body">
                             {{-- Phần Tiêu đề --}}
                             <table class="table table-borderless">
-                                <h6 class="font-italic text-bold text-right">{{ $ten_mau }}</h6>
+                                <h6 class="font-italic text-bold text-right">{{ $thong_tin_mau_phieu['ten_mau'] }}</h6>
                                 <tbody>
                                     <tr>
                                         <td class="text-center py-0">TỔNG CỤC THUẾ</td>
@@ -50,7 +31,7 @@
                             <br>
                             <br>
                             <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                            <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $doi_tuong_ap_dung }})
+                            <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $thong_tin_mau_phieu['doi_tuong_ap_dung'] }})
                             </h6>
                             <h6 class="text-center align-middle my-0">Tháng
                                 <input type="number" class="text-center" id="thang_danh_gia" name="thang_danh_gia"
@@ -63,10 +44,10 @@
 
                             {{-- Phần Thông tin cá nhân --}}
                             <h6>&emsp;&emsp;&emsp;- Họ và tên: {{ $user->name }}</h6>
-                            @if ($mau == 'mau01A')
+                            @if ($thong_tin_mau_phieu['mau'] == 'mau01A')
                                 <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $user->ten_chuc_vu }}</h6>
                             @endif
-                            <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_don_vi }}</h6>
+                            <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $user->ten_phong }}, {{ $user->ten_don_vi }}</h6>
                             <br>
 
                             {{-- Phần A --}}
@@ -93,7 +74,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($mau_phieu_danh_gia as $mau_phieu_danh_gia)
+                                    @foreach ($mau_phieu as $mau_phieu_danh_gia)
                                         @php
                                             if (
                                                 $mau_phieu_danh_gia->loai_tieu_chi == 'muc_lon' ||
@@ -284,8 +265,8 @@
                                     <tr>
                                         <td class="py-0"></td>
                                         <td class="py-0"></td>
-                                        <td class="text-center font-italic py-0">Ngày {{ $date->day }} tháng
-                                            {{ $date->month }} năm {{ $date->year }} </td>
+                                        <td class="text-center font-italic py-0">Ngày {{ $ngay_thuc_hien_danh_gia->day }} tháng
+                                            {{ $ngay_thuc_hien_danh_gia->month }} năm {{ $ngay_thuc_hien_danh_gia->year }} </td>
                                     </tr>
                                     <tr>
                                         <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -308,7 +289,6 @@
                         <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" name="submitForm"
                             value="save">Lưu</button>
                     </div>
-                    <input type="hidden" name="mau_phieu_danh_gia" value="{{ $mau }}">
                 </form>
                 <!-- /.card-body -->
             </div>
@@ -561,16 +541,16 @@
                         max: {{ $thoi_diem_danh_gia->month }},
                     },
                     @php
-                        foreach ($so_tieu_chi as $so_tieu_chi) {
+                        foreach ($mau_phieu as $data) {
                             echo '
                         ' .
-                                $so_tieu_chi->ma_tieu_chi .
+                                $data->ma_tieu_chi .
                                 ': 
                         {
                             required: true,
                             min: 0,
                             max: ' .
-                                $so_tieu_chi->diem_toi_da .
+                                $data->diem_toi_da .
                                 '
                         },';
                         }
@@ -583,10 +563,10 @@
                         max: "Chưa đến thời điểm đánh giá",
                     },
                     @php
-                        foreach ($so_tieu_chi_2 as $so_tieu_chi_2) {
+                        foreach ($mau_phieu as $data) {
                             echo '
                         ' .
-                                $so_tieu_chi_2->ma_tieu_chi .
+                                $data->ma_tieu_chi .
                                 ': 
                         {
                             required: true,
