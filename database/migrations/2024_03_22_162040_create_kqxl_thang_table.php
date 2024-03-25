@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('kqxl_thang', function (Blueprint $table) {
             $table->id();
             $table->string('ma_kqxl')->unique();            
-            $table->string('so_hieu_cong_chuc'); 
+            $table->string('so_hieu_cong_chuc');
             $table->string('nam_danh_gia');
             $table->string('diem_tu_cham_t01')->nullable(); 
             $table->string('diem_phe_duyet_t01')->nullable(); 

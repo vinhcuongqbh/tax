@@ -1,19 +1,19 @@
 @extends('dashboard')
 
-@section('title', 'Báo cáo kết quả xếp loại tháng')
+@section('title', 'Báo cáo kết quả xếp loại quý')
 
 @section('heading')
-    <form action="{{ route('phieudanhgia.baocaothang') }}" method="get" id="mauphieudanhgia">
+    <form action="{{ route('phieudanhgia.baocaoquy') }}" method="get" id="mauphieudanhgia">
         <div class="d-flex">
             <div class="col-9">
-                Báo cáo kết quả xếp loại tháng
+                Báo cáo kết quả xếp loại quý
             </div>
             <div class="d-flex justify-content-end col-3">
-                <label for="thang_danh_gia" class="h6 mt-2 mx-2">Tháng: </label>
-                <input id="thang_danh_gia" name="thang_danh_gia" type="number" min="1" max="12"
-                    value="{{ $thoi_diem_danh_gia->month }}" class="form-control col-3"><label
-                    class="h6 mt-2 mx-2">/</label><input type="number" name="nam_danh_gia"
-                    value="{{ $thoi_diem_danh_gia->year }}" class="form-control col-3">
+                <label for="quy_danh_gia" class="h6 mt-2 mx-2">Quý: </label>
+                <input id="quy_danh_gia" name="quy_danh_gia" type="number" min="1" max="4"
+                    value="{{ $quy_danh_gia }}" class="form-control col-3"><label class="h6 mt-2 mx-2">/</label><input
+                    type="number" id="nam_danh_gia" name="nam_danh_gia" 
+                    value="{{ $nam_danh_gia }}" class="form-control col-3">
                 <button type="submit" class="btn bg-olive form-control ml-2">Xem</button>
             </div>
         </div>

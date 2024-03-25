@@ -1,6 +1,6 @@
 @extends('dashboard')
 
-@section('title', 'Thông báo kết quả xếp loại')
+@section('title', 'Thông báo kết quả xếp loại tháng')
 
 @section('heading')
     <form action="{{ route('phieudanhgia.thongbaothang') }}" method="get" id="mauphieudanhgia">
