@@ -3,7 +3,7 @@
 @section('title', 'Danh sách Phiếu đánh giá')
 
 @section('heading')
-    <form action="{{ route('phieudanhgia.capqd.pheduyetdsquy') }}" method="get">
+    <form action="{{ route('phieudanhgia.capqd.dsquy') }}" method="get">
         <div class="d-flex">
             <div class="col-9">
                 Hội đồng TĐKT / Cấp có thẩm quyền quyết định
@@ -106,7 +106,7 @@
                         text: 'Phê duyệt',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('phieudanhgia.capqd.approve') }}';
+                            window.location = '{{ route('phieudanhgia.capqd.pheduyetdsquy') }}';
                         },
                     },
                     {

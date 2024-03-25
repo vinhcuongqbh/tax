@@ -209,7 +209,7 @@
                                     </a>
                                 </li> --}}
                                 <li class="nav-item pl-3">
-                                    <a href="/phieudanhgia/capQDPheDuyetDanhSachQuy" class="nav-link">
+                                    <a href="/phieudanhgia/capqddsquy" class="nav-link">
                                         <p>3.1. Hội đồng/Cấp có thẩm quyền quyết định đánh giá</p>
                                     </a>
                                 </li>
@@ -219,7 +219,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item pl-3">
-                                    <a href="/" class="nav-link">
+                                    <a href="/phieudanhgia/baocaoquy" class="nav-link">
                                         <p>3.3. Báo cáo theo quý</p>
                                     </a>
                                 </li>

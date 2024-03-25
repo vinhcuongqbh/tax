@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('phieu_danh_gia', function (Blueprint $table) {
             $table->id();
-            $table->string('mau_phieu_danh_gia');
-            $table->string('ma_phieu_danh_gia')->unique();
+            $table->string('so_hieu_cong_chuc'); 
             $table->date('thoi_diem_danh_gia');
-            $table->string('so_hieu_cong_chuc');            
+            $table->string('ma_phieu_danh_gia')->unique();
+            $table->string('mau_phieu_danh_gia');                                               
             $table->string('ma_chuc_vu')->nullable();
             $table->string('ma_phong');
             $table->string('ma_don_vi');       

@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\KetQuaMucA;
 use App\Models\KetQuaMucB;
+use App\Models\KQXLQuy;
 use App\Models\KQXLThang;
 use App\Models\LyDoDiemCong;
 use App\Models\LyDoDiemTru;
@@ -89,8 +90,8 @@ trait PhieuDanhGiaTrait
 
     // Phê duyệt danh sách tháng
     public function kQXLThang($danh_sach_phe_duyet)
-    {        
-        foreach ($danh_sach_phe_duyet as $danh_sach) {            
+    {
+        foreach ($danh_sach_phe_duyet as $danh_sach) {
             // Xác định năm đánh giá            
             $nam_danh_gia = date("Y", strtotime($danh_sach->thoi_diem_danh_gia));
             // Xác định tháng đánh giá
@@ -102,12 +103,29 @@ trait PhieuDanhGiaTrait
                 $ket_qua = new KQXLThang();
                 $ket_qua->ma_kqxl = $ma_kqxl;
                 $ket_qua->so_hieu_cong_chuc = $danh_sach->so_hieu_cong_chuc;
-                $ket_qua->nam_danh_gia = $nam_danh_gia;                
-            }            
-            $ket_qua->{"diem_tu_cham_t".$thang_danh_gia} = $danh_sach->tong_diem_tu_cham;
-            $ket_qua->{"diem_phe_duyet_t".$thang_danh_gia} = $danh_sach->tong_diem_danh_gia;
-            $ket_qua->{"kqxl_t".$thang_danh_gia} = $danh_sach->ket_qua_xep_loai;
-            $ket_qua->save();            
+                $ket_qua->nam_danh_gia = $nam_danh_gia;
+            }
+            $ket_qua->{"diem_tu_cham_t" . $thang_danh_gia} = $danh_sach->tong_diem_tu_cham;
+            $ket_qua->{"diem_phe_duyet_t" . $thang_danh_gia} = $danh_sach->tong_diem_danh_gia;
+            $ket_qua->{"kqxl_t" . $thang_danh_gia} = $danh_sach->ket_qua_xep_loai;
+            $ket_qua->save();
         }
+    }
+
+
+    // Phê duyệt danh sách quý
+    public function kQXLQuy($user, $ket_qua_xep_loai, $nam_danh_gia, $quy_danh_gia)
+    {
+        // Tạo Mã xếp loại
+        $ma_kqxl = $nam_danh_gia . "_" . $user->so_hieu_cong_chuc;
+        $ket_qua = KQXLQuy::where('ma_kqxl', $ma_kqxl)->first();
+        if (!isset($ket_qua)) {
+            $ket_qua = new KQXLQuy();
+            $ket_qua->ma_kqxl = $ma_kqxl;
+            $ket_qua->so_hieu_cong_chuc = $user->so_hieu_cong_chuc;
+            $ket_qua->nam_danh_gia = $nam_danh_gia;
+        }
+        $ket_qua->{"kqxl_q" . $quy_danh_gia} = $ket_qua_xep_loai;
+        $ket_qua->save();
     }
 }

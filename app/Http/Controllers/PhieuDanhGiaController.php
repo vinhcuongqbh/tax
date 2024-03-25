@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DonVi;
 use App\Models\KetQuaMucA;
 use App\Models\KetQuaMucB;
+use App\Models\KQXLQuy;
 use App\Models\LyDoDiemCong;
 use App\Models\LyDoDiemTru;
 use App\Models\Mau01A;
@@ -792,8 +793,125 @@ class PhieuDanhGiaController extends Controller
     }
 
 
-    // Phê duyệt Danh sách kết quả xếp loại theo quý
-    public function capQDPheDuyetDanhSachQuy(Request $request)
+    // // Danh sách kết quả xếp loại theo quý
+    // public function capQDDSQuy(Request $request)
+    // {
+    //     // Lấy danh sách Hội đồng phê duyệt
+    //     if (Auth::user()->hoi_dong_phe_duyet == 1) {
+    //         // Nếu Người dùng có chức năng phê duyệt của Hội đồng TĐKT
+    //         $user_list_hd = $this->danhSachHoiDongPheDuyet();
+    //     } else {
+    //         $user_list_hd = null;
+    //     }
+
+    //     // Lấy danh sách Cục trưởng/Chi cục trưởng phê duyệt
+    //     if (Auth::user()->ma_chuc_vu == "01") {
+    //         // Nếu Người dùng có chức vụ Cục Trưởng 
+    //         $user_list_cm = $this->danhSachCucTruongPheDuyet();
+    //     } elseif (Auth::user()->ma_chuc_vu == "03") {
+    //         // Nếu Người dùng có chức vụ Chi cục Trưởng 
+    //         $user_list_cm = $this->danhSachChiCucTruongPheDuyet();
+    //     } else {
+    //         $user_list_cm = null;
+    //     }
+
+    //     // Nối 2 danh sách Hội đồng + Cục trưởng/Chi cục trưởng
+    //     if (($user_list_hd != null) && ($user_list_cm != null)) {
+    //         $user_list = $user_list_hd->merge($user_list_cm);
+    //     } elseif (($user_list_hd != null) && ($user_list_cm == null)) {
+    //         $user_list = $user_list_hd;
+    //     } elseif (($user_list_hd == null) && ($user_list_cm != null)) {
+    //         $user_list = $user_list_cm;
+    //     } else {
+    //         $user_list = null;
+    //     }
+
+    //     // Xác định tháng đánh giá, quý đánh giá
+    //     $thoi_diem_danh_gia = Carbon::now();
+    //     if (isset($request->quy_danh_gia)) {
+    //         $quy_danh_gia = $request->quy_danh_gia;
+    //     } else {
+    //         $quy_danh_gia = $thoi_diem_danh_gia->quarter;
+    //     }
+    //     $nam_danh_gia = $thoi_diem_danh_gia->year;
+
+    //     if ($quy_danh_gia == "1") {
+    //         $list_thang = ["01", "02", "03"];
+    //     } elseif ($quy_danh_gia == "2") {
+    //         $list_thang = ["04", "05", "06"];
+    //     } elseif ($quy_danh_gia == "3") {
+    //         $list_thang = ["07", "08", "09"];
+    //     } elseif ($quy_danh_gia == "4") {
+    //         $list_thang = ["10", "11", "12"];
+    //     }
+
+
+    //     // Thực hiện xếp loại theo quý
+    //     $collection = collect();
+    //     $xep_loai_1 = null;
+    //     $xep_loai_2 = null;
+    //     $xep_loai_3 = null;
+
+    //     foreach ($user_list as $user) {
+    //         // Tìm kết quả xếp loại các tháng trong quý
+    //         $xep_loai_thang = KQXLThang::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+    //             ->where('nam_danh_gia', $nam_danh_gia)
+    //             ->first();
+    //         if (isset($xep_loai_thang)) {
+    //             $xep_loai_1 = $xep_loai_thang->{"kqxl_t" . $list_thang[0]};
+    //             $xep_loai_2 = $xep_loai_thang->{"kqxl_t" . $list_thang[1]};
+    //             $xep_loai_3 = $xep_loai_thang->{"kqxl_t" . $list_thang[2]};
+    //         }
+
+    //         // Tính toán xếp loại quý
+    //         $countA = 0;
+    //         $countB = 0;
+    //         $countC = 0;
+    //         $countD = 0;
+
+    //         for ($i = 1; $i <= 3; $i++) {
+    //             if (${"xep_loai_" . $i} == "A") $countA++;
+    //             elseif (${"xep_loai_" . $i} == "B") $countB++;
+    //             elseif (${"xep_loai_" . $i} == "C") $countC++;
+    //             elseif (${"xep_loai_" . $i} == "D")  $countD++;
+    //         }
+
+    //         $ket_qua_xep_loai = null;
+    //         if (($xep_loai_1 == null) || ($xep_loai_2 == null) || ($xep_loai_3 == null)) $ket_qua_xep_loai = null;
+    //         elseif (($countA >= 2) && ($countC == 0) && ($countD == 0)) $ket_qua_xep_loai = "A";
+    //         elseif (((($countA >= 2) || ($countB >= 2)) || (($countA >= 1) && ($countB >= 1))) && ($countD == 0)) $ket_qua_xep_loai = "B";
+    //         elseif ((($countA > 0) || ($countB > 0) || ($countC > 0)) && ($countD == 0)) $ket_qua_xep_loai = "C";
+    //         elseif ($countD > 0) $ket_qua_xep_loai = "D";
+    //         else $ket_qua_xep_loai = null;
+
+
+    //         // Đưa vào danh sách
+    //         $collection->push([
+    //             'name' => $user->name,
+    //             'ten_chuc_vu' => $user->ten_chuc_vu,
+    //             'ten_phong' => $user->ten_phong,
+    //             'ten_don_vi' => $user->ten_don_vi,
+    //             'xep_loai_1' => $xep_loai_1,
+    //             'xep_loai_2' => $xep_loai_2,
+    //             'xep_loai_3' => $xep_loai_3,
+    //             'ket_qua_xep_loai' => $ket_qua_xep_loai,
+    //         ]);
+    //     }
+
+    //     return view(
+    //         'danhgia.capqd_list_quy',
+    //         [
+    //             'danh_sach' => $collection,
+    //             'thang' => $list_thang,
+    //             'quy_danh_gia' => $quy_danh_gia,
+    //             'nam_danh_gia' => $nam_danh_gia,
+    //         ]
+    //     );
+    // }
+
+
+    // Danh sách kết quả xếp loại theo quý
+    public function capQDDSQuy(Request $request)
     {
         // Lấy danh sách Hội đồng phê duyệt
         if (Auth::user()->hoi_dong_phe_duyet == 1) {
@@ -826,13 +944,19 @@ class PhieuDanhGiaController extends Controller
         }
 
         // Xác định tháng đánh giá, quý đánh giá
-        $thoi_diem_danh_gia = Carbon::now();
         if (isset($request->quy_danh_gia)) {
+            $thang_dau_tien = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->firstOfQuarter()->endOfMonth();
+            $thang_thu_hai = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->firstOfQuarter()->addMonth()->endOfMonth();
+            $thang_cuoi_cung = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->lastOfQuarter()->endOfMonth();
             $quy_danh_gia = $request->quy_danh_gia;
+            $nam_danh_gia = $request->nam_danh_gia;
         } else {
-            $quy_danh_gia = $thoi_diem_danh_gia->quarter;
+            $thang_dau_tien = Carbon::now()->firstOfQuarter()->endOfMonth();
+            $thang_thu_hai = Carbon::now()->firstOfQuarter()->addMonth()->endOfMonth();
+            $thang_cuoi_cung = Carbon::now()->lastOfQuarter()->endOfMonth();
+            $quy_danh_gia = Carbon::now()->quarter;
+            $nam_danh_gia = Carbon::now()->year;
         }
-        $nam_danh_gia = $thoi_diem_danh_gia->year;
 
         if ($quy_danh_gia == "1") {
             $list_thang = ["01", "02", "03"];
@@ -851,16 +975,176 @@ class PhieuDanhGiaController extends Controller
         $xep_loai_2 = null;
         $xep_loai_3 = null;
 
+        if (isset($user_list)) {
+            foreach ($user_list as $user) {
+                // Tìm kết quả xếp loại các tháng trong quý
+                $xep_loai_1 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                    ->where('thoi_diem_danh_gia', $thang_dau_tien->toDateString())
+                    ->where('ma_trang_thai', 19)
+                    ->first();
+                if (isset($xep_loai_1)) $xep_loai_1 = $xep_loai_1->ket_qua_xep_loai;
+
+
+                $xep_loai_2 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                    ->where('thoi_diem_danh_gia', $thang_thu_hai->toDateString())
+                    ->where('ma_trang_thai', 19)
+                    ->first();
+                if (isset($xep_loai_2)) $xep_loai_2 = $xep_loai_2->ket_qua_xep_loai;
+
+                $xep_loai_3 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                    ->where('thoi_diem_danh_gia', $thang_cuoi_cung->toDateString())
+                    ->where('ma_trang_thai', 19)
+                    ->first();
+                if (isset($xep_loai_3)) $xep_loai_3 = $xep_loai_3->ket_qua_xep_loai;
+
+                // Tính toán xếp loại quý
+                $countA = 0;
+                $countB = 0;
+                $countC = 0;
+                $countD = 0;
+
+                for ($i = 1; $i <= 3; $i++) {
+                    if (${"xep_loai_" . $i} == "A") $countA++;
+                    elseif (${"xep_loai_" . $i} == "B") $countB++;
+                    elseif (${"xep_loai_" . $i} == "C") $countC++;
+                    elseif (${"xep_loai_" . $i} == "D")  $countD++;
+                }
+
+                $ket_qua_xep_loai = null;
+                if (($xep_loai_1 == null) || ($xep_loai_2 == null) || ($xep_loai_3 == null)) $ket_qua_xep_loai = null;
+                elseif (($countA >= 2) && ($countC == 0) && ($countD == 0)) $ket_qua_xep_loai = "A";
+                elseif (((($countA >= 2) || ($countB >= 2)) || (($countA >= 1) && ($countB >= 1))) && ($countD == 0)) $ket_qua_xep_loai = "B";
+                elseif ((($countA > 0) || ($countB > 0) || ($countC > 0)) && ($countD == 0)) $ket_qua_xep_loai = "C";
+                elseif ($countD > 0) $ket_qua_xep_loai = "D";
+                else $ket_qua_xep_loai = null;
+
+
+                // Đưa vào danh sách
+                $collection->push([
+                    'name' => $user->name,
+                    'ten_chuc_vu' => $user->ten_chuc_vu,
+                    'ten_phong' => $user->ten_phong,
+                    'ten_don_vi' => $user->ten_don_vi,
+                    'xep_loai_1' => $xep_loai_1,
+                    'xep_loai_2' => $xep_loai_2,
+                    'xep_loai_3' => $xep_loai_3,
+                    'ket_qua_xep_loai' => $ket_qua_xep_loai,
+                ]);
+            }
+        }
+
+        return view(
+            'danhgia.capqd_list_quy',
+            [
+                'danh_sach' => $collection,
+                'thang' => $list_thang,
+                'quy_danh_gia' => $quy_danh_gia,
+                'nam_danh_gia' => $nam_danh_gia,
+            ]
+        );
+    }
+
+
+
+    // Phê duyệt Danh sách kết quả xếp loại theo quý
+    public function capQDPheDuyetDSQuy(Request $request)
+    {
+        // Lấy danh sách Hội đồng phê duyệt
+        if (Auth::user()->hoi_dong_phe_duyet == 1) {
+            // Nếu Người dùng có chức năng phê duyệt của Hội đồng TĐKT
+            $user_list_hd = $this->danhSachHoiDongPheDuyet();
+        } else {
+            $user_list_hd = null;
+        }
+
+        // Lấy danh sách Cục trưởng/Chi cục trưởng phê duyệt
+        if (Auth::user()->ma_chuc_vu == "01") {
+            // Nếu Người dùng có chức vụ Cục Trưởng 
+            $user_list_cm = $this->danhSachCucTruongPheDuyet();
+        } elseif (Auth::user()->ma_chuc_vu == "03") {
+            // Nếu Người dùng có chức vụ Chi cục Trưởng 
+            $user_list_cm = $this->danhSachChiCucTruongPheDuyet();
+        } else {
+            $user_list_cm = null;
+        }
+
+        // Nối 2 danh sách Hội đồng + Cục trưởng/Chi cục trưởng
+        if (($user_list_hd != null) && ($user_list_cm != null)) {
+            $user_list = $user_list_hd->merge($user_list_cm);
+        } elseif (($user_list_hd != null) && ($user_list_cm == null)) {
+            $user_list = $user_list_hd;
+        } elseif (($user_list_hd == null) && ($user_list_cm != null)) {
+            $user_list = $user_list_cm;
+        } else {
+            $user_list = null;
+        }
+
+        // Xác định tháng đánh giá, quý đánh giá
+        if (isset($request->quy_danh_gia)) {
+            $thang_dau_tien = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->firstOfQuarter()->endOfMonth();
+            $thang_thu_hai = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->firstOfQuarter()->addMonth()->endOfMonth();
+            $thang_cuoi_cung = Carbon::createFromDate($request->nam_danh_gia, $request->quy_danh_gia * 3)->lastOfQuarter()->endOfMonth();
+            $quy_danh_gia = $request->quy_danh_gia;
+            $nam_danh_gia = $request->nam_danh_gia;
+        } else {
+            $thang_dau_tien = Carbon::now()->firstOfQuarter()->endOfMonth();
+            $thang_thu_hai = Carbon::now()->firstOfQuarter()->addMonth()->endOfMonth();
+            $thang_cuoi_cung = Carbon::now()->lastOfQuarter()->endOfMonth();
+            $quy_danh_gia = Carbon::now()->quarter;
+            $nam_danh_gia = Carbon::now()->year;
+        }
+
+        if ($quy_danh_gia == "1") {
+            $list_thang = ["01", "02", "03"];
+        } elseif ($quy_danh_gia == "2") {
+            $list_thang = ["04", "05", "06"];
+        } elseif ($quy_danh_gia == "3") {
+            $list_thang = ["07", "08", "09"];
+        } elseif ($quy_danh_gia == "4") {
+            $list_thang = ["10", "11", "12"];
+        }
+
+
+        // Thực hiện xếp loại theo quý
+        $collection = collect();
+        $xep_loai_1 = null;
+        $xep_loai_2 = null;
+        $xep_loai_3 = null;
+
+
         foreach ($user_list as $user) {
             // Tìm kết quả xếp loại các tháng trong quý
-            $xep_loai_thang = KQXLThang::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
-                ->where('nam_danh_gia', $nam_danh_gia)
+            $xep_loai_1 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $thang_dau_tien->toDateString())
+                ->where('ma_trang_thai', 19)
                 ->first();
-            if (isset($xep_loai_thang)) {
-                $xep_loai_1 = $xep_loai_thang->{"kqxl_t" . $list_thang[0]};
-                $xep_loai_2 = $xep_loai_thang->{"kqxl_t" . $list_thang[1]};
-                $xep_loai_3 = $xep_loai_thang->{"kqxl_t" . $list_thang[2]};
+            if (isset($xep_loai_1)) {
+                $xep_loai_1->ma_trang_thai = 21;
+                $xep_loai_1->save();
+                $xep_loai_1 = $xep_loai_1->ket_qua_xep_loai;
             }
+
+
+            $xep_loai_2 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $thang_thu_hai->toDateString())
+                ->where('ma_trang_thai', 19)
+                ->first();
+            if (isset($xep_loai_2)) {
+                $xep_loai_2->ma_trang_thai = 21;
+                $xep_loai_2->save();
+                $xep_loai_2 = $xep_loai_2->ket_qua_xep_loai;
+            }
+
+            $xep_loai_3 = PhieuDanhGia::where('so_hieu_cong_chuc', $user->so_hieu_cong_chuc)
+                ->where('thoi_diem_danh_gia', $thang_cuoi_cung->toDateString())
+                ->where('ma_trang_thai', 19)
+                ->first();
+            if (isset($xep_loai_3)) {
+                $xep_loai_3->ma_trang_thai = 21;
+                $xep_loai_3->save();
+                $xep_loai_3 = $xep_loai_3->ket_qua_xep_loai;
+            }
+
 
             // Tính toán xếp loại quý
             $countA = 0;
@@ -883,33 +1167,22 @@ class PhieuDanhGiaController extends Controller
             elseif ($countD > 0) $ket_qua_xep_loai = "D";
             else $ket_qua_xep_loai = null;
 
+            $this->kQXLQuy($user,$ket_qua_xep_loai, $nam_danh_gia, $quy_danh_gia);
 
-            // Đưa vào danh sách
-            $collection->push([
-                'name' => $user->name,
-                'ten_chuc_vu' => $user->ten_chuc_vu,
-                'ten_phong' => $user->ten_phong,
-                'ten_don_vi' => $user->ten_don_vi,
-                'xep_loai_1' => $xep_loai_1,
-                'xep_loai_2' => $xep_loai_2,
-                'xep_loai_3' => $xep_loai_3,
-                'ket_qua_xep_loai' => $ket_qua_xep_loai,
-            ]);
         }
 
         return view(
             'danhgia.capqd_list_quy',
             [
-                'danh_sach' => $collection,
                 'thang' => $list_thang,
                 'quy_danh_gia' => $quy_danh_gia,
                 'nam_danh_gia' => $nam_danh_gia,
             ]
-        );
+        )->with('msg_success', 'Đã phê duyệt thành công Danh sách phiếu đánh giá');
     }
 
 
-    // Danh sách Thông báo Kết quả xếp loại theo tháng
+    // Danh sách Thông báo Kết quả xếp loại theo Quý
     public function thongBaoQuy(Request $request)
     {
         if (isset($request->quy_danh_gia)) {
@@ -1017,6 +1290,104 @@ class PhieuDanhGiaController extends Controller
         ]);
     }
 
+
+    // Báo cáo tổng hợp kết quả tháng
+    public function baoCaoQuy(Request $request)
+    {
+        if (!isset($request->quy_danh_gia)) {
+            $quy_danh_gia = Carbon::now()->quarter;
+            $nam_danh_gia = Carbon::now()->format("Y");
+        } else {
+            $quy_danh_gia = $request->quy_danh_gia;
+            $nam_danh_gia = $request->nam_danh_gia;
+        }
+
+        $thang_cuoi_cung = Carbon::createFromDate($request->nam_danh_gia, $quy_danh_gia * 3)->endOfMonth()->format("Ymd");
+
+        $xep_loai = XepLoai::all();
+
+        // Danh sách phiếu đánh giá trong tháng
+        $phieu_danh_gia = KQXLQuy::where('kqxl_quy.nam_danh_gia', $nam_danh_gia)
+            ->leftjoin('phieu_danh_gia', 'phieu_danh_gia.so_hieu_cong_chuc', 'kqxl_quy.so_hieu_cong_chuc')
+            ->where('phieu_danh_gia.thoi_diem_danh_gia', $thang_cuoi_cung)
+            ->select('kqxl_quy.*', 'phieu_danh_gia.mau_phieu_danh_gia', 'phieu_danh_gia.ma_chuc_vu')
+            ->get();
+
+        $list = collect();
+        $danh_sach_lanh_dao_cuc_thue = $phieu_danh_gia->wherein('ma_chuc_vu', ["01", "02"]);
+        $danh_sach_lanh_dao_phong = $phieu_danh_gia->wherein('ma_chuc_vu', ["04", "05", "07", "08"]);
+        $danh_sach_lanh_dao_chi_cuc_thue = $phieu_danh_gia->wherein('ma_chuc_vu', ["03", "06"]);
+        $danh_sach_lanh_dao_doi_thue = $phieu_danh_gia->wherein('ma_chuc_vu', ["09", "10"]);
+        $danh_sach_cong_chuc = $phieu_danh_gia->where('mau_phieu_danh_gia', 'mau01B');
+        $danh_sach_hop_dong = $phieu_danh_gia->where('mau_phieu_danh_gia', 'mau01C');
+
+        $list->push($danh_sach_lanh_dao_cuc_thue);
+        $list->push($danh_sach_lanh_dao_phong);
+        $list->push($danh_sach_lanh_dao_chi_cuc_thue);
+        $list->push($danh_sach_lanh_dao_doi_thue);
+        $list->push($danh_sach_cong_chuc);
+        $list->push($danh_sach_hop_dong);
+
+        $danh_sach = collect();
+        $ten = array(
+            "Lãnh đạo Cục thuế",
+            "Lãnh đạo Phòng, Văn phòng",
+            "Lãnh đạo Chi cục Thuế",
+            "Lãnh đạo Đội thuế",
+            "Công chức",
+            "Hợp đồng lao động"
+        );
+        $i = 0;
+
+        foreach ($list as $ls) {
+            // Số lượng Lãnh đạo Cục thuế            
+            $ten_don_vi = $ten[$i];
+            $so_luong = $ls->count();
+
+            foreach ($xep_loai as $xl) {
+                // Số lượng xếp loại 
+                ${"so_luong_loai_" . $xl->ma_xep_loai} = $ls->where('kqxl_q' . $quy_danh_gia, $xl->ma_xep_loai)->count();
+                // Tỉ lệ xếp loại
+                if ($so_luong <> 0) {
+                    ${"ti_le_loai_" . $xl->ma_xep_loai} = round(${"so_luong_loai_" . $xl->ma_xep_loai} / $so_luong * 100, 2);
+                } else {
+                    ${"ti_le_loai_" . $xl->ma_xep_loai} = 0;
+                }
+
+                $so_luong_khong_xep_loai =  $ls->where('kqxl_q' . $quy_danh_gia, null)->count();
+                if ($so_luong <> 0) {
+                    $ti_le_khong_xep_loai = round($so_luong_khong_xep_loai / $so_luong * 100, 2);
+                } else {
+                    $ti_le_khong_xep_loai = 0;
+                }
+            }
+
+            $i++;
+
+            //Đưa vào danh sách
+            $danh_sach->push([
+                'stt' => $i,
+                'ten_don_vi' => $ten_don_vi,
+                'so_luong' => $so_luong,
+                'so_luong_loai_A' => $so_luong_loai_A,
+                'ti_le_loai_A' => $ti_le_loai_A,
+                'so_luong_loai_B' => $so_luong_loai_B,
+                'ti_le_loai_B' => $ti_le_loai_B,
+                'so_luong_loai_C' => $so_luong_loai_C,
+                'ti_le_loai_C' => $ti_le_loai_C,
+                'so_luong_loai_D' => $so_luong_loai_D,
+                'ti_le_loai_D' => $ti_le_loai_D,
+                'so_luong_khong_xep_loai' => $so_luong_khong_xep_loai,
+                'ti_le_khong_xep_loai' => $ti_le_khong_xep_loai
+            ]);
+        }
+
+        return view('danhgia.baocaoquy', [
+            'danh_sach' => $danh_sach,
+            'quy_danh_gia' => $quy_danh_gia,
+            'nam_danh_gia' => $nam_danh_gia
+        ]);
+    }
 
     ////////////////////////////////// Hàm dùng chung //////////////////////////////////////////
 
