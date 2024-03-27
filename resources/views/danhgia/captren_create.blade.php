@@ -167,10 +167,10 @@
                                         <td></td>
                                         <td class="align-middle text-bold">TỔNG CỘNG</td>
                                         <td></td>
-                                        <td class="align-middle text-center text-bold display-4 p-0"
+                                        <td class="align-middle text-center text-bold"
                                             id="tong_diem_tu_danh_gia">{{ $phieu_danh_gia->tong_diem_tu_cham }}
                                         </td>
-                                        <td class="align-middle text-center text-bold display-4 p-0" id="tong_cong">
+                                        <td class="align-middle text-center text-bold" id="tong_cong">
                                             @php
                                                 if (isset($phieu_danh_gia->tong_diem_danh_gia)) {
                                                     echo $phieu_danh_gia->tong_diem_danh_gia;

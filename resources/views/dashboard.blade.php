@@ -89,7 +89,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/dashboard" class="brand-link text-center">
-                <span class="brand-text font-weight-light">Cục thuế tỉnh Quảng Bình</span>
+                <span class="brand-text font-weight-light">Cục Thuế tỉnh Quảng Bình</span>
             </a>
 
             <!-- Sidebar -->

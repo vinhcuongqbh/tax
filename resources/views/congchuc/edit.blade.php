@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label" for="ngach">Mã ngạch</label>
+                                <label class="col-sm-3 col-form-label" for="ngach">Ngạch</label>
                                 <div class="col-sm-9">
                                     <select id="ngach" name="ngach" class="form-control custom-select">
                                         <option selected></option>

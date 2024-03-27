@@ -26,7 +26,7 @@
                             <thead style="text-center">
                                 <tr>
                                     <th class="text-center align-middle">STT</th>
-                                    <th class="text-center align-middle">Thời điểm đánh giá</th>
+                                    <th class="text-center align-middle">Kỳ đánh giá</th>
                                     <th class="text-center align-middle">Họ và tên</th>
                                     <th class="text-center align-middle">Chức vụ</th>
                                     <th class="text-center align-middle">Phòng/Đội</th>
