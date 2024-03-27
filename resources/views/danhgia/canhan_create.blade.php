@@ -145,7 +145,7 @@
                                         <td></td>
                                         <td class="align-middle text-bold">TỔNG CỘNG</td>
                                         <td></td>
-                                        <td class="align-middle text-center text-bold display-4 p-0" id="tong_diem_tu_cham"> {{-- display-4 p-0 --}}
+                                        <td class="align-middle text-center text-bold" id="tong_diem_tu_cham"> {{-- display-4 p-0 --}}
                                             90
                                         </td>
                                     </tr>

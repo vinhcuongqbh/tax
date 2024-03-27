@@ -79,9 +79,15 @@
                 </li>
             </ul>
 
-            {{-- <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">                
-            </ul> --}}
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <form action="{{ route('logout') }}" method="post">
+                        {{ csrf_field() }}
+                        <input class="btn btn-default btn-sm" type="submit" value="{{ __('Log Out') }}">
+                    </form>
+                </li>
+            </ul>
         </nav>
         <!-- /.navbar -->
 
@@ -89,7 +95,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/dashboard" class="brand-link text-center">
-                <span class="brand-text font-weight-light">Cục Thuế tỉnh Quảng Bình</span>
+                <span class="brand-text font-weight-light"><b>Cục Thuế tỉnh Quảng Bình</b></span>
             </a>
 
             <!-- Sidebar -->
@@ -97,7 +103,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="/img/tax_avatar.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
                         <a href="{{ route('congchuc.show', Auth::user()->so_hieu_cong_chuc) }}"
@@ -321,13 +327,13 @@
 
     @yield('css')
     @yield('js')
-    {{-- <script>
+    <script>
         $(function() {
             var url = window.location;
             // for single sidebar menu
             $('ul.nav-sidebar a').filter(function() {
                 return this.href == url;
-            })//.addClass('active');
+            }) //.addClass('active');
 
             // for sidebar menu and treeview
             $('ul.nav-treeview a').filter(function() {
@@ -339,7 +345,7 @@
                 .addClass('menu-open').prev('a')
                 .addClass('active');
         });
-    </script> --}}
+    </script>
 </body>
 
 </html>

@@ -29,7 +29,8 @@
                         <br>
                         <br>
                         <h4 class="text-center text-bold my-0">PHIẾU ĐÁNH GIÁ, XẾP LOẠI CHẤT LƯỢNG HẰNG THÁNG</h4>
-                        <h6 class="text-center font-italic my-0">(Áp dụng đối với {{ $thong_tin_mau_phieu['doi_tuong_ap_dung'] }})
+                        <h6 class="text-center font-italic my-0">(Áp dụng đối với
+                            {{ $thong_tin_mau_phieu['doi_tuong_ap_dung'] }})
                         </h6>
                         <h6 class="text-center align-middle my-0">Tháng
                             {{ $thoi_diem_danh_gia->month }}/{{ $thoi_diem_danh_gia->year }}
@@ -41,7 +42,8 @@
                         @if ($phieu_danh_gia->mau_phieu_danh_gia == 'mau01A')
                             <h6>&emsp;&emsp;&emsp;- Chức vụ: {{ $phieu_danh_gia->ten_chuc_vu }}</h6>
                         @endif
-                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $phieu_danh_gia->ten_phong }}, {{ $phieu_danh_gia->ten_don_vi }}</h6>
+                        <h6>&emsp;&emsp;&emsp;- Đơn vị: {{ $phieu_danh_gia->ten_phong }}, {{ $phieu_danh_gia->ten_don_vi }}
+                        </h6>
                         <br>
 
                         {{-- Phần A --}}
@@ -115,8 +117,7 @@
                                                     ->first()->diem_tu_cham;
                                             @endphp
                                             <td class="align-middle text-center">
-                                                <input class="m-0" type="radio"
-                                                    value="{{ $ket_qua->diem_toi_da }}"
+                                                <input class="m-0" type="radio" value="{{ $ket_qua->diem_toi_da }}"
                                                     @if ($ket_qua->diem_toi_da == $diem_tu_cham) checked @else disabled @endif></label>
                                             </td>
                                         @endif
@@ -296,8 +297,10 @@
                                 <tr>
                                     <td class="py-0"></td>
                                     <td class="py-0"></td>
-                                    <td class="text-center font-italic py-0">Ngày {{ $ngay_thuc_hien_danh_gia->day }} tháng
-                                        {{ $ngay_thuc_hien_danh_gia->month }} năm {{ $ngay_thuc_hien_danh_gia->year }} </td>
+                                    <td class="text-center font-italic py-0">Ngày {{ $ngay_thuc_hien_danh_gia->day }}
+                                        tháng
+                                        {{ $ngay_thuc_hien_danh_gia->month }} năm {{ $ngay_thuc_hien_danh_gia->year }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td class="text-center text-bold py-0">LÃNH ĐẠO ĐƠN VỊ</td>
@@ -314,6 +317,14 @@
                     </div>
                 </div>
                 <!-- /.card -->
+                @if (Auth::user()->hoi_dong_phe_duyet == 1 or in_array(Auth::user()->ma_chuc_vu, ['01', '03']))
+                    <div class="text-right">
+                        <a href="{{ route('phieudanhgia.capqd.sendback', $phieu_danh_gia->ma_phieu_danh_gia) }}">
+                            <button type="button" class="btn bg-warning text-nowrap mb-2 col-1" id="sendBack">GỬI
+                                TRẢ</button>
+                        </a>
+                    </div>
+                @endif
                 <input type="hidden" name="mau_phieu_danh_gia" value="mau01B">
                 <!-- /.card-body -->
             </div>

@@ -144,20 +144,18 @@
                                                     $diem_danh_gia = $ket_qua
                                                         ->where('ma_tieu_chi', $ket_qua->tieu_chi_me)
                                                         ->where('ma_phieu_danh_gia', $ket_qua->ma_phieu_danh_gia)
-                                                        ->first()->diem_danh_gia;                                                    
+                                                        ->first()->diem_danh_gia;
                                                 @endphp
                                                 <td class="align-middle text-center">
                                                     <input class="m-0" type="radio" name="{{ $ket_qua->tieu_chi_me }}"
                                                         value="{{ $ket_qua->diem_toi_da }}"
                                                         id="{{ $ket_qua->ma_tieu_chi }}"
                                                         @php
-                                                            if (isset($diem_danh_gia)) {
+if (isset($diem_danh_gia)) {
                                                                 if ($ket_qua->diem_toi_da == $diem_danh_gia) echo "checked";
                                                             } else {
                                                                 if ($ket_qua->diem_toi_da == $diem_tu_cham) echo "checked";
-                                                            }
-                                                        @endphp
-                                                        
+                                                            } @endphp
                                                         onchange="tong_{{ $ket_qua->tieu_chi_me }}(); tong_100(); tong_200(); tong_300(); tong_cong(); tu_xep_loai()"></label>
                                                 </td>
                                             @endif
@@ -167,8 +165,8 @@
                                         <td></td>
                                         <td class="align-middle text-bold">TỔNG CỘNG</td>
                                         <td></td>
-                                        <td class="align-middle text-center text-bold"
-                                            id="tong_diem_tu_danh_gia">{{ $phieu_danh_gia->tong_diem_tu_cham }}
+                                        <td class="align-middle text-center text-bold" id="tong_diem_tu_danh_gia">
+                                            {{ $phieu_danh_gia->tong_diem_tu_cham }}
                                         </td>
                                         <td class="align-middle text-center text-bold" id="tong_cong">
                                             @php
@@ -328,8 +326,12 @@
                     </div>
                     <!-- /.card -->
                     <div class="text-right">
-                        <button type="submit" class="btn bg-olive text-nowrap mb-2 col-1" id="submitForm">ĐÁNH
+                        <a href="{{ route('phieudanhgia.captren.sendback', $phieu_danh_gia->ma_phieu_danh_gia) }}">
+                            <button type="button" class="btn bg-warning text-nowrap mb-2 col-1" id="sendBack">GỬI TRẢ</button>
+                        </a>
+                        <button type="submit" class="btn bg-olive text-nowrap mb-2 ml-2 col-1" id="submitForm">ĐÁNH
                             GIÁ</button>
+
                     </div>
                     <input type="hidden" name="mau_phieu_danh_gia" value="{{ $phieu_danh_gia->ma_phieu_danh_gia }}">
                 </form>

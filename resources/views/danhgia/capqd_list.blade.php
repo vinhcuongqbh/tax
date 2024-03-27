@@ -93,7 +93,7 @@
                         text: 'Phê duyệt',
                         className: 'bg-olive',
                         action: function(e, dt, node, config) {
-                            window.location = '{{ route('phieudanhgia.capqd.approve') }}';
+                            window.location = '{{ route('phieudanhgia.capqd.pheduyetthang') }}';
                         },
                     },
                     {
